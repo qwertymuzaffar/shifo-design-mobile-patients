@@ -21,7 +21,6 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { UserRole } from '@core/models/user.model';
 import { BreakpointService } from '@core/services/breakpoint.service';
-import { MobileHeaderComponent } from '@shared/components/mobile-header/mobile-header.component';
 
 @Component({
   selector: 'app-patients',
@@ -36,7 +35,6 @@ import { MobileHeaderComponent } from '@shared/components/mobile-header/mobile-h
     SkeletonPatientComponent,
     RouterLink,
     NgxPermissionsModule,
-    MobileHeaderComponent,
   ],
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.scss'],

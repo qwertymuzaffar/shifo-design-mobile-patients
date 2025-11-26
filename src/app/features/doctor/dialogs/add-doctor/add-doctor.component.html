@@ -1,0 +1,126 @@
+<div class="bg-white rounded-xl">
+  <h2 class="text-xl font-semibold mb-4">
+    {{ isViewMode
+        ? ('doctor-form.view_title' | transloco)
+        : (doctor ? ('doctor-form.edit_title' | transloco) : ('doctor-form.add_title' | transloco)) }}
+  </h2>
+
+  <form [formGroup]="doctorForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+      <app-form-field label="{{ 'doctor-form.first_name' | transloco }}" [control]="doctorForm.controls['firstName']">
+        <input type="text"
+               formControlName="firstName"
+               (blur)="formatNameCase(doctorForm.controls['firstName'])"
+               (keydown)="onKeyDown($event)" />
+      </app-form-field>
+
+      <app-form-field label="{{ 'doctor-form.last_name' | transloco }}" [control]="doctorForm.controls['lastName']">
+        <input type="text"
+               formControlName="lastName"
+               (blur)="formatNameCase(doctorForm.controls['lastName'])"
+               (keydown)="onKeyDown($event)" />
+      </app-form-field>
+
+      <app-form-field label="{{ 'doctor-form.specialization' | transloco }}" [control]="doctorForm.controls['specialization']" class="col-span-full">
+        <div class="flex items-center gap-2">
+          <div class="relative w-full">
+            <select class="peer w-full appearance-none border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    formControlName="specialization"
+                    (change)="onSpecializationChange($event)">
+              <option value="" disabled selected>
+                {{ 'doctor-form.select_specialization' | transloco }}
+              </option>
+              @if (specialization.isLoading()) {
+                <option disabled>{{ 'doctor-form.loading' | transloco }}</option>
+              }
+              @for (spec of specialization.value(); track spec.id) {
+                <option [value]="spec.id">
+                  {{ spec.name }}
+                </option>
+              }
+            </select>
+          </div>
+        </div>
+      </app-form-field>
+
+      <app-form-field label="{{ 'doctor-form.username' | transloco }}" [control]="doctorForm.controls['username']">
+        <input type="text" formControlName="username" (keydown)="onKeyDown($event)" />
+      </app-form-field>
+
+      <app-form-field label="{{ 'doctor-form.email' | transloco }}" [control]="doctorForm.controls['email']">
+        <input type="text" formControlName="email" (keydown)="onKeyDown($event)" />
+      </app-form-field>
+
+      <app-form-field label="{{ 'doctor-form.phone' | transloco }}" [control]="doctorForm.controls['phone']">
+        <input [showMaskTyped]="true" prefix="+992" mask=" 00 000 00 00" formControlName="phone" />
+      </app-form-field>
+
+      <app-form-field label="{{ 'doctor-form.password' | transloco }}" [control]="doctorForm.controls['password']">
+        <div class="input-wrapper relative">
+          <input class="pl-6"
+                 formControlName="password"
+                 [type]="passwordToggle ? 'text' : 'password'"
+                 [placeholder]="'doctor-form.password' | transloco" />
+          <lucide-icon [size]="18"
+                       (click)="passwordToggle = !passwordToggle"
+                       class="eye-icon absolute right-3 top-1/2 -translate-y-1/2 text-gray-800 cursor-pointer z-10"
+                       [img]="passwordToggle ? Eye : EyeOff"></lucide-icon>
+        </div>
+      </app-form-field>
+
+      <app-form-field label="{{ 'doctor-form.experience' | transloco }}" [control]="doctorForm.controls['experience']">
+        <input type="number" formControlName="experience" min="0" (blur)="formatNumericInput(doctorForm.controls['experience'])" />
+      </app-form-field>
+
+      <app-form-field label="{{ 'doctor-form.consultation_fee' | transloco }}" [control]="doctorForm.controls['consultationFee']">
+        <input type="number" formControlName="consultationFee" min="0" (blur)="formatNumericInput(doctorForm.controls['consultationFee'])" />
+      </app-form-field>
+
+    </div>
+
+    <div class="space-y-4">
+      <h3 class="text-lg font-medium text-gray-900">{{ 'doctor-form.working_hours' | transloco }}</h3>
+
+      <div class="grid grid-cols-2 gap-4">
+        <app-form-field label="{{ 'doctor-form.start_time' | transloco }}" [control]="doctorForm.controls['startTime']">
+          <input type="time" formControlName="startTime" />
+        </app-form-field>
+
+        <app-form-field label="{{ 'doctor-form.end_time' | transloco }}" [control]="doctorForm.controls['endTime']">
+          <input type="time" formControlName="endTime" />
+        </app-form-field>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">{{ 'doctor-form.work_days' | transloco }}</label>
+        <div class="flex flex-wrap gap-2">
+          @for (weekday of weekDays[lang]; track weekday) {
+            <label class="flex items-center space-x-2">
+              <input type="checkbox"
+                     [value]="weekday.value"
+                     [checked]="workDays.includes(weekday.value)"
+                     (change)="toggleWorkDay(weekday.value)"
+                     class="rounded border-gray-300 text-sky-600 focus:ring-sky-500"
+                     [disabled]="isViewMode" />
+              <span class="text-sm">{{ weekday.label }}</span>
+            </label>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="flex space-x-3">
+      @if (!isViewMode) {
+        <button class="bg-sky-500 text-white px-6 py-2 rounded-lg hover:bg-sky-600 transition-colors">
+          {{ isLoading() ? ('doctor-form.saving' | transloco) : ('doctor-form.save' | transloco) }}
+        </button>
+      }
+      <button type="button"
+              (click)="closeModal()"
+              class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors">
+        {{ isViewMode ? ('doctor-form.close' | transloco) : ('doctor-form.cancel' | transloco) }}
+      </button>
+    </div>
+  </form>
+</div>

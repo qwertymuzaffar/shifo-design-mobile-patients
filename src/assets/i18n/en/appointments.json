@@ -1,0 +1,94 @@
+{
+  "app-dialog": {
+    "duplicate_success": "Appointment successfully duplicated",
+    "duplicate_error": "Duplicate appointment error",
+    "complete_success": "Appointment completed successfully",
+    "complete_error": "Failed to complete the appointment",
+    "cancel_success": "Appointment canceled",
+    "cancel_error": "Failed to cancel the appointment",
+    "update_success": "Appointment successfully updated",
+    "create_success": "Appointment successfully created",
+    "update_error": "Failed to update the appointment",
+    "create_error": "Failed to create the appointment",
+    "import_success": "Appointment successfully imported",
+    "import_error": "Failed to import the appointment",
+    "payment_completed": "Payment successfully created",
+    "payment_error": "Failed to create payment",
+    "duplicate_time": "An appointment with this time and patient already exists",
+    "success": "success",
+    "error": "error",
+    "dushanbe": "Dushanbe city",
+    "cash": "Cash",
+    "eskhata": "Eskhata",
+    "alif": "Alif"
+  },
+  "appointments": {
+    "title": "Appointment Scheduler",
+    "create": "Create appointment",
+    "calendar": "Calendar",
+    "list": "List",
+    "ruEn": "en-EN"
+  },
+  "appointment-list": {
+    "title": "All Appointments",
+    "search_placeholder": "Search appointments...",
+    "search": "Search",
+    "status_all": "All Statuses",
+    "status_scheduled": "Scheduled",
+    "status_completed": "Completed",
+    "status_cancelled": "Cancelled",
+    "patient": "Patient",
+    "doctor": "Doctor",
+    "datetime": "Date & Time",
+    "type": "Type",
+    "status": "Status",
+    "actions": "Actions",
+    "edit": "Edit",
+    "edit_tooltip": "Edit appointment",
+    "no_records": "No appointments"
+  },
+  "timetable": {
+    "doctor_list": "Doctors List",
+    "minutes": "m",
+    "time": "Time",
+    "today": "Today",
+    "import": "Import appointments",
+    "lang": "en-EN"
+  },
+  "calendar-header": {
+    "today": "Today",
+    "day": "Day",
+    "week": "Week",
+    "patient": "Patient",
+    "doctor": "Doctor",
+    "clear_filter": "Clear filter",
+    "appointment": "Appointment",
+    "balance": "Balance"
+  },
+  "calendar-legend": {
+    "scheduled": "Scheduled",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "temporary": "Temporary",
+    "cancelled_forever": "Cancelled Forever",
+    "up_to_four": "Up to 4 appointments per cell",
+    "current_time": "Current time"
+  },
+  "appointment-cancel-button": {
+    "tooltip": "Cancel appointment"
+  },
+  "appointment-complete-button": {
+    "tooltip": "Mark as completed"
+  },
+  "appointment-duplicate-button": {
+    "tooltip": "Duplicate appointment"
+  },
+  "language": "Language",
+  "doctors": {
+    "selectPlaceholder": "Select doctor",
+    "searchPlaceholder": "Search doctor",
+    "selectedOne": "{{firstName}} {{lastName}} ✕",
+    "selectedMany": "{{count}} doctors selected",
+    "empty": "Nothing found"
+  }
+}

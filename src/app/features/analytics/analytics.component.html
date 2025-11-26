@@ -1,0 +1,40 @@
+<div class="p-3 lg:p-6">
+  <div class="space-y-3 lg:space-y-6">
+    <div>
+      <div
+        class="hidden lg:flex justify-between items-center analytics lg:mb-4 mb-1"
+      >
+        <h1 class="lg:text-3xl text-xl font-bold text-gray-900 mb-1">
+          {{ 'analytics.title' | transloco }}
+        </h1>
+      </div>
+
+      <app-period-selector
+        [dateRangeText]="dateRangeText()"
+        [selectedDates]="selectedDates()"
+        (datesChange)="onDatesChange($event)"
+        (applyDates)="onApplyDates($event)"
+        (clearFilter)="onClearFilter()"
+      />
+
+      @if (isLoading()) {
+        <app-analytics-skeleton />
+      } @else {
+        <app-analytics-stats
+          [analyticsData]="analyticsData()"
+          [doctorData]="data()"
+        />
+
+        <app-appointment-status-types [analyticsData]="analyticsData()" />
+
+        <app-doctor-rating
+          [doctorRatings]="analyticsData()?.doctorRatings ?? []"
+        />
+
+        <app-payment-methods
+          [paymentMethods]="analyticsData()?.paymentMethods ?? []"
+        />
+      }
+    </div>
+  </div>
+</div>

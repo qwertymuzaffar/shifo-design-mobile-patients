@@ -1,0 +1,97 @@
+{
+  "doctor": {
+    "confirm_delete": "Are you sure you want to delete this doctor?",
+    "deleted": "Doctor successfully deleted",
+    "delete_success": "Successfully deleted",
+    "delete_error": "Failed to delete the doctor",
+    "copiled": "Copied to clipboard",
+    "created": "Doctor successfully created",
+    "updated": "Doctor successfully updated",
+    "save_error": "Failed to save the doctor",
+    "error": "error"
+  },
+  "d": {
+    "confirm_delete": "Are you sure you want to delete this document?",
+    "deleted": "Document successfully deleted",
+    "delete_success": "Successfully deleted",
+    "delete_error": "Failed to delete the document",
+    "copiled": "Copied to clipboard",
+    "created": "Document successfully created",
+    "updated": "Document successfully updated",
+    "save_error": "Failed to save the document",
+    "error": "error"
+  },
+  "manage-doctors": {
+    "title": "Manage Doctors",
+    "add_doctor": "Add Doctor",
+    "all_specializations": "All Specializations",
+    "loading": "Loading...",
+    "search_placeholder": "Search doctors...",
+    "doctor_list_title": "Doctor List",
+    "total_doctors": "Total doctors: {{count}}",
+    "no_doctors": "No doctors found",
+    "clear_filter": "Clear filter",
+    "experience": "Experience: {{years}} yrs",
+    "consultation_fee": "Consultation: {{fee}} c",
+    "working_hours": "Working hours: {{start}} - {{end}}",
+    "copy": "Copy",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add": "Add specialization",
+    "specializations": "Specializations",
+    "specialization_management_title": "Manage Specializations",
+    "new_specialization_placeholder": "New specialization...",
+    "confirm_delete_specialization": "Are you sure you want to delete this specialization?",
+    "specialization_deleted_successfully": "Specialization deleted successfully.",
+    "delete_specialization_error": "Error deleting specialization.",
+    "specialization_added_successfully": "Specialization added successfully.",
+    "create_specialization_error": "Error creating specialization",
+    "empty_specialization_name_error": "Please enter a specialization name",
+    "doctors_count": "{{ count }} doctor(s)",
+    "delete_specialization_title": "Delete specialization",
+    "show_more": "See more",
+    "show_less": "Hide"
+  },
+  "doctor-form": {
+    "view_title": "View Doctor Information",
+    "edit_title": "Edit Doctor",
+    "add_title": "Add Doctor",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "specialization": "Specialization",
+    "select_specialization": "Select specialization",
+    "loading": "Loading...",
+    "add_specialization": "Add specialization",
+    "username": "Username",
+    "email": "Email",
+    "phone": "Phone",
+    "password": "Password",
+    "experience": "Experience (years)",
+    "consultation_fee": "Consultation Fee",
+    "working_hours": "Working Hours",
+    "start_time": "Start Time",
+    "end_time": "End Time",
+    "work_days": "Working Days",
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "close": "Close"
+  },
+  "specialization": {
+    "create": {
+      "title": "Create Specialization",
+      "name": "Name"
+    }
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "error-page": {
+    "title": "Page Not Found",
+    "description": "Sorry, the page you are looking for does not exist or has been moved",
+    "back_home": "Home",
+    "back": "Back",
+    "contact_support": "If you believe this is an error, please contact support"
+  }
+}

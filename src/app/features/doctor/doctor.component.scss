@@ -1,0 +1,28 @@
+@import 'tailwind-import.css';
+
+.loader {
+  border-top-color: #0ea5e9;
+}
+
+.staff table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.staff th,
+.staff td {
+  text-align: left;
+  padding: 12px;
+}
+
+.staff th {
+  background-color: #f3f4f6;
+}
+
+.staff tr:hover {
+  background-color: #f9fafb;
+}
+
+.staff h2 {
+  color: #111827;
+}

@@ -1,0 +1,97 @@
+{
+  "doctor": {
+    "confirm_delete": "Вы уверены, что хотите удалить этого доктора?",
+    "deleted": "Доктор успешно удален",
+    "delete_success": "Успешно удалено",
+    "delete_error": "Не удалось удалить доктора",
+    "copiled": "Скопировано в буфер обмена",
+    "created": "Доктор успешно создан",
+    "updated": "Доктор успешно обновлён",
+    "save_error": "Не удалось сохранить доктора",
+    "error": "Ошибка"
+  },
+  "d": {
+    "confirm_delete": "Вы уверены, что хотите удалить этого документа?",
+    "deleted": "Документа успешно удален",
+    "delete_success": "Успешно удалено",
+    "delete_error": "Не удалось удалить документа",
+    "copiled": "Скопировано в буфер обмена",
+    "created": "Документа успешно создан",
+    "updated": "Документа успешно обновлён",
+    "save_error": "Не удалось сохранить документа",
+    "error": "Ошибка"
+  },
+  "manage-doctors": {
+    "title": "Управление врачами",
+    "add_doctor": "Добавить врача",
+    "all_specializations": "Все специализации",
+    "loading": "Загрузка...",
+    "search_placeholder": "Поиск врачей...",
+    "doctor_list_title": "Список врачей",
+    "total_doctors": "Всего врачей: {{count}}",
+    "no_doctors": "Врачи не найдены",
+    "clear_filter": "Очистить фильтр",
+    "experience": "Опыт: {{years}} лет",
+    "consultation_fee": "Консультация: {{fee}} c",
+    "working_hours": "Часы работы: {{start}} - {{end}}",
+    "copy": "Скопировать",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "add": "Добавить специализацию",
+    "specializations": "Специализации",
+    "specialization_management_title": "Управление специализациями",
+    "new_specialization_placeholder": "Новая специализация...",
+    "confirm_delete_specialization": "Вы уверены, что хотите удалить эту специализацию?",
+    "specialization_deleted_successfully": "Специализация успешно удалена.",
+    "delete_specialization_error": "Ошибка при удалении специализации.",
+    "specialization_added_successfully": "Специализация успешно добавлена.",
+    "create_specialization_error": "Ошибка при создании специализации",
+    "empty_specialization_name_error": "Пожалуйста, введите название специализации",
+    "doctors_count": "{{ count }} врач(ей)",
+    "delete_specialization_title": "Удалить специализацию",
+    "show_more": "Показать еще",
+    "show_less": "Скрыть"
+  },
+  "doctor-form": {
+    "view_title": "Просмотр информации о враче",
+    "edit_title": "Редактировать врача",
+    "add_title": "Добавить врача",
+    "first_name": "Имя",
+    "last_name": "Фамилия",
+    "specialization": "Специализация",
+    "select_specialization": "Выберите специализацию",
+    "loading": "Загрузка...",
+    "add_specialization": "Добавить специализацию",
+    "username": "Логин",
+    "email": "Эл. Почта",
+    "phone": "Телефон",
+    "password": "Пароль",
+    "experience": "Опыт работы (лет)",
+    "consultation_fee": "Стоимость консультации",
+    "working_hours": "Рабочие часы",
+    "start_time": "Начало рабочего дня",
+    "end_time": "Конец рабочего дня",
+    "work_days": "Рабочие дни",
+    "save": "Сохранить",
+    "saving": "Сохранение...",
+    "cancel": "Отмена",
+    "close": "Закрыть"
+  },
+  "specialization": {
+    "create": {
+      "title": "Создание специализации",
+      "name": "Имя"
+    }
+  },
+  "common": {
+    "save": "Сохранить",
+    "cancel": "Отмена"
+  },
+  "error-page": {
+    "title": "Страница не найдена",
+    "description": "К сожалению, страница, которую вы ищете, не существует или была перемещена",
+    "back_home": "На главную",
+    "back": "Назад",
+    "contact_support": "Если вы считаете, что это ошибка, пожалуйста, свяжитесь с поддержкой"
+  }
+}

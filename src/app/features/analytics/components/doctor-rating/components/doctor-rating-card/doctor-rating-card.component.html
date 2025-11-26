@@ -1,0 +1,30 @@
+<div class="bg-gray-50 rounded-lg p-3 border border-gray-200">
+  <div class="flex items-start justify-between mb-2 border-b border-gray-200 pb-2">
+    <div class="flex-1">
+      <h4 class="font-semibold text-gray-900 text-sm">{{ doctor().name }}</h4>
+      <p class="text-xs text-gray-600">{{ doctor()?.specialization?.name }}</p>
+    </div>
+    <app-efficiency-badge [efficiency]="doctor().efficiency" />
+  </div>
+
+  <div class="grid grid-cols-2 gap-2">
+    <div class="bg-white rounded-lg p-2 border border-gray-200">
+      <div class="text-xs text-gray-600">{{ 'analytics.doctorRating.appointments' | transloco }}</div>
+      <div class="font-semibold text-gray-900">{{ doctor().appointments }}</div>
+    </div>
+    <div class="bg-white rounded-lg p-2 border border-gray-200">
+      <div class="text-xs text-gray-600">{{ 'analytics.doctorRating.completed' | transloco }}</div>
+      <div class="font-semibold text-green-600">{{ doctor().completed }}</div>
+    </div>
+    <div class="bg-white rounded-lg p-2 border border-gray-200">
+      <div class="text-xs text-gray-600">{{ 'analytics.doctorRating.cancelled' | transloco }}</div>
+      <div class="font-semibold text-red-600">{{ doctor().cancellations }}</div>
+    </div>
+
+    <div class="bg-white rounded-lg p-2 border border-gray-200">
+      <div class="text-xs text-gray-600">{{ 'analytics.doctorRating.revenue' | transloco }}</div>
+      <span class="font-semibold text-gray-900">{{ doctor().revenue }}</span>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,33 @@
+<div class="calendar">
+  <div class="header">
+    <button (click)="prevMonth()">←</button>
+    <h2>{{ currentDate() | date: 'MMMM yyyy':'': lang }}</h2>
+    <button (click)="nextMonth()">→</button>
+  </div>
+
+  <div class="weekdays">
+    @for (day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']; track day) {
+      <div>
+        {{ day }}
+      </div>
+    }
+  </div>
+
+  <div class="weeks">
+    @for (week of weeks(); track week) {
+      <div class="week">
+        @for (day of week; track day) {
+          <div
+            class="day"
+            [class.today]="isToday(day)"
+            (click)="handleClick(day)"
+            [class.outside]="!isCurrentMonth(day)"
+            >
+            {{ day.getDate() }}
+            <div class="event-indicator">● Full</div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

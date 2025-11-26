@@ -1,0 +1,122 @@
+<div class="p-6">
+  <div class="space-y-6">
+    <app-dashboard-header></app-dashboard-header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <app-stat-card
+        [loading]="isLoading()"
+        [icon]="Users"
+        [iconItemColor]="'sky'"
+        [iconBgColor]="'sky'"
+        [tendIcon]="TrendingUp"
+        [label]="'dashboard.total_patients' | transloco"
+        [value]="analyticsData()?.totalPatients?.total"
+        [tendIconColor]="'green'"
+        [tendTextColor]="'green'"
+        [tendText]="(analyticsData()?.totalPatients?.growth ?? '—') + '% ' + monthly()">
+      </app-stat-card>
+
+      <app-stat-card
+        [loading]="isLoading()"
+        [icon]="Calendar"
+        [iconItemColor]="'emerald'"
+        [iconBgColor]="'emerald'"
+        [tendIcon]="Clock"
+        [label]="'dashboard.today_appointments' | transloco"
+        [value]="upcomingAppointments.length.toString()"
+        [tendIconColor]="'blue'"
+        [tendTextColor]="'gray'"
+        [tendText]="'dashboard.next_at' | transloco: { time: nearestAppointment?.time || '-' }">
+      </app-stat-card>
+
+      <app-stat-card
+        [loading]="isLoading()"
+        [label]="'dashboard.monthly_income' | transloco"
+        [value]="monthlyIncome()"
+        [icon]="CreditCard"
+        [iconItemColor]="'amber'"
+        [iconBgColor]="'amber'"
+        [tendIcon]="TrendingUp"
+        [tendIconColor]="'green'"
+        [tendTextColor]="'green'"
+        [tendText]="percentMonth() + monthly()">
+      </app-stat-card>
+
+      <app-stat-card
+        [loading]="isLoading()"
+        [label]="'dashboard.pending_payments' | transloco"
+        [value]="failedPaymentsStats().count"
+        [icon]="AlertTriangle"
+        [iconItemColor]="'rose'"
+        [iconBgColor]="'rose'"
+        [tendTextColor]="'gray'"
+        [tendText]="failedPaymentsStats().total">
+      </app-stat-card>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+      <div class="px-6 py-5 border-b border-gray-100 ">
+        <h2 class="text-xl font-semibold">{{ 'dashboard.upcoming_appointments' | transloco }}</h2>
+      </div>
+
+      <div class="p-6 to-white rounded-b-xl">
+        <ul class="space-y-5">
+          @if(isLoading()) {
+            <ng-container *ngTemplateOutlet="upcomingAppointmentsSkeleton"></ng-container>
+          } @else {
+            @for(appointment of upcomingAppointments; track appointment.id) {
+              <li (click)="openDialog(appointment)" class="flex items-center justify-between bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-lg transition-all">
+                <div>
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="inline-block bg-sky-100 text-sky-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                      {{ 'dashboard.today' | transloco }}
+                    </span>
+                    <span class="text-sm text-green-600 font-medium">{{ appointment.time }}</span>
+                  </div>
+                  <p class="text-lg font-semibold text-gray-900">{{ appointment.patient.fullName }}</p>
+                  <p class="text-sm text-gray-600 mt-0.5">
+                    {{ 'dashboard.appointment_with' | transloco }}: 
+                    <span class="font-medium text-gray-800">{{ appointment.doctor.firstName + ' ' + appointment.doctor.lastName }}</span>
+                  </p>
+                </div>
+                <div class="flex flex-col items-end gap-2">
+                  <button class="flex items-center gap-1.5 text-sm font-medium text-sky-600 hover:text-sky-800 transition">
+                    {{ 'dashboard.detail' | transloco }}
+                    <img
+                      src="assets/icons/info.svg"
+                      alt="{{ 'dashboard.info' | transloco }}"
+                      class="w-4 h-4 opacity-90"
+                    />
+                  </button>
+                </div>
+              </li>
+            } @empty {
+              <div class="p-8 text-center text-gray-500 text-sm">
+                {{ 'dashboard.no_appointments' | transloco }}
+              </div>
+            }
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #upcomingAppointmentsSkeleton>
+  @for (item of [1,2,3]; track $index) {
+    <li class="flex items-center justify-between bg-white border border-gray-200 rounded-2xl p-6 animate-pulse">
+      <div class="flex-1">
+        <div class="flex items-center gap-2 mb-1">
+          <div class="h-5 w-14 bg-sky-100 rounded-full"></div>
+          <div class="h-4 w-12 bg-gray-200 rounded"></div>
+        </div>
+        <div class="h-5 w-40 bg-gray-200 rounded mb-2"></div>
+        <div class="h-4 w-52 bg-gray-200 rounded"></div>
+      </div>
+      <div class="flex flex-col items-end gap-2">
+        <div class="h-4 w-20 bg-gray-200 rounded"></div>
+        <div class="h-4 w-4 bg-gray-200 rounded-full"></div>
+      </div>
+    </li>
+  }
+</ng-template>

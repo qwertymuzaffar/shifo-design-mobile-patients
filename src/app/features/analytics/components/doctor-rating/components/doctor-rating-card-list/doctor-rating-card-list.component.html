@@ -1,0 +1,6 @@
+<div class="lg:hidden flex flex-col gap-3">
+  @for (doctor of doctorRatings(); track doctor) {
+    <app-doctor-rating-card [doctor]="doctor" />
+  }
+</div>
+

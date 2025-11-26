@@ -1,0 +1,148 @@
+<div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+  <h2 class="text-xl font-semibold mb-6">
+    {{ 'appointment-info.title' | transloco }}
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+    @if (appointment) {
+      <div class="border rounded-lg p-4">
+        <p class="font-medium text-gray-600 mb-2">
+          {{ 'appointment-info.doctor' | transloco }}
+        </p>
+        <p class="text-gray-900">
+          {{ appointment.doctor.lastName }} {{ appointment.doctor.firstName }}
+        </p>
+        <p class="text-gray-500 text-xs">
+          {{ appointment.doctor.specialization }}
+        </p>
+      </div>
+    }
+
+    @if (patient) {
+      <div class="border rounded-lg p-4">
+        <p class="font-medium text-gray-600 mb-2">
+          {{ 'appointment-info.patient' | transloco }}
+        </p>
+        <p class="text-gray-900">{{ patient.fullName }}</p>
+        <p class="text-gray-500">{{ patient.phone | phoneFormat }}</p>
+        <p class="text-gray-500 text-xs">
+          {{ 'appointment-info.birth_date' | transloco }}:
+          {{ patient.birthDate | date: 'dd.MM.yyyy' }}
+        </p>
+      </div>
+    }
+
+    @if (appointment) {
+      <div class="border rounded-lg p-4">
+        <p class="font-medium text-gray-600 mb-2">
+          {{ 'appointment-info.date_time' | transloco }}
+        </p>
+        <p class="text-gray-900">
+          {{ appointment.date | date: 'dd.MM.yyyy' }} {{ 'appointment-info.at' | transloco }}
+          {{ appointment.time }}
+        </p>
+        <p class="text-gray-500 text-xs">
+          {{ 'appointment-info.duration' | transloco }}: {{ appointment.duration }}
+          {{ 'appointment-info.minutes' | transloco }}
+        </p>
+      </div>
+    }
+
+    <div class="border rounded-lg p-4">
+      <p class="font-medium text-gray-600 mb-2">
+        {{ 'appointment-info.created' | transloco }}
+      </p>
+      <p class="text-gray-500 text-xs">
+        {{ displayCreatedAt | date: 'dd.MM.yyyy HH:mm' }}
+      </p>
+    </div>
+
+    <div class="border rounded-lg p-4">
+      <p class="font-medium text-gray-600 mb-2">
+        {{ 'appointment-info.status' | transloco }}
+      </p>
+      @if (appointment) {
+        <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full border border-blue-200">
+          {{ appointment.status | statusTranslate }}
+        </span>
+      } @else {
+        @switch (payment.status) {
+          @case ('paid') {
+            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full border border-green-200">
+              {{ 'paid' | transloco }}
+            </span>
+          }
+          @case ('pending') {
+            <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full border border-yellow-200">
+              {{ 'pending' | transloco }}
+            </span>
+          }
+          @case ('failed') {
+            <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full border border-red-200">
+              {{ 'failed' | transloco }}
+            </span>
+          }
+        }
+      }
+    </div>
+
+    @if (appointment) {
+      <div class="border rounded-lg p-4">
+        <p class="font-medium text-gray-600 mb-2">
+          {{ 'appointment-info.type' | transloco }}
+        </p>
+        <p class="text-gray-900">{{ appointment.type | typeTranslate }}</p>
+      </div>
+    }
+
+    @if (appointment?.symptoms) {
+      <div class="border rounded-lg p-4 md:col-span-2">
+        <p class="font-medium text-gray-600 mb-2">
+          {{ 'appointment-info.symptoms' | transloco }}
+        </p>
+        <p class="text-gray-900 whitespace-pre-line">{{ appointment.symptoms }}</p>
+      </div>
+    }
+
+    @if (appointment?.notes) {
+      <div class="border rounded-lg p-4 md:col-span-2">
+        <p class="font-medium text-gray-600 mb-2">
+          {{ 'appointment-info.notes' | transloco }}
+        </p>
+        <p class="text-gray-900 whitespace-pre-line">{{ appointment.notes }}</p>
+      </div>
+    }
+
+    @if (patient?.medicalHistory || allergiesText) {
+      <div class="border rounded-lg p-4 md:col-span-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          @if (patient.medicalHistory) {
+            <div>
+              <p class="font-medium text-gray-600 mb-2">
+                {{ 'appointment-info.medical_history' | transloco }}
+              </p>
+              <p class="text-gray-900 text-xs">
+                {{ patient.medicalHistory }}
+              </p>
+            </div>
+          }
+          <div>
+            <p class="font-medium text-gray-600 mb-2">
+              {{ 'appointment-info.allergies' | transloco }}
+            </p>
+            <p class="text-gray-900 text-xs">{{ allergiesText }}</p>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="flex justify-end mt-8">
+    <button
+      (click)="dialogRef.close()"
+      class="bg-sky-500 text-white px-6 py-2 rounded-lg hover:bg-sky-600 transition-colors"
+    >
+      {{ 'appointment-info.close' | transloco }}
+    </button>
+  </div>
+</div>

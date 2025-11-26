@@ -1,0 +1,102 @@
+<div class="relative mb-6 border-gray-200">
+  <button mat-dialog-close class="absolute right-3 text-gray-500 text-xl">✕</button>
+  <h2 class="text-2xl font-semibold text-gray-900 tracking-tight">
+    {{ 'dashboard.details.title' | transloco }}
+  </h2>
+</div>
+
+@if (data) {
+<div class="space-y-4 text-gray-800 text-[15px] animate-fade-in">
+  <div class="bg-gradient-to-l from-blue-50 to-white border border-blue-100 rounded-xl p-4 shadow-sm">
+    <p>
+      <span class="font-semibold text-blue-900">{{ 'dashboard.details.patient' | transloco }}:</span>
+      <span class="font-semibold text-[16px] text-gray-900">
+        {{ data.patient.fullName }}
+      </span>
+    </p>
+    <p>
+      <span class="font-semibold text-blue-900">{{ 'dashboard.details.address' | transloco }}:</span>
+      {{ data.patient.address }}
+    </p>
+    <p>
+      <span class="font-semibold text-blue-900">{{ 'dashboard.details.phone' | transloco }}:</span>
+      {{ data.patient.phone | phoneFormat }}
+    </p>
+    <p>
+      <span class="font-semibold text-blue-900">{{ 'dashboard.details.birthDate' | transloco }}:</span>
+      {{ data.patient.birthDate }}
+    </p>
+  </div>
+
+  <div class="bg-gradient-to-l from-green-50 to-white border border-green-100 rounded-xl p-4 shadow-sm">
+    <p>
+      <span class="font-semibold text-green-700">{{ 'dashboard.details.time' | transloco }}:</span>
+      <span class="font-semibold text-[16px] text-grey-700">
+        {{ data.time }}
+      </span>
+    </p>
+    <p>
+      <span class="font-semibold text-green-700">{{ 'dashboard.details.date' | transloco }}:</span>
+      {{ data.date | date }}
+    </p>
+    <p>
+      <span class="font-semibold text-green-700">{{ 'dashboard.details.type' | transloco }}:</span>
+      {{ data.type | typeTranslate }}
+    </p>
+    <p>
+      <span class="font-semibold text-green-700">{{ 'dashboard.details.duration' | transloco }}:</span>
+      {{ data.duration }}{{ 'dashboard.details.durations' | transloco }}
+    </p>
+  </div>
+
+  <div class="bg-gradient-to-l from-gray-100 to-white border border-gray-200 rounded-xl p-4 shadow-sm">
+    <p>
+      <span class="font-semibold text-gray-700">{{ 'dashboard.details.doctor' | transloco }}:</span>
+      <span class="font-semibold text-[16px] text-grey-700">
+        {{ data.doctor.firstName }} {{ data.doctor.lastName }}
+      </span>
+    </p>
+    <p>
+      <span class="font-semibold text-gray-700">{{ 'dashboard.details.experience' | transloco }}:</span>
+      {{ data.doctor.experience }} {{ 'dashboard.details.years' | transloco }}
+    </p>
+    <p>
+      <span class="font-semibold text-gray-700">{{ 'dashboard.details.workingHours' | transloco }}:</span>
+      с {{ data.doctor.workingHours.start }} по {{ data.doctor.workingHours.end }}
+    </p>
+    <div class="flex flex-row">
+      <p class="font-semibold text-gray-700 whitespace-nowrap">{{ 'dashboard.details.workDays' | transloco }}:</p>
+      <div class="flex flex-wrap gap-2 pl-2">
+        @for (weekday of weekDays[lang]; track weekday) {
+          <label class="flex items-center space-x-2 cursor-pointer select-none rounded-md">
+            <input
+              type="checkbox"
+              disabled=""
+              [checked]="workDays.includes(weekday.value)"
+              class="w-4 h-4 rounded"
+            />
+            <span class="text-sm font-medium text-gray-800">
+              {{ weekday.label }}
+            </span>
+          </label>
+        }
+      </div>
+    </div>
+    <p>
+      <span class="font-semibold text-gray-700">{{ 'dashboard.details.activeNow' | transloco }}:</span>
+      <span [ngClass]="data.doctor.isActive ? 'text-green-600 font-bold' : 'text-red-500 font-bold'">
+        {{ data.doctor.isActive ? ('dashboard.details.yes' | transloco) : ('dashboard.details.no' | transloco) }}
+      </span>
+    </p>
+  </div>
+
+  @if (data.symptoms) {
+    <div class="bg-gradient-to-r from-yellow-50 to-white border border-yellow-100 rounded-xl p-4 shadow-sm">
+      <p>
+        <span class="font-semibold text-yellow-700">{{ 'dashboard.details.symptoms' | transloco }}:</span>
+        {{ data.symptoms }}
+      </p>
+    </div>
+  }
+</div>
+}

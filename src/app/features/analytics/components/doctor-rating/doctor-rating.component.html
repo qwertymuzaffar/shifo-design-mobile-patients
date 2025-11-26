@@ -1,0 +1,11 @@
+<div class="bg-white p-3 lg:p-6 rounded-xl shadow-sm border border-gray-100 mb-3 lg:mb-6">
+  <div class="flex items-center justify-between mb-2 lg:mb-4">
+    <h3 class="text-base lg:text-lg font-semibold text-gray-900">{{ 'analytics.doctorRating.title' | transloco }}</h3>
+    <img src="assets/icons/doctor-rating.svg" alt="Рейтинг" class="w-5 h-5 lg:w-6 lg:h-6">
+  </div>
+
+  <app-doctor-rating-table [doctorRatings]="doctorRatings()" />
+
+  <app-doctor-rating-card-list [doctorRatings]="doctorRatings()" />
+</div>
+

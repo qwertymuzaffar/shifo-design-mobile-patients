@@ -1,0 +1,48 @@
+<div class="stat-card gap-3 lg:gap-6 mb-3 lg:mb-6">
+  <app-stat-card
+    [icon]="Users"
+    [iconItemColor]="'sky'"
+    [iconBgColor]="'sky'"
+    [label]="'analytics.totalPatients' | transloco"
+    [value]="analyticsData()?.totalPatients?.total"
+    [tendIconColor]="'green'"
+    [tendTextColor]="'green'"
+    [tendIcon]="TrendingUp"
+    [tendText]="(analyticsData()?.totalPatients?.growth ?? '—') + '% ' + ('analytics.periodGrowth' | transloco: { percent: '' })">
+  </app-stat-card>
+
+  <app-stat-card
+    [icon]="Activity"
+    [iconItemColor]="'emerald'"
+    [iconBgColor]="'emerald'"
+    [label]="'analytics.totalDoctors' | transloco"
+    [value]="doctorData()?.total"
+    [tendTextColor]="'gray'"
+    [tendText]="'analytics.activeDoctors' | transloco: { count: (analyticsData()?.totalActiveDoctors ?? 0) }">
+  </app-stat-card>
+
+  <app-stat-card
+    [label]="'analytics.totalAppointments' | transloco"
+    [value]="analyticsData()?.totalAppointments?.total"
+    [icon]="Calendar"
+    [iconItemColor]="'amber'"
+    [iconBgColor]="'amber'"
+    [tendIconColor]="'green'"
+    [tendTextColor]="'green'"
+    [tendIcon]="TrendingUp"
+    [tendText]="(analyticsData()?.totalAppointments?.growth ?? '-') + '% ' + ('analytics.periodGrowth' | transloco)">
+  </app-stat-card>
+
+  <app-stat-card
+    [label]="'analytics.totalRevenue' | transloco"
+    [value]="analyticsData()?.totalRevenue?.total"
+    [icon]="DollarSign"
+    [iconItemColor]="'rose'"
+    [iconBgColor]="'rose'"
+    [tendIconColor]="'green'"
+    [tendTextColor]="'green'"
+    [tendIcon]="TrendingUp"
+    [tendText]="(analyticsData()?.totalRevenue?.growth ?? '') + '% ' + ('analytics.periodGrowth' | transloco)">
+  </app-stat-card>
+</div>
+

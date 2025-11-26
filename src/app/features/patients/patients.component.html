@@ -1,0 +1,201 @@
+<div class="p-6">
+  <div class="space-y-6">
+    <div class="flex justify-between items-center">
+      <h1 class="text-3xl font-bold text-gray-900">
+        {{ 'patients.title' | transloco }}
+      </h1>
+      <button
+        *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+        (click)="openDialog()"
+        class="bg-sky-500 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-sky-600 transition-colors"
+      >
+        <img
+          src="assets/icons/add.svg"
+          alt="{{ 'patients.add' | transloco }}"
+          class="w-5 h-5"
+        />
+        <span>{{ 'patients.add' | transloco }}</span>
+      </button>
+    </div>
+
+    <div class="relative">
+      <input
+        [formControl]="form.controls['search']"
+        class="w-full pl-10 pr-20 py-3 border border-gray-200 rounded-lg focus:outline-none"
+        type="text"
+        [placeholder]="'patients.search_placeholder' | transloco"
+      />
+      <button
+        class="absolute right-1 top-1 text-white rounded-lg px-4 py-2 hover:bg-blue-600 focus:outline-none bg-sky-500"
+        type="button"
+      >
+        <img
+          src="assets/icons/search.svg"
+          alt="{{ 'patients.add' | transloco }}"
+        />
+      </button>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+      <div class="p-6">
+        <div class="flex justify-between items-center relative mb-4">
+          <h2 class="text-xl font-semibold">
+            {{ 'patients.list_title' | transloco }}
+          </h2>
+          <h3 class="text-s font-medium text-gray-500">
+            {{ 'patients.total_label' | transloco: { count: data().total } }}
+          </h3>
+        </div>
+
+        @if (isLoading()) {
+          <app-skeleton-patient></app-skeleton-patient>
+        } @else {
+          @for (patient of data().items; track patient) {
+            <div
+              class="space-y-4 cursor-pointer"
+              [routerLink]="'/patients/' + patient.id"
+            >
+              <div
+                class="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:shadow-md transition-shadow"
+              >
+                <div class="flex items-center space-x-4">
+                  <div
+                    class="h-12 w-12 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full flex items-center justify-center"
+                  >
+                    <img
+                      src="assets/icons/user.svg"
+                      alt="User"
+                      class="w-6 h-6 text-white"
+                    />
+                  </div>
+                  <div>
+                    <h3 class="font- text-gray-900 m-0 font-medium">
+                      {{ patient.fullName }}
+                    </h3>
+                    <div class="flex items-center space-x-4 mt-1 mb-1">
+                      <div
+                        class="flex items-center text-sm text-gray-500 font-medium"
+                      >
+                        <lucide-icon
+                          [name]="Phone"
+                          [size]="16"
+                          class="mr-1"
+                        ></lucide-icon>
+                        {{ patient.phone | phoneFormat }}
+                        <button
+                          class="ml-2 hover:text-gray-700 transition"
+                          [cdkCopyToClipboard]="patient.phone"
+                          (cdkCopyToClipboardCopied)="toast()"
+                          (click)="$event.stopPropagation()"
+                          type="button"
+                          title="Скопировать"
+                        >
+                          <lucide-icon [name]="Copy" [size]="16"></lucide-icon>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="about-user flex flex-col gap-2">
+                      @if (patient.allergies?.length) {
+                        <div
+                          class="rounded-md px-2.5 py-1.5 bg-red-100 text-red-800 text-xs font-medium min-w-[150px] max-w-[400px] min-h-[20px] max-h-[30px] overflow-hidden text-ellipsis whitespace-nowrap"
+                        >
+                          <strong
+                            >{{ 'patients.allergies' | transloco }}:
+                          </strong>
+                          {{
+                            patient.allergies?.join?.(', ') ||
+                              patient.allergies ||
+                              '—'
+                          }}
+                        </div>
+                      }
+                      <div
+                        class="rounded-md px-2.5 py-1.5 bg-blue-100 text-blue-900 text-xs font-medium flex flex-wrap gap-2 min-w-[150px] max-w-[700px] min-h-[20px] max-h-[30px] overflow-hidden text-ellipsis whitespace-nowrap"
+                      >
+                        <span>
+                          <strong>{{ 'patients.address' | transloco }}: </strong
+                          >{{ patient.address?.trim() ? patient.address : '—' }}
+                        </span>
+                        |
+                        <span>
+                          <strong
+                            >{{ 'patients.birth_date' | transloco }}: </strong
+                          >{{ patient.birthDate || '—' }}
+                        </span>
+                      </div>
+                      @if (patient.emergencyContact) {
+                        <div
+                          class="rounded-md px-3 py-1.5 bg-blue-100 text-blue-900 text-xs font-medium"
+                        >
+                          <strong
+                            >{{
+                              'patients.emergency_contact' | transloco
+                            }}: </strong
+                          >{{ patient.emergencyContact | phoneFormat }}
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex space-x-2">
+                  <button
+                    *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+                    (click)="openDialog(patient); $event.stopPropagation()"
+                    class="p-2 text-gray-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg"
+                  >
+                    <lucide-icon
+                      [name]="SquarePen"
+                      [size]="16"
+                      class="align-middle"
+                    ></lucide-icon>
+                  </button>
+                  <button
+                    *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+                    (click)="
+                      deletePatient(patient.id); $event.stopPropagation()
+                    "
+                    class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg"
+                  >
+                    <lucide-icon
+                      [name]="Trash2"
+                      [size]="16"
+                      class="align-middle"
+                    ></lucide-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          } @empty {
+            @if (form.value.search) {
+              <div class="flex justify-center items-center flex-col gap-2">
+                <p class="text-gray-500 text-center">
+                  {{ 'patients.not_found' | transloco }}
+                </p>
+                <button
+                  class="p-2 hover:text-gray-400 text-gray-600 bg-gray-100 rounded-lg transition-colors"
+                  (click)="clearFilter()"
+                >
+                  {{ 'patients.clear_filter' | transloco }}
+                </button>
+              </div>
+            } @else {
+              <p class="text-gray-500 text-center">
+                {{ 'patients.not_found' | transloco }}
+              </p>
+            }
+          }
+        }
+      </div>
+
+      <app-pagination
+        [totalCount]="data().total"
+        [limit]="data().limit"
+        [page]="data().page"
+        (pageChange)="pageChange($event)"
+        (limitChange)="limitChange($event)"
+      />
+    </div>
+  </div>
+</div>

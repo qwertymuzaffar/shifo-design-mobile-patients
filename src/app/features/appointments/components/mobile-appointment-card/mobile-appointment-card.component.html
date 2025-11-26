@@ -1,0 +1,145 @@
+<div
+  class="bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-xl p-4 cursor-pointer hover:shadow-lg active:shadow-xl transition-all"
+  (click)="onCardClick($event)"
+>
+  <div class="flex flex-col space-y-3">
+    <div
+      class="flex items-center justify-between gap-2 pb-2 border-b border-gray-200"
+    >
+      <span
+        class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg"
+        [class.bg-sky-100]="
+          appointment().status === AppointmentStatus.SCHEDULED
+        "
+        [class.text-sky-700]="
+          appointment().status === AppointmentStatus.SCHEDULED
+        "
+        [class.bg-green-50]="
+          appointment().status === AppointmentStatus.COMPLETED
+        "
+        [class.text-green-700]="
+          appointment().status === AppointmentStatus.COMPLETED
+        "
+        [class.bg-red-50]="appointment().status === AppointmentStatus.CANCELLED"
+        [class.text-red-700]="
+          appointment().status === AppointmentStatus.CANCELLED
+        "
+        [class.bg-yellow-50]="
+          appointment().status === AppointmentStatus.TEMPORARY
+        "
+        [class.text-yellow-700]="
+          appointment().status === AppointmentStatus.TEMPORARY
+        "
+        [class.bg-pink-100]="
+          appointment().status === AppointmentStatus.CANCELLED_FOREVER
+        "
+        [class.text-pink-800]="
+          appointment().status === AppointmentStatus.CANCELLED_FOREVER
+        "
+      >
+        <lucide-icon
+          [img]="getStatusIcon(appointment().status)"
+          [size]="14"
+        ></lucide-icon>
+        {{ appointment().status | statusTranslate }}
+      </span>
+      <span
+        class="text-xs font-semibold text-gray-600 bg-white px-3 py-1.5 rounded-lg border border-gray-200"
+      >
+        {{ appointment().type | typeTranslate }}
+      </span>
+    </div>
+
+    <div
+      class="bg-gradient-to-r from-sky-50 to-blue-50 rounded-xl px-4 py-3 border border-sky-200"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <lucide-icon
+            [img]="Clock"
+            [size]="18"
+            class="text-sky-600"
+          ></lucide-icon>
+          <span class="text-base font-bold text-gray-900">
+            {{ getFormattedDate(appointment().date) }}
+          </span>
+        </div>
+        <span class="text-base font-bold text-sky-600">
+          {{ getFormattedTime(appointment().time) }}
+        </span>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg px-3 py-2.5 border border-gray-200">
+      <div class="flex items-start gap-2">
+        <div
+          class="w-8 h-8 rounded-full bg-gradient-to-r from-sky-400 to-blue-500 flex items-center justify-center shrink-0"
+        >
+          <img src="assets/icons/user.svg" alt="User" class="w-4 h-4" />
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="text-xs font-medium text-gray-500 mb-0.5">
+            {{ 'appointment-list.patient' | transloco }}
+          </div>
+          <div class="font-bold text-gray-900 truncate">
+            {{ appointment().patient.fullName }}
+          </div>
+          <div class="text-xs text-gray-600">
+            {{ appointment().patient.phone }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg px-3 py-2.5 border border-gray-200">
+      <div class="flex items-start gap-2">
+        <div
+          class="w-8 h-8 rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 flex items-center justify-center shrink-0"
+        >
+          <img src="assets/svg/user.svg" alt="Doctor" class="w-4 h-4" />
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="text-xs font-medium text-gray-500 mb-0.5">
+            {{ 'appointment-list.doctor' | transloco }}
+          </div>
+          <div class="font-bold text-gray-900 truncate">
+            {{ appointment().doctor.firstName }}
+            {{ appointment().doctor.lastName }}
+          </div>
+          <div class="text-xs text-gray-600 truncate">
+            {{ appointment().doctor?.specialization?.name }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 pt-2">
+      <button
+        type="button"
+        class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 text-xs font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 rounded-lg transition-colors border border-sky-200"
+        (click)="onEdit()"
+      >
+        <lucide-icon [img]="Edit" [size]="16"></lucide-icon>
+        <span>{{ 'appointment-list.edit' | transloco }}</span>
+      </button>
+
+      @if (appointment().status === AppointmentStatus.SCHEDULED) {
+        <app-complete-button
+          *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+          [appointmentId]="appointment().id"
+          (appointmentCompleted)="onReload()"
+        />
+        <app-cancel-button
+          *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+          [appointmentId]="appointment().id"
+          (appointmentCancelled)="onReload()"
+        />
+      }
+      <app-duplicate-button
+        *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+        [appointmentId]="appointment().id"
+        (appointmentDuplicated)="onReload()"
+      />
+    </div>
+  </div>
+</div>

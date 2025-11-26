@@ -1,0 +1,231 @@
+<nav class="flex-1 p-4 space-y-2" [ngClass]="{ 'p-0': isMobile() }">
+  <button
+    [routerLink]="'/dashboard'"
+    (click)="onItemClick()"
+    class="w-full flex items-center px-3 py-3 text-left rounded-lg transition-colors h-12"
+    [ngClass]="{
+      'bg-sky-500 text-white': isActive('/dashboard'),
+      'text-gray-600 hover:bg-gray-100': !isActive('/dashboard'),
+    }"
+  >
+    <lucide-icon [img]="House" [size]="20" class="w-[22px] h-[22px]"></lucide-icon>
+    <span
+      class="font-medium overflow-hidden whitespace-nowrap ml-3 nav-text"
+      [ngClass]="{ hidden: !isMobile() && collapsed() }"
+    >
+      {{ 'sidebar.dashboard' | transloco }}
+    </span>
+  </button>
+
+  <button
+    [routerLink]="'/patients'"
+    (click)="onItemClick()"
+    class="w-full flex items-center px-3 py-3 text-left rounded-lg transition-colors h-12"
+    [ngClass]="{
+      'bg-sky-500 text-white': isActive('/patients'),
+      'text-gray-600 hover:bg-gray-100': !isActive('/patients'),
+    }"
+  >
+    <lucide-icon [img]="Users" [size]="20" class="w-[22px] h-[22px]"></lucide-icon>
+    <span
+      class="font-medium overflow-hidden whitespace-nowrap ml-3 nav-text"
+      [ngClass]="{ hidden: !isMobile() && collapsed() }"
+    >
+      {{ 'sidebar.patients' | transloco }}
+    </span>
+  </button>
+
+  <button
+    [routerLink]="'/doctor'"
+    (click)="onItemClick()"
+    class="w-full flex items-center px-3 py-3 text-left rounded-lg transition-colors h-12"
+    [ngClass]="{
+      'bg-sky-500 text-white': isActive('/doctor'),
+      'text-gray-600 hover:bg-gray-100': !isActive('/doctor'),
+    }"
+  >
+    <lucide-icon [img]="UserCheck" [size]="20" class="w-[22px] h-[22px]"></lucide-icon>
+    <span
+      class="font-medium overflow-hidden whitespace-nowrap ml-3 nav-text"
+      [ngClass]="{ hidden: !isMobile() && collapsed() }"
+    >
+      {{ 'sidebar.doctors' | transloco }}
+    </span>
+  </button>
+
+  <button
+    [routerLink]="'/appointments'"
+    (click)="onItemClick()"
+    class="w-full flex items-center px-3 py-3 text-left rounded-lg transition-colors h-12"
+    [ngClass]="{
+      'bg-sky-500 text-white': isActive('/appointments'),
+      'text-gray-600 hover:bg-gray-100': !isActive('/appointments'),
+    }"
+  >
+    <lucide-icon [img]="Calendar" [size]="20" class="w-[22px] h-[22px]"></lucide-icon>
+    <span
+      class="font-medium overflow-hidden whitespace-nowrap ml-3 nav-text"
+      [ngClass]="{ hidden: !isMobile() && collapsed() }"
+    >
+      {{ 'sidebar.appointments' | transloco }}
+    </span>
+  </button>
+
+  <button
+    [routerLink]="'/finances'"
+    (click)="onItemClick()"
+    class="w-full flex items-center px-3 py-3 text-left rounded-lg transition-colors h-12"
+    [ngClass]="{
+      'bg-sky-500 text-white': isActive('/finances'),
+      'text-gray-600 hover:bg-gray-100': !isActive('/finances'),
+    }"
+  >
+    <lucide-icon [img]="CreditCard" [size]="20" class="w-[22px] h-[22px]"></lucide-icon>
+    <span
+      class="font-medium overflow-hidden whitespace-nowrap ml-3 nav-text"
+      [ngClass]="{ hidden: !isMobile() && collapsed() }"
+    >
+      {{ 'sidebar.finances' | transloco }}
+    </span>
+  </button>
+
+  <button
+    *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT, userRole.DOCTOR]"
+    [routerLink]="'/analytics'"
+    (click)="onItemClick()"
+    class="w-full flex items-center px-3 py-3 text-left rounded-lg transition-colors h-12"
+    [ngClass]="{
+      'bg-sky-500 text-white': isActive('/analytics'),
+      'text-gray-600 hover:bg-gray-100': !isActive('/analytics'),
+    }"
+  >
+    <lucide-icon [img]="Activity" [size]="20" class="w-[22px] h-[22px]"></lucide-icon>
+    <span
+      class="font-medium overflow-hidden whitespace-nowrap ml-3 nav-text"
+      [ngClass]="{ hidden: !isMobile() && collapsed() }"
+    >
+      {{ 'sidebar.analytics' | transloco }}
+    </span>
+  </button>
+</nav>
+
+<div class="p-4 border-t border-gray-200 space-y-4">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center space-x-2">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-4 h-4 text-gray-600"
+        [ngClass]="{
+          'opacity-100 max-w-full ml-1': !collapsed(),
+        }"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        viewBox="0 0 24 24"
+      >
+        <path d="m5 8 6 6"></path>
+        <path d="m4 14 6-6 2-3"></path>
+        <path d="M2 5h12"></path>
+        <path d="M7 2h1"></path>
+        <path d="m22 22-5-10-5 10"></path>
+        <path d="M14 18h6"></path>
+      </svg>
+      @if (collapsed()) {
+        <button
+          class="px-3 py-1.5 rounded-md text-xs font-medium shadow-sm transition-all duration-300"
+          [ngClass]="{
+            'bg-sky-500 text-white': true,
+            'px-3 py-1.5': !collapsed(),
+            'px-2 py-1': collapsed(),
+            'opacity-0 w-0 max-w-0 ml-0 overflow-hidden': !collapsed(),
+          }"
+          disabled
+        >
+          {{ currentLang().toUpperCase() }}
+        </button>
+      }
+
+      <div
+        class="flex items-center justify-between space-x-2 transition-all duration-300"
+      >
+        <span
+          class="text-sm font-medium text-gray-700 transition-all duration-300"
+          [ngClass]="{
+            'opacity-100 max-w-full ml-1': !collapsed(),
+            'opacity-0 max-w-0 ml-0 overflow-hidden': collapsed(),
+          }"
+        >
+          {{ 'language' | transloco }}
+        </span>
+      </div>
+    </div>
+
+    <div
+      class="flex space-x-1 transition-all duration-300"
+      [ngClass]="{
+        'opacity-100 max-h-10': !collapsed(),
+        'opacity-0 max-h-0 overflow-hidden': collapsed(),
+      }"
+    >
+      <button
+        class="px-3 py-1.5 rounded-md text-xs font-medium shadow-sm transition-all duration-300"
+        [ngClass]="{
+          'bg-sky-500 text-white opacity-100':
+            currentLang() === 'ru' && !collapsed(),
+          'bg-gray-100 text-gray-600 hover:bg-gray-200 opacity-100':
+            currentLang() !== 'ru' && !collapsed(),
+          'opacity-0': collapsed(),
+        }"
+        (click)="setLang('ru')"
+      >
+        RU
+      </button>
+
+      <button
+        class="px-3 py-1.5 rounded-md text-xs font-medium shadow-sm transition-all duration-300"
+        [ngClass]="{
+          'bg-sky-500 text-white opacity-100':
+            currentLang() === 'en' && !collapsed(),
+          'bg-gray-100 text-gray-600 hover:bg-gray-200 opacity-100':
+            currentLang() !== 'en' && !collapsed(),
+          'opacity-0': collapsed(),
+        }"
+        (click)="setLang('en')"
+      >
+        EN
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="transition-all duration-300"
+    [ngClass]="{
+      'opacity-100 max-h-20': !collapsed(),
+      'opacity-0 max-h-0 overflow-hidden': collapsed(),
+    }"
+  >
+    @if (profile.isLoading()) {
+      <p class="text-sm text-gray-500">
+        {{ 'sidebar.loading' | transloco }}
+      </p>
+    }
+    @if (profile.value(); as user) {
+      <app-sidebar-user
+        [name]="user.fullName"
+        [email]="user.email"
+        [collapsed]="collapsed()"
+      ></app-sidebar-user>
+    }
+  </div>
+
+  <app-sidebar-item
+    routerLink="/logout"
+    (click)="logOut()"
+    class="flex"
+    [icon]="LogOut"
+    [collapsed]="collapsed()"
+    label="{{ 'sidebar.logout' | transloco }}"
+  ></app-sidebar-item>
+</div>

@@ -1,0 +1,21 @@
+<button  class="w-full flex items-center px-3.5 h-12 text-left rounded-lg transition-all duration-200"
+          [ngClass]="{
+            'bg-sky-500 text-white shadow-md': active,
+            'text-gray-600 hover:bg-gray-100': !active
+          }"
+>
+  <lucide-icon
+    [img]="icon"
+    [size]="20"
+    class="w-5 h-5 flex-shrink-0"
+  ></lucide-icon>
+
+  <span class="font-medium ml-3 overflow-hidden transition-all duration-200"
+        [ngClass]="{
+          'opacity-0 max-w-0': collapsed,
+          'opacity-100 max-w-[200px]': !collapsed
+        }"
+  >
+    {{ label }}
+  </span>
+</button>

@@ -1,0 +1,168 @@
+{
+  "patient": {
+    "confirm_delete": "Are you sure you want to delete this patient?",
+    "deleted": "Patient successfully deleted",
+    "delete_success": "Successfully deleted",
+    "delete_error": "Failed to delete patient",
+    "copied": "Copied to clipboard"
+  },
+  "patients": {
+    "title": "Patient Management",
+    "add": "Add Patient",
+    "search_placeholder": "Search patients...",
+    "list_title": "Patient List",
+    "total_label": "Total patients: {{count}}",
+    "not_found": "No patients found",
+    "clear_filter": "Clear Filter",
+    "allergies": "Allergies",
+    "address": "Address",
+    "birth_date": "Birth Date",
+    "emergency_contact": "Emergency Contact"
+  },
+  "patientForm": {
+    "view_title": "View Patient Information",
+    "edit_title": "Edit Patient",
+    "add_title": "Add Patient",
+    "fullName": "Full Name",
+    "birthDate": "Birth Date",
+    "phone": "Phone",
+    "address": "Address",
+    "emergencyContact": "Emergency Contact",
+    "allergies": "Allergies",
+    "medicalHistory": "Medical History",
+    "save": "Save",
+    "add_patient": "Add Patient",
+    "cancel": "Cancel",
+    "close": "Close"
+  },
+  "medical-card": {
+    "title": "Medical Record",
+    "subtitle": "Patient Record Management System",
+    "slogan": "Health is our priority",
+    "total-visits": "Total Visits",
+    "completed": "Completed",
+    "documents": "Documents",
+    "balance": "Balance",
+    "patient-info": "Patient Info",
+    "patient": "Patient",
+    "phone": "Phone",
+    "email": "Email",
+    "insurance": "Insurance",
+    "allergies": "Allergies",
+    "last-visit": "Last Visit",
+    "next-visit": "Next Visit",
+    "date": "Date",
+    "doctor": "Doctor",
+    "diagnosis": "Diagnosis",
+    "reason": "Reason",
+    "recent-documents": "Recent Documents",
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved"
+    },
+    "nav": {
+      "overview": "Overview",
+      "patient": "Patient",
+      "visits": "Visits",
+      "documents": "Documents",
+      "settings": "Settings"
+    }
+  },
+  "patient-documents": {
+    "title": "Patient Documents",
+    "upload": "Upload",
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved"
+    },
+    "no-data": "No data"
+  },
+  "patient-info": {
+    "active": "Active patient",
+    "emergency-contact": "Emergency contact"
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "The settings section will be implemented in future versions"
+  },
+  "visits": {
+    "title": "Visit History",
+    "doctor": "Doctor",
+    "type": "Type",
+    "noData": "No data"
+  },
+  "documentForm": {
+    "title": "Add Document",
+    "fields": {
+      "name": "Document Name",
+      "type": "Document Type",
+      "description": "Document Description",
+      "status": "Document Status",
+      "file": "Document File",
+      "selectFile": "Select File",
+      "selectType": "Select Document Type",
+      "selectStatus": "Select Document Status",
+      "required": "This field is required"
+    },
+    "buttons": {
+      "save": "Save",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    },
+    "loading": "Loading..."
+  },
+  "login": {
+    "title": "Login",
+    "username": "Username",
+    "username_placeholder": "Enter username",
+    "password": "Password",
+    "password_placeholder": "Enter password",
+    "submit": "Sign in"
+  },
+  "confirm-dialog": {
+    "title": "Confirmation",
+    "default_message": "Are you sure you want to perform this action?",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "form-field": {
+    "errors": {
+      "passwordsDoNotMatch": "Passwords do not match",
+      "passwordCompositionPattern": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+      "isSameCurrency": "Currencies cannot be the same",
+      "min": "Minimum {{value}}",
+      "email": "Invalid email",
+      "max": "Maximum {{value}}",
+      "required": "This field is required",
+      "minlength": "At least {{value}} characters",
+      "maxlength": "No more than {{value}} characters",
+      "mask": "Enter number in Tajikistan format",
+      "duplicateFullName": "A patient with this name already exists",
+      "duplicatePhonePatient": "A patient with this phone already exists",
+      "duplicateDoctorFirstName": "A doctor with this first name already exists",
+      "duplicateDoctorLastName": "A doctor with this last name already exists",
+      "duplicatePhoneDoctor": "A doctor with this phone already exists",
+      "duplicateComma": "Multiple consecutive commas are not allowed"
+    }
+  },
+  "sidebar": {
+    "title": "MedClinic",
+    "subtitle": "Management System",
+    "dashboard": "Dashboard",
+    "patients": "Patients",
+    "doctors": "Doctors",
+    "appointments": "Appointments",
+    "finances": "Finances",
+    "analytics": "Analytics",
+    "logout": "Logout",
+    "loading": "Loading..."
+  },
+  "smartScheduler": {
+    "title": "Smart Schedule Finder",
+    "patientName": "Patient Name",
+    "doctorSequence": "Doctor Sequence",
+    "findSlot": "Find Suitable Time",
+    "result": "Result",
+    "noSlot": "No suitable slot found"
+  }
+}

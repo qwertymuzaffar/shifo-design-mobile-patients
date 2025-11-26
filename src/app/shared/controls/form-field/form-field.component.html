@@ -1,0 +1,82 @@
+@let errors = control().errors ?? {};
+
+<div class="flex flex-col">
+  @if (label()) {
+    <label class="block text-sm font-medium text-gray-700 mb-1">
+      <span>
+        {{ label() }}
+        @if (required) {
+          <span class="text-red-600">*</span>
+        }
+      </span>
+    </label>
+  }
+
+  <div class="text-[10px] text-red-600 flex flex-col" [class.is-password]="isPassword()">
+    <ng-content />
+
+    @if (control() && errors && errorKey && control().touched) {
+      <div class="h-[10px]">
+        @switch (errorKey) {
+          @case ('passwordsDoNotMatch') {
+            <span>{{ 'form-field.errors.passwordsDoNotMatch' | transloco }}</span>
+          }
+          @case ('passwordCompositionPattern') {
+            <span>{{ 'form-field.errors.passwordCompositionPattern' | transloco }}</span>
+          }
+          @case ('isSameCurrency') {
+            <span>{{ 'form-field.errors.isSameCurrency' | transloco }}</span>
+          }
+          @case ('min') {
+            <span>{{ 'form-field.errors.min' | transloco:{ value: errors[errorKey].min } }}</span>
+          }
+          @case ('email') {
+            <span>{{ 'form-field.errors.email' | transloco }}</span>
+          }
+          @case ('max') {
+            <span>{{ 'form-field.errors.max' | transloco:{ value: errors[errorKey].max } }}</span>
+          }
+          @case ('required') {
+            <span>{{ 'form-field.errors.required' | transloco }}</span>
+          }
+          @case ('requiredTrue') {
+            <span>{{ 'form-field.errors.required' | transloco }}</span>
+          }
+          @case ('minlength') {
+            <span>{{ 'form-field.errors.minlength' | transloco:{ value: errors[errorKey].requiredLength } }}</span>
+          }
+          @case ('maxlength') {
+            <span>{{ 'form-field.errors.maxlength' | transloco:{ value: errors[errorKey].requiredLength } }}</span>
+          }
+          @case ('customError') {
+            <span>{{ errors[errorKey] }}</span>
+          }
+          @case ('customValidator') {
+            <span>{{ errors[errorKey].customValidator }}</span>
+          }
+          @case ('mask') {
+            <span>{{ 'form-field.errors.mask' | transloco }}</span>
+          }
+          @case ('duplicateFullName') {
+            <span>{{ 'form-field.errors.duplicateFullName' | transloco }}</span>
+          }
+          @case ('duplicatePhonePatient') {
+            <span>{{ 'form-field.errors.duplicatePhonePatient' | transloco }}</span>
+          }
+          @case ('duplicateDoctorFirstName') {
+            <span>{{ 'form-field.errors.duplicateDoctorFirstName' | transloco }}</span>
+          }
+          @case ('duplicateDoctorLastName') {
+            <span>{{ 'form-field.errors.duplicateDoctorLastName' | transloco }}</span>
+          }
+          @case ('duplicatePhoneDoctor') {
+            <span>{{ 'form-field.errors.duplicatePhoneDoctor' | transloco }}</span>
+          }
+          @case ('duplicateComma') {
+            <span>{{ 'form-field.errors.duplicateComma' | transloco }}</span>
+          }
+        }
+      </div>
+    }
+  </div>
+</div>

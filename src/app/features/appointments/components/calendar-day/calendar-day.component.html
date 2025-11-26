@@ -1,0 +1,143 @@
+<div
+  class="grid border-b border-gray-200 h-[44px] bg-white sticky top-0 z-10"
+  [ngStyle]="{
+    'grid-template-columns': gridTemplateColumns(),
+  }"
+>
+  <div class="timetable-cell col-span-2 font-medium !text-gray-900">
+    {{ 'timetable.doctor_list' | transloco }}
+  </div>
+
+  @for (time of timeSlots(); track time) {
+    <div
+      [ngClass]="{ 'bg-red-50': isCurrentTime(time) }"
+      class="timetable-cell font-medium !text-gray-900 relative"
+    >
+      @if (isCurrentTime(time)) {
+        <div class="absolute top-0 left-0 w-full h-0.5 bg-red-500 z-10"></div>
+      }
+      {{ time }}
+    </div>
+  }
+</div>
+
+@for (row of timetableData(); track row.doctor.id) {
+  <div
+    class="grid border-b border-gray-200 h-[60px]"
+    [ngStyle]="{ 'grid-template-columns': gridTemplateColumns() }"
+  >
+    <div class="timetable-cell col-span-2">
+      {{ row.doctor.firstName }} {{ row.doctor.lastName[0] }}.
+    </div>
+
+    @for (slot of row.slots; track slot.time) {
+    <div
+      class="timetable-cell relative hover:bg-gray-50 transition-all cursor-pointer"
+      [ngClass]="{ 'bg-red-50': isCurrentTime(slot.time) }"
+    >
+      <div
+        class="absolute inset-0 flex flex-col items-center justify-center transition-opacity"
+        [ngClass]="{
+          'opacity-0 hover:opacity-100': !slot.appointments.length,
+        }"
+      >
+        @if (slot.appointments.length > 0) {
+          <div class="w-full h-14 flex items-center justify-center gap-[1.5px] p-[1.5px]" >
+            @for (patient of getSortedAppointments(slot); track patient.patientId; let i = $index) {
+              @if (slot.appointments.length < 2) {
+                <div
+                  class="h-14 flex flex-col items-center justify-center p-2 cursor-pointer border rounded hover:shadow-md transition-shadow"
+                  [ngClass]="getAppointmentColor(patient.status)"
+                  (click)="openAppointmentDetails(patient)"
+                  [ngStyle]="{ width: 'calc(' + (100) + '%)' }"
+                  matTooltip="{{ patient.patient.fullName }}"
+                  matTooltipPosition="above"
+                >
+                  <div
+                    class="overflow-hidden text-ellipsis whitespace-nowrap text-center w-full font-semibold text-xs"
+                    [class.line-through]="patient.status === 'CANCELLED_FOREVER'"
+                  >
+                    {{ patient.patient.fullName }}
+                  </div>
+                  <div
+                    class="text-[10px] opacity-90"
+                  >
+                    {{ patient.duration }}{{ 'timetable.minutes' | transloco }}
+                  </div>
+                </div>
+              }
+              @else if (slot.appointments.length > 1 && slot.appointments.length < 5) {
+                  <div
+                    class="h-14 border flex flex-col items-center justify-center rounded p-2 hover:shadow-md transition-transform max-w-[220px] truncate"
+                    [ngClass]="getAppointmentColor(patient.status)"
+                    (click)="openAppointmentDetails(patient)"
+                    [ngStyle]="{ width: 'calc(' + (100 / (slot.appointments.length)) + '%)'}"
+                    matTooltip="{{ patient.patient.fullName }}"
+                    matTooltipPosition="above"
+                  >
+                     <div
+                      class="overflow-hidden text-ellipsis whitespace-nowrap text-center w-full font-semibold text-xs"
+                      [class.line-through]="patient.status === 'CANCELLED_FOREVER'"
+                    >
+                      {{ patient.patient.fullName }}
+                    </div>
+                    <div
+                      class="text-[10px] opacity-90"
+                    >
+                      {{ patient.duration }}{{ 'timetable.minutes' | transloco }}
+                    </div>
+                  </div>
+              }
+              @else if (slot.appointments.length > 4){
+                @if (i < 3) {
+                  <div
+                    class="h-14 border flex flex-col items-center justify-center rounded p-2 hover:shadow-md transition-transform max-w-[220px] truncate"
+                    [ngClass]="getAppointmentColor(patient.status)"
+                    (click)="openAppointmentDetails(patient)"
+                    [ngStyle]="{ width: 'calc(' + (100 / (4)) + '%)' }"
+                    matTooltip="{{ patient.patient.fullName }}"
+                    matTooltipPosition="above"
+                  >
+                    <div
+                      class="overflow-hidden text-ellipsis whitespace-nowrap text-center w-full font-semibold text-xs"
+                      [class.line-through]="patient.status === 'CANCELLED_FOREVER'"
+                    >
+                      {{ patient.patient.fullName }}
+                    </div>
+                    <div
+                      class="text-[10px] opacity-90"
+                    >
+                      {{ patient.duration }}{{ 'timetable.minutes' | transloco }}
+                    </div>
+                  </div>
+                }
+                @else if (i == 3) {
+                  <div
+                    class="h-14 flex items-center justify-center bg-white border-2 border-blue-200 rounded p-2 font-semibold text-sm transition-colors hover:bg-blue-50 hover:border-blue-300 cursor-pointer"
+                    [ngStyle]="{ width: 'calc(' + (100 / (4)) + '%)' }"
+                    (click)="timeSlotClicked({ time: slot.time, doctor: row.doctor, appointments: slot.appointments})"
+                  >
+                    <span class="text-blue-500 text-base leading-none">+{{slot.appointments.length - 3}}</span>
+                  </div>
+                }
+              }
+
+            }
+          </div>
+        } @else {
+            <div
+              class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
+              (click)="timeSlotClicked({ time: slot.time, doctor: row.doctor, appointments: slot.appointments })">
+                <lucide-icon
+                  [name]="Plus"
+                  [size]="16"
+                  class="text-gray-400"
+                ></lucide-icon>
+            </div>
+        }
+      </div>
+    </div>
+  }
+
+  </div>
+}

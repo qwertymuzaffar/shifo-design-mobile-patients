@@ -1,0 +1,147 @@
+<div class="bg-white rounded-xl">
+  <h2 class="text-xl font-semibold mb-4">{{ 'documentForm.title' | transloco }}</h2>
+
+  <form [formGroup]="documentForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <app-form-field
+        [label]="'documentForm.fields.name' | transloco"
+        [control]="documentForm.controls['title']"
+      >
+        <input type="text" formControlName="title" />
+      </app-form-field>
+
+      <app-form-field
+        [label]="'documentForm.fields.type' | transloco"
+        [control]="documentForm.controls['documentTypeId']"
+      >
+        <div class="flex items-center gap-2">
+          <div class="relative w-full">
+            <select
+              class="peer w-full appearance-none border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+              formControlName="documentTypeId"
+              (change)="onDocumentTypeChange($event)"
+            >
+              <option value="" disabled selected>{{ 'documentForm.fields.selectType' | transloco }}</option>
+              @if (documentTypes.isLoading()) {
+                <option disabled>{{ 'documentForm.loading' | transloco }}</option>
+              }
+              @for (doc of documentTypes.value(); track doc.id) {
+                <option [value]="doc.id">
+                  {{ doc.name }}
+                </option>
+              }
+            </select>
+            <div
+              class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition-transform duration-200 peer-focus:rotate-180 peer-focus:rotate-0"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </app-form-field>
+
+      <app-form-field
+        [label]="'documentForm.fields.description' | transloco"
+        [control]="documentForm.controls['description']"
+      >
+        <input type="text" formControlName="description" />
+      </app-form-field>
+
+      <app-form-field
+        [label]="'documentForm.fields.status' | transloco"
+        [control]="documentForm.controls['status']"
+      >
+        <div class="flex items-center gap-2">
+          <div class="relative w-full">
+            <select
+              class="peer w-full appearance-none border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+              formControlName="status"
+              (change)="onDocumentTypeChange($event)"
+            >
+              <option value="" disabled selected>{{ 'documentForm.fields.selectStatus' | transloco }}</option>
+              @for (st of statusOptions[lang]; track $index) {
+                <option [value]="st.status">
+                  {{ st.name }}
+                </option>
+              }
+            </select>
+            <div
+              class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition-transform duration-200 peer-focus:rotate-180 peer-focus:rotate-0"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </app-form-field>
+
+      <div class="flex flex-col space-y-1 col-span-full">
+        <label for="documentFile" class="text-sm font-medium text-gray-700">
+          {{ 'documentForm.fields.file' | transloco }} <span class="text-red-500">*</span>
+        </label>
+
+        <input
+          id="documentFile"
+          name="documentFile"
+          type="file"
+          required
+          class="hidden"
+          (change)="onFileUpload($event)"
+        />
+
+        <label
+          for="documentFile"
+          class="inline-flex items-center px-4 py-2 rounded-lg cursor-pointer bg-blue-50 text-blue-700 font-semibold text-sm hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        >
+          {{ 'documentForm.fields.selectFile' | transloco }}
+        </label>
+
+        <span class="text-sm text-gray-600">{{this.selectedFile()?.name}}</span>
+
+        <p id="fileError" class="text-xs text-red-500 hidden">
+          {{ 'documentForm.fields.required' | transloco }}
+        </p>
+      </div>
+    </div>
+
+    <div class="flex space-x-3">
+      <button
+        class="bg-sky-500 text-white px-6 py-2 rounded-lg hover:bg-sky-600 transition-colors"
+      >
+        {{ isLoading() ? ('documentForm.buttons.saving' | transloco) : ('documentForm.buttons.save' | transloco) }}
+      </button>
+      <button
+        type="button"
+        (click)="closeModal()"
+        class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors"
+      >
+        {{ 'documentForm.buttons.cancel' | transloco }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,166 @@
+<div class="bg-white rounded-xl shadow-lg p-6">
+  <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center space-x-3">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-file-text w-6 h-6 text-blue-600"
+      >
+        <path
+          d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+        ></path>
+        <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+        <path d="M10 9H8"></path>
+        <path d="M16 13H8"></path>
+        <path d="M16 17H8"></path>
+      </svg>
+      <h2 class="text-2xl font-bold text-gray-800">{{ 'patient-documents.title' | transloco }}</h2>
+    </div>
+    <button
+      class="bg-sky-500 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors"
+      (click)="addNewDocument()"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-plus w-4 h-4"
+      >
+        <path d="M5 12h14"></path>
+        <path d="M12 5v14"></path></svg
+      ><span>{{ 'patient-documents.upload' | transloco }}</span>
+    </button>
+  </div>
+  <div class="grid gap-4">
+    @for (doc of documents.value().data.recentDocuments; track $index) {
+      <div
+      class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <div class="text-2xl">🧪</div>
+          <div>
+            <h3 class="font-medium text-gray-800">{{doc.title}}</h3>
+            <div class="flex items-center space-x-4 mt-1">
+              <span class="text-sm text-gray-600">{{doc.documentType.name}}</span
+              ><span class="text-sm text-gray-600">{{doc.documentType.createdAt | date}}</span
+              ><span class="text-sm text-gray-600">{{doc.fileSize}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center space-x-3">
+          <div class="flex items-center space-x-2">
+            @if(doc.status === "pending") {
+                <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-clock w-5 h-5 text-yellow-600"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline></svg>
+              <span class="px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">На рассмотрении</span>
+            } @else {
+              <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-check-circle w-5 h-5 text-green-600"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <path d="m9 11 3 3L22 4"></path></svg
+            >
+            <span class="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">{{ 'patient-documents.status.approved' | transloco }}</span>
+            }
+
+          </div>
+          <div class="flex items-center space-x-2">
+            <button
+                    class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    (click)="deleteDocument(doc.id); $event.stopPropagation()"
+                  >
+                    <lucide-icon
+                      [name]="Trash2"
+                      [size]="16"
+                      class="align-middle"
+                    ></lucide-icon>
+                  </button>
+            <button
+              (click)="viewDocumentFile(doc.fileUrl)"
+              class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-eye w-5 h-5"
+              >
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg></button
+            ><button
+              class="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+              (click)="downloadFile(doc.fileUrl, doc.title)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-download w-5 h-5"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" x2="12" y1="15" y2="3"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3 pt-3 border-t border-gray-100">
+        <p class="text-sm text-gray-700">{{doc.description}}</p>
+      </div>
+    </div>
+    } @empty {
+            <div class="p-8 text-center text-gray-500 text-sm">
+              {{ 'patient-documents.no-data' | transloco }}
+            </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,130 @@
+<div class="lg:p-6 p-3">
+  <div class="space-y-2">
+    <div class="flex justify-between items-center">
+      <h1 class="lg:text-3xl text-xl font-bold text-gray-900">
+        {{ 'appointments.title' | transloco }}
+      </h1>
+      @if (showTabs() || showAddButton()) {
+        <div class="flex items-center gap-2">
+          @if (showTabs()) {
+            <div class="flex bg-gray-100 rounded-lg p-1">
+              <button
+                class="flex items-center gap-2 px-4 py-2 text-sm rounded-md transition-colors"
+                [ngClass]="{
+                  'bg-white text-gray-900 shadow-sm': isShowCalendar(),
+                  'text-gray-600 hover:text-gray-900': !isShowCalendar(),
+                }"
+                (click)="showMode.set('calendar')"
+              >
+                <lucide-icon [img]="CalendarDays" [size]="16"></lucide-icon>
+                {{ 'appointments.calendar' | transloco }}
+              </button>
+
+              <button
+                class="flex items-center gap-2 px-4 py-2 text-sm rounded-md transition-colors"
+                [ngClass]="{
+                  'bg-white text-gray-900 shadow-sm': isShowList(),
+                  'text-gray-600 hover:text-gray-900': !isShowList(),
+                }"
+                (click)="showMode.set('list')"
+              >
+                <lucide-icon [img]="List" [size]="16"></lucide-icon>
+                {{ 'appointments.list' | transloco }}
+              </button>
+            </div>
+          }
+
+          @if (showAddButton()) {
+            <button
+              *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+              class="flex items-center gap-2 px-4 py-2 text-sm rounded-md bg-sky-500 text-white hover:bg-sky-600 transition ml-2"
+              (click)="createAppointment()"
+            >
+              <lucide-icon [img]="Plus" [size]="16"></lucide-icon>
+              {{ 'appointments.create' | transloco }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    @if (isShowCalendar()) {
+      <div
+        class="bg-white rounded-xl shadow-sm border border-gray-100 h-full flex flex-col"
+      >
+        <app-calendar-header
+          [doctors]="doctorList.value()"
+          [isShowClearFilter]="isShowClearFilter()"
+          [currentDate]="currentDate()"
+          [viewMode]="viewMode()"
+          (navigate)="navigateCalendar($event)"
+          (setCurrentDate)="setCurrentDate()"
+          (setViewMode)="setViewMode($event)"
+        />
+      </div>
+    }
+
+    @if (isShowCalendar()) {
+      <div class="flex-1 min-h-0">
+        <div
+          class="bg-white rounded-xl shadow-sm border border-gray-100 h-full flex flex-col"
+        >
+          @if (isWeekMode()) {
+            <app-calendar-grid
+              (clonedAppointment)="clonedAppointment($event)"
+              [appointments]="sortedAppointments()"
+              [doctors]="doctorList.value()"
+              [displayDays]="displayDays()"
+              [timeSlots]="timeSlots()"
+              [isWeekMode]="isWeekMode()"
+              (appointmentClick)="onAppointmentClick($event)"
+              (timeSlotClick)="timeSlotClick($event)"
+            />
+            <app-calendar-legend />
+          } @else {
+            <app-calendar-day
+              (reload)="appointments.reload()"
+              (timeSlotClick)="timeSlotClick($event)"
+              [appointments]="sortedAppointments()"
+              [doctors]="doctorList.value()"
+              [displayDays]="displayDays()"
+              [timeSlots]="timeSlots()"
+            />
+            <app-calendar-legend />
+          }
+        </div>
+      </div>
+    } @else {
+      @if (isMobile()) {
+        @if (isLoadingAppointments()) {
+          <div class="flex flex-col gap-4">
+            @for (item of [1, 2, 3]; track item) {
+              <app-mobile-appointment-card-skeleton />
+            }
+          </div>
+        } @else {
+          <div class="flex flex-col gap-4">
+            @for (appointment of sortedAppointments(); track appointment.id) {
+              <app-mobile-appointment-card
+                [appointment]="appointment"
+                (edit)="editAppointment($event)"
+                (reload)="appointments.reload()"
+              />
+            } @empty {
+              <div class="text-center text-gray-500 py-8">
+                {{ 'appointment-list.no_records' | transloco }}
+              </div>
+            }
+          </div>
+        }
+      } @else {
+        <app-appointment-list
+          [appointments]="sortedAppointments()"
+          (edit)="editAppointment($event)"
+          (filterChanged)="filterChanged($event)"
+          (reload)="appointments.reload()"
+        />
+      }
+    }
+  </div>
+</div>

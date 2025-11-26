@@ -1,0 +1,15 @@
+<div class="toast">
+  <lucide-icon
+    [color]="data.type === 'success' ? 'green' : 'red'"
+    [img]="data.icon" [size]="25"></lucide-icon>
+  <div class="toast-info">
+    <div class="toast-title" [innerHTML]="data.title"></div>
+    <div class="toast-message" [innerHTML]="data.message"></div>
+  </div>
+  <lucide-icon
+    [img]="X"
+    [size]="20"
+    color="gray"
+    (click)="snackBarRef.dismiss()"
+  ></lucide-icon>
+</div>

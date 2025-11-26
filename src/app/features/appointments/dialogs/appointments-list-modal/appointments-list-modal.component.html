@@ -1,0 +1,127 @@
+<div class="flex flex-col relative flex-1 overflow-hidden">
+  <div class="flex items-center justify-between border-gray-100 bg-white mb-5">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+        <lucide-icon [img]="Calendar" class="w-5 h-5 text-blue-600"></lucide-icon>
+      </div>
+      <div>
+        <h2 class="text-xl font-bold text-gray-900">
+          {{ 'appointment-list-modal.title' | transloco }}
+        </h2>
+        <p class="text-sm text-gray-500">
+          {{ 'appointment-list-modal.total' | transloco:{count: appointments.length || 0} }}
+        </p>
+      </div>
+    </div>
+    <button
+      class="w-10 h-10 rounded-xl bg-gray-50 hover:bg-gray-100 flex items-center justify-center transition-colors duration-200"
+      matDialogClose
+    >
+      <lucide-icon [img]="X" class="w-5 h-5 text-gray-600"></lucide-icon>
+    </button>
+  </div>
+
+  <div class="border-t border-gray-100 mb-6"></div>
+
+  <div class="flex-1 overflow-y-auto space-y-4 pb-28">
+    @for (appointment of appointments; track appointment.id) {
+      <div
+        (click)="openAppointmentDetails(appointment)"
+        class="border border-gray-200 rounded-xl p-5 hover:shadow-md transition-all duration-200 bg-white hover:bg-gray-50/50 mb-4 cursor-pointer mr-2"
+      >
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex-1">
+            <div class="flex items-center space-x-2 mb-2">
+              <lucide-icon [img]="User" class="w-4 h-4 text-gray-600"></lucide-icon>
+              <h3 class="font-semibold text-gray-900 text-lg">{{ appointment.patient.fullName }}</h3>
+            </div>
+
+            <div class="flex items-center space-x-4 text-sm text-gray-600 mb-2">
+              <div class="flex items-center space-x-2">
+                <lucide-icon [img]="Calendar" class="w-4 h-4"></lucide-icon>
+                <span>{{ 'appointment-list-modal.date' | transloco }}: {{ appointment.date | date: 'dd MMM yyyy' }}</span>
+              </div>
+              <div class="flex items-center space-x-1">
+                <lucide-icon [img]="Clock" class="w-4 h-4"></lucide-icon>
+                <span>
+                  {{ 'appointment-list-modal.timeFrom' | transloco }} {{ appointment.time | slice:0:5 }}
+                  {{ 'appointment-list-modal.timeTo' | transloco }} {{ getEndTime(appointment.time, appointment.duration) }}
+                </span>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-2 text-sm text-gray-700 mb-2">
+              <lucide-icon [img]="Stethoscope" class="w-4 h-4 text-gray-600"></lucide-icon>
+              <span>{{ 'appointment-list-modal.doctor' | transloco }}: {{ appointment.doctor.firstName }} {{ appointment.doctor.lastName }}</span>
+            </div>
+
+            @if (appointment.symptoms) {
+              <div class="flex items-start space-x-2 text-sm text-gray-600 mb-3">
+                <lucide-icon [img]="FileText" class="w-4 h-4 text-gray-600 mt-0.5"></lucide-icon>
+                <span>{{ 'appointment-list-modal.symptoms' | transloco }}: {{ appointment.symptoms }}</span>
+              </div>
+            }
+
+            @if (appointment.notes) {
+              <div class="flex items-start space-x-2 text-sm text-gray-600 mb-3">
+                <lucide-icon [img]="Notebook" class="w-4 h-4 text-gray-600 mt-0.5"></lucide-icon>
+                <span>{{ 'appointment-list-modal.notes' | transloco }}: {{ appointment.notes }}</span>
+              </div>
+            }
+
+            <div class="flex items-center space-x-2">
+              <span class="text-sm text-gray-600">{{ 'appointment-list-modal.status' | transloco }}:</span>
+              <span
+                class="px-3 py-1 rounded-full text-xs font-medium"
+                [ngClass]="{
+                  'bg-blue-50 text-blue-600': appointment.status === 'SCHEDULED',
+                  'bg-green-50 text-green-600': appointment.status === 'COMPLETED',
+                  'bg-red-50 text-red-600': appointment.status === 'CANCELLED'
+                }"
+              >
+                {{ appointment.status | statusTranslate }}
+              </span>
+            </div>
+          </div>
+
+          <div (click)="$event.stopPropagation()" class="flex flex-col space-y-1 ml-4">
+            <app-duplicate-button [appointmentId]="appointment.id" />
+
+            @if (appointment.status === AppointmentStatus.SCHEDULED) {
+              <button
+                matTooltip="{{ 'appointment-list-modal.actions.edit' | transloco }}"
+                (click)="addOrEdit(appointment)"
+                class="p-2 rounded-lg transition-all duration-200 text-gray-600 hover:bg-gray-50"
+              >
+                <lucide-icon [img]="Edit" [size]="16"></lucide-icon>
+              </button>
+
+              <app-cancel-button
+                [appointmentId]="appointment.id"
+                (appointmentCancelled)="appointmentChanged(appointment.id, AppointmentStatus.CANCELLED)"
+              />
+              <app-complete-button
+                [appointmentId]="appointment.id"
+                (appointmentCompleted)="appointmentChanged(appointment.id, AppointmentStatus.COMPLETED)"
+              />
+            }
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="text-center text-gray-500 py-8">
+        {{ 'appointment-list-modal.empty' | transloco }}
+      </div>
+    }
+  </div>
+
+  <div class="absolute bottom-0 left-0 right-0 py-4 border-t border-gray-100 bg-white">
+    <button
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium flex items-center justify-center space-x-2 transition-all duration-200 hover:shadow-lg active:scale-98"
+      (click)="addOrEdit()"
+    >
+      <lucide-icon [img]="Plus" [size]="20" class="text-white"></lucide-icon>
+      <span>{{ 'appointment-list-modal.add' | transloco }}</span>
+    </button>
+  </div>
+</div>

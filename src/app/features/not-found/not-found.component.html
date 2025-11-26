@@ -1,0 +1,47 @@
+<div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center px-4">
+  <div class="max-w-2xl w-full text-center">
+    <div class="mb-8 flex justify-center">
+      <div class="relative">
+        <div class="w-32 h-32 bg-blue-100 rounded-full flex items-center justify-center">
+          <lucide-icon [img]="fileQuestion" class="w-16 h-16 text-blue-600"></lucide-icon>
+        </div>
+        <div class="absolute -top-2 -right-2 w-16 h-16 bg-blue-200 rounded-full opacity-50 animate-pulse"></div>
+        <div class="absolute -bottom-2 -left-2 w-12 h-12 bg-blue-300 rounded-full opacity-50 animate-pulse delay-75"></div>
+      </div>
+    </div>
+
+    <h1 class="text-9xl font-bold text-gray-800 mb-4">404</h1>
+
+    <h2 class="text-3xl font-bold text-gray-900 mb-4">
+      {{ 'error-page.title' | transloco }}
+    </h2>
+
+    <p class="text-xl text-gray-600 mb-8 max-w-md mx-auto">
+      {{ 'error-page.description' | transloco }}
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <button
+        (click)="backHome()"
+        class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium inline-flex items-center space-x-2 shadow-md hover:shadow-lg"
+      >
+        <lucide-icon [img]="home" [size]="5"></lucide-icon>
+        <span>{{ 'error-page.back_home' | transloco }}</span>
+      </button>
+
+      <button
+        (click)="back()"
+        class="border-2 border-gray-300 text-gray-700 px-8 py-3 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-colors font-medium inline-flex items-center space-x-2"
+      >
+        <lucide-icon [img]="arrowLeft" [size]="5"></lucide-icon>
+        <span>{{ 'error-page.back' | transloco }}</span>
+      </button>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-gray-200">
+      <p class="text-gray-500 text-sm">
+        {{ 'error-page.contact_support' | transloco }}
+      </p>
+    </div>
+  </div>
+</div>

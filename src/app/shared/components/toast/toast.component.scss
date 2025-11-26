@@ -1,0 +1,37 @@
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+
+  &-info {
+    flex: 1;
+  }
+
+  &-title {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 400;
+    color: black;
+  }
+
+  &-message {
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 400;
+    color: #797a7e;
+    max-width: 290px;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+
+    &-close {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      background: #797a7e;
+    }
+  }
+}

@@ -1,0 +1,46 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="max-w-[500px] w-full">
+  <div class="flex items-center justify-between mb-6">
+    <h3 class="text-xl font-semibold text-gray-900">
+      {{ 'import-appointment.title' | transloco }}
+    </h3>
+    <button
+      matDialogClose
+      class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+    >
+      ✕
+    </button>
+  </div>
+
+  <div class="mb-4 text-gray-700">
+    {{ 'import-appointment.info' | transloco:{ date: (form.value.dateTo | date: 'dd MMM yyyy') } }}
+  </div>
+
+  <div class="space-y-4">
+    <app-form-field
+      [label]="'import-appointment.copyDateLabel' | transloco"
+      [control]="form.controls['copyDate']"
+    >
+      <input
+        formControlName="copyDate"
+        type="date"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
+      />
+    </app-form-field>
+  </div>
+
+  <div class="flex justify-end space-x-3 mt-6">
+    <button
+      [disabled]="isLoading()"
+      type="submit"
+      class="bg-sky-500 text-white px-6 py-2 rounded-lg hover:bg-sky-600 transition-colors disabled:opacity-50"
+    >
+      {{ 'import-appointment.submit' | transloco }} {{ isLoading() ? '...' : '' }}
+    </button>
+    <button
+      matDialogClose
+      class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors"
+    >
+      {{ 'import-appointment.cancel' | transloco }}
+    </button>
+  </div>
+</form>

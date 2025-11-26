@@ -1,0 +1,8 @@
+::ng-deep .appointments-list-dialog .mat-mdc-dialog-surface {
+  border-radius: 0 !important;
+  overflow: hidden;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  display: flex;
+  flex-direction: column;
+}

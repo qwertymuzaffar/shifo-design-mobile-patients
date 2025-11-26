@@ -1,0 +1,45 @@
+{
+    "appointment-details": {
+        "title": "Appointment Details",
+        "date": "Appointment",
+        "created": "Created",
+        "updated": "Updated",
+        "symptoms": "Symptoms",
+        "notes": "Notes",
+        "type": "Type",
+        "doctor": "Doctor",
+        "status": "Status",
+        "actions": {
+            "duplicate": "Duplicate appointment",
+            "edit": "Edit appointment",
+            "complete": "Mark as completed",
+            "cancel": "Cancel appointment"
+        }
+    },
+    "appointment-list-modal": {
+        "title": "Appointments List",
+        "total": "Total appointments: {{count}}",
+        "date": "Date",
+        "timeFrom": "from",
+        "timeTo": "to",
+        "doctor": "Doctor",
+        "symptoms": "Symptoms",
+        "notes": "Notes",
+        "status": "Status",
+        "actions": {
+            "edit": "Edit appointment"
+        },
+        "empty": "No appointments found",
+        "add": "Add appointment"
+    },
+    "cancel-appointment": {
+        "title": "Cancel Appointment",
+        "reasonLabel": "Reason",
+        "reasonPlaceholder": "Enter reason",
+        "submit": "Cancel",
+        "back": "Back",
+        "cancel": "Cancel",
+        "cancel_forever": "Cancel Forever",
+        "forever_warning": "Warning! This appointment will be permanently cancelled and cannot be restored. Continue?"
+    }
+}

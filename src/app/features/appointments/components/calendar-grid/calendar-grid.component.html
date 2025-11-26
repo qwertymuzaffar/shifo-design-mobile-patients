@@ -1,0 +1,174 @@
+<div class="grid border-b border-gray-200 grid-cols-8">
+  <div
+    class="p-1 flex items-center justify-center text-center text-sm font-medium text-gray-500 border-r border-gray-200"
+  >
+    {{ 'timetable.time' | transloco }}
+  </div>
+
+  @for (date of displayDays(); track date) {
+    <div
+      matTooltip="{{ 'timetable.import' | transloco }}"
+      matTooltipPosition="above"
+      class="text-center border-r border-gray-200 last:border-r-0 relative hover:cursor-pointer"
+      [ngClass]="{ 'bg-blue-100': isToday(date) }"
+    >
+      <div class="text-sm font-medium text-gray-900">
+
+          {{ date | date: 'EEEE' : undefined : lang | slice: 0 : 3 }}
+
+      
+      </div>
+      <div
+        class="text-sm font-semibold mt-1"
+        [ngClass]="{
+          'text-indigo-500': isToday(date),
+          'text-gray-700': !isToday(date),
+        }">
+      {{ date.getDate() }}
+    </div>
+
+    <div
+      class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 hover:bg-gray-50 transition-opacity"
+      (click)="clonedAppointment.emit(date)">
+      <lucide-icon class="h-4 w-4 text-gray-400" [img]="Plus"></lucide-icon>
+    </div>
+  </div>
+  }
+</div>
+
+<div class="flex-1 overflow-auto">
+  <div class="grid min-h-full" [style.grid-template-columns]="
+      'repeat(' + (doctors().length + 1) + ', minmax(0, 1fr))'
+    " [ngClass]="[isWeekMode() ? '!grid-cols-8' : '']">
+    <div class="border-r border-gray-200">
+      @for (time of timeSlots(); track time) {
+      <div class="h-16 border-b border-gray-100 flex items-center justify-center text-sm text-gray-500" [ngClass]="{
+            'bg-red-50 text-red-600 font-medium': isCurrentTime(time),
+          }">
+        {{ time }}
+      </div>
+      }
+    </div>
+
+    @for (date of displayDays(); track $index; let index = $index) {
+    <div class="border-r border-gray-200 last:border-r-0">
+      @for (time of timeSlots(); track time) {
+      @let appointmentsInSlot = getAppointmentsForSlot(date, time, index);
+      @let isCurrentSlot = isCurrentTime(time);
+
+      <div class="h-16 border-b border-gray-200 p-1 relative cursor-pointer hover:bg-gray-50 transition-colors"
+        [ngClass]="{ 'bg-red-50': isCurrentSlot }">
+        @if (isCurrentSlot) {
+        <div class="absolute top-0 left-0 w-full h-0.5 bg-red-500 z-10"></div>
+        }
+
+        <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
+          (click)="addAppointment(date, time, appointmentsInSlot, doctors() [index])">
+
+          @if (appointmentsInSlot.length === 0) {
+          <lucide-icon [name]="Plus" [size]="16" class="text-gray-400"></lucide-icon>
+          }
+        </div>
+
+        @if (isWeekMode()) {
+        @if (appointmentsInSlot.length > 0) {
+        <div class="h-full flex items-center justify-center cursor-pointer text-center relative overflow-visible">
+          <div class="flex w-full justify-between">
+            @for (patient of appointmentsInSlot; track patient.patientId; let i = $index) {
+
+            @if(appointmentsInSlot.length < 2 ){ <div
+              class="h-14 flex flex-col items-center justify-center p-2 cursor-pointer border rounded hover:shadow-md transition-shadow transition-transform"
+              [ngClass]="getAppointmentColor(patient.status)" (click)="openDetails(patient)"
+              [ngStyle]="{ width: 'calc(' + (100) + '% - 1px)' }" matTooltip="{{ patient.patient.fullName }}"
+              matTooltipPosition="above">
+              <div class="overflow-hidden text-ellipsis whitespace-nowrap text-center w-full font-semibold text-xs">
+                {{ patient.patient.fullName }}
+              </div>
+              <div class="text-[10px] opacity-90">{{ patient.duration }}м</div>
+          </div>
+          }
+          @else if (appointmentsInSlot.length > 1 && appointmentsInSlot.length < 5){ <div
+            class="h-14 flex flex-col items-center justify-center p-2 cursor-pointer border rounded hover:shadow-md transition-shadow"
+            [ngClass]="getAppointmentColor(patient.status)" (click)="openDetails(patient)"
+            [ngStyle]="{ width: 'calc(' + (100 / (appointmentsInSlot.length)) + '% - 1px)' }"
+            matTooltip="{{ patient.patient.fullName}}" matTooltipPosition="above">
+            <div class="overflow-hidden text-ellipsis whitespace-nowrap text-center w-full font-semibold text-xs">
+              {{ patient.patient.fullName }}
+            </div>
+            <div class="text-[10px] opacity-90">{{ patient.duration }}м</div>
+        </div>
+        }
+        @else if (appointmentsInSlot.length > 4){
+        @if (i < 3){ <div
+          class="h-14 flex flex-col items-center justify-center p-2 cursor-pointer border rounded hover:shadow-md transition-shadow"
+          [ngClass]="getAppointmentColor(patient.status)" (click)="openDetails(patient)"
+          [ngStyle]="{ width: 'calc(' + (100 / 4) + '% - 1px)' }" matTooltip="{{ patient.patient.fullName }}"
+          matTooltipPosition="above">
+          <div class="overflow-hidden text-ellipsis whitespace-nowrap text-center w-full font-semibold text-xs">
+            {{ patient.patient.fullName }}
+          </div>
+          <div class="text-[10px] opacity-90">{{ patient.duration }}м</div>
+      </div>
+      }
+      @else if (i == 4){
+      <div
+        class="h-14 flex items-center justify-center bg-white border-2 border-blue-200 rounded p-2 font-semibold text-sm transition-colors hover:bg-blue-50 hover:border-blue-300 cursor-pointer"
+        [ngStyle]="{ width: 'calc(' + (100 / 4) + '% - 1px)' }" (click)="openList(appointmentsInSlot)">
+        <span class="text-blue-500">+{{appointmentsInSlot.length - 3}}</span>
+      </div>
+      }
+
+      }
+
+      }
+    </div>
+  </div>
+  }
+
+  } @else {
+  @if (!isWeekMode() && appointmentsInSlot.length > 1) {
+  <div
+    class="absolute top-1/2 right-2 -translate-y-1/2 w-6 h-6 flex items-center justify-center bg-yellow-400 rounded-full text-white text-xs font-bold z-20 shadow cursor-pointer"
+    (click)="onSlotClick(date, time, appointmentsInSlot, $event)">
+    {{ appointmentsInSlot.length }}
+  </div>
+  }
+
+  @for (
+  appointment of appointmentsInSlot;
+  track appointment.id;
+  let aptIndex = $index
+  ) {
+  @let patient = appointment.patient;
+  <div
+    class="absolute inset-1 rounded-md border-l-4 p-2 cursor-pointer hover:shadow-md transition-all duration-200 text-xs text-white"
+    [ngClass]="getAppointmentColor(appointment.status)" [style.top]="4 + aptIndex * 2 + 'px'">
+    <div class="text-sm font-medium truncate">
+      {{ patient?.fullName }}
+    </div>
+
+    @if (appointment.symptoms) {
+    <div class="opacity-90 truncate text-[11px]">
+      {{ appointment.symptoms | slice: 0 : 30 }}
+      @if (appointment.symptoms.length > 30) {
+      ...
+      }
+    </div>
+    }
+
+    @if (appointment.time) {
+    <div class="font-medium">
+      {{ appointment.time | slice: 0 : 5 }}
+    </div>
+    }
+  </div>
+  }
+  }
+
+
+</div>
+}
+</div>
+}
+</div>
+</div>

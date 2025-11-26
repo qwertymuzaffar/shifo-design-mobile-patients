@@ -1,0 +1,48 @@
+{
+    "finance": {
+        "expens": {
+            "edit_title": "Редактировать расход",
+            "add_title": "Добавить расход",
+            "date": "Дата",
+            "amount": "Сумма",
+            "category": "Категория",
+            "recipient": "Получатель",
+            "payment_method": "Способ оплаты",
+            "comment": "Комментарий",
+            "description": "Описание",
+            "notes": "Заметка",
+            "save_changes": "Сохранить изменения",
+            "add_expense": "Добавить расход",
+            "searchPlaceholder": "Поиск по описанию или получателю...",
+            "allCategories": "Все категории",
+            "loading": "Загрузка...",
+            "paymentMethod": "Способ оплаты",
+            "actions": "Действия",
+            "notFound": "Траты не найдены"
+        },
+        "common": {
+            "cancel": "Отмена",
+            "loading": "Загрузка..."
+        },
+        "payment_methods": {
+            "cash": "Наличные",
+            "eskhata": "Eskhata",
+            "dc": "DC",
+            "alif": "Alif"
+        },
+        "title": "Управление финансами",
+        "add_payment": "Добавить платеж",
+        "add_expense": "Добавить расход",
+        "income": "Доходы",
+        "expenses": "Расходы",
+        "net_profit": "Чистая прибыль",
+        "outstandingDebt": "Непогашенный долг"
+    },
+    "expense": {
+        "update_success": "Трата успешно обновлена",
+        "create_success": "Трата успешно создана",
+        "update_error": "Не удалось обновить трата",
+        "create_error": "Не удалось создать трата",
+        "error": "Ошибка"
+    }
+}

@@ -1,0 +1,13 @@
+.skeleton-card-d {
+  @apply flex items-center justify-between p-4 border border-gray-100 rounded-lg;
+  min-height: 3rem;
+}
+.skeleton-avatar {
+  @apply h-12 w-12 rounded-full bg-gray-300;
+  @apply flex items-center justify-center;
+  width: 50px;
+}
+.doctor-skeleton {
+  @apply flex items-center justify-between p-4 border border-gray-100 rounded-lg gap-6 animate-pulse;
+
+}

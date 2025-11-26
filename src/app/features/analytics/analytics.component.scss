@@ -1,0 +1,22 @@
+.analytics {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.method-payment {
+  display: flex;
+  align-items: center;
+  img {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 12px;
+    margin-left: 8px;
+  }
+}
+.col {
+  display: flex;
+  text-align: center;
+  color: #111827;
+  font-size: 16px;
+  padding-inline: 7px;
+}

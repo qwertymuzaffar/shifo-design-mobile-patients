@@ -1,0 +1,82 @@
+<div
+  (outsideClick)="opened.set(false)"
+  cdkOverlayOrigin
+  #origin="cdkOverlayOrigin"
+  class="w-[290px] h-[38px] p-2 border border-gray-200 rounded text-black text-sm flex items-center relative"
+  (click)="toggleDropdown()"
+>
+  <div class="flex flex-wrap gap-1">
+
+    @if (selected().length === 1) {
+      @let doc = selected()[0];
+      <span
+        class="text-xs bg-blue-100 rounded-xl px-2 py-[2px] cursor-pointer"
+        (click)="removeChip(doc); $event.stopPropagation()"
+      >
+        {{ 'doctors.selectedOne' | transloco:{ firstName: doc.firstName, lastName: doc.lastName } }}
+      </span>
+    }
+    @else if (selected().length === 0) {
+      <span class="text-gray-400">
+        {{ 'doctors.selectPlaceholder' | transloco }}
+      </span>
+    }
+    @else {
+      <span class="">
+        {{ 'doctors.selectedMany' | transloco:{ count: selected().length } }}
+      </span>
+    }
+
+  </div>
+
+  @if (selected().length > 0) {
+    <lucide-icon
+      (click)="clear()"
+      [img]="X"
+      class="absolute right-1 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 w-5 h-5"
+    ></lucide-icon>
+  }
+</div>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="opened()"
+>
+  <div
+    (click)="$event.stopPropagation()"
+    class="w-[290px] bg-white max-h-[250px] shadow-[0px_6px_12px_rgba(0,0,0,0.15)] rounded-md overflow-hidden"
+  >
+    <div class="p-2">
+      <input
+        class="input !py-2 !rounded"
+        [placeholder]="'doctors.searchPlaceholder' | transloco"
+        (input)="onSearch($event)"
+        (click)="$event.stopPropagation()"
+      />
+    </div>
+
+    <div class="max-h-[200px] overflow-y-auto">
+
+      @for (doc of filteredDoctors(); track doc.id) {
+        <div
+          class="px-3 py-2 cursor-pointer hover:bg-blue-50"
+          [class.bg-blue-100]="isSelected(doc)"
+          (click)="toggleSelect(doc)"
+        >
+          <span
+            [innerHTML]="
+              (doc.firstName + ' ' + doc.lastName) | highlight: searchQuery()
+            "
+          ></span>
+        </div>
+      }
+
+      @if (filteredDoctors().length === 0) {
+        <div class="text-center p-3 text-gray-400">
+          {{ 'doctors.empty' | transloco }}
+        </div>
+      }
+    </div>
+  </div>
+</ng-template>

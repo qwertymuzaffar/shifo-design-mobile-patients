@@ -1,0 +1,51 @@
+<div class="bg-white p-3 lg:p-6 rounded-xl shadow-sm border border-gray-100 mb-3 lg:mb-6">
+  <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-2">
+    {{ 'analytics.selectPeriod' | transloco }}
+  </h3>
+  <div class="flex flex-row items-center gap-4">
+    <div class="relative w-full" #dateField>
+      <button
+        type="button"
+        (click)="onOpenCalendar()"
+        class="w-full px-3 lg:px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-left text-sm lg:text-base"
+      >
+        {{ dateRangeText() }}
+      </button>
+
+      @if (isCalendarOpen()) {
+        <div class="fixed inset-0 z-40 bg-black/50" (click)="onCloseCalendar()"></div>
+        <div
+          class="fixed lg:absolute z-50 lg:mt-2 bg-white border border-gray-200 rounded-xl shadow-lg p-3 lg:p-4 lg:top-full top-1/2 left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-0 lg:top-auto -translate-y-1/2 lg:translate-y-0 w-[calc(100vw-2rem)] lg:w-auto max-w-[90vw] lg:max-w-none max-h-[90vh] lg:max-h-none overflow-y-auto"
+        >
+          <app-date-range-picker [selectedDates]="tempDates()" (datesChange)="onDatesChange($event)">
+          </app-date-range-picker>
+          <div class="flex justify-end gap-2 mt-3 lg:mt-3 sticky lg:static bottom-0 bg-white pt-2 lg:pt-0 pb-2 lg:pb-0 -mx-3 lg:mx-0 px-3 lg:px-0">
+            <button
+              type="button"
+              class="px-4 lg:px-3 py-2 lg:py-1 rounded-lg border border-gray-300 hover:bg-gray-100 active:bg-gray-200 text-sm lg:text-base font-medium min-h-[44px] lg:min-h-0"
+              (click)="onCloseCalendar()"
+            >
+              {{ 'analytics.cancel' | transloco }}
+            </button>
+            <button
+              type="button"
+              class="px-4 lg:px-3 py-2 lg:py-1 rounded-lg bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 text-sm lg:text-base font-medium min-h-[44px] lg:min-h-0"
+              (click)="onApplyDates()"
+            >
+              {{ 'analytics.apply' | transloco }}
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+
+    <button
+      (click)="onClearFilter()"
+      class="p-1 lg:p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+    >
+      <lucide-icon [img]="X" [size]="18"></lucide-icon>
+      <span class="sr-only">{{ 'analytics.clearFilter' | transloco }}</span>
+    </button>
+  </div>
+</div>
+

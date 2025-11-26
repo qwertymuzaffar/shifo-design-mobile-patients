@@ -1,0 +1,8 @@
+.stat-card {
+  display: flex;
+  flex-wrap: wrap;
+
+  app-stat-card {
+    flex: 1 1 300px;
+  }
+}

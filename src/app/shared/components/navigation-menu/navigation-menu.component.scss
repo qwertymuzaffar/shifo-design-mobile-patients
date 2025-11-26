@@ -1,0 +1,19 @@
+:host {
+  height: calc(100% - 65px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nav-text {
+  transition: max-width 200ms ease-in-out, width 200ms ease-in-out;
+  opacity: 1;
+  max-width: 200px;
+  width: auto;
+}
+
+.nav-text.hidden {
+  opacity: 0;
+  max-width: 0;
+  width: 0;
+}

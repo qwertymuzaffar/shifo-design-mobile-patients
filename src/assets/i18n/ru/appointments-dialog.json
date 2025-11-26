@@ -1,0 +1,45 @@
+{
+    "appointment-details": {
+        "title": "Детали записи",
+        "date": "Приём",
+        "created": "Создано",
+        "updated": "Обновлено",
+        "symptoms": "Симптомы",
+        "notes": "Заметки",
+        "type": "Тип",
+        "doctor": "Врач",
+        "status": "Статус",
+        "actions": {
+            "duplicate": "Дублировать запись",
+            "edit": "Редактировать запись",
+            "complete": "Отметить как завершено",
+            "cancel": "Отменить запись"
+        }
+    },
+    "appointment-list-modal": {
+        "title": "Список записей",
+        "total": "Всего записей: {{count}}",
+        "date": "Дата",
+        "timeFrom": "с",
+        "timeTo": "до",
+        "doctor": "Врач",
+        "symptoms": "Симптомы",
+        "notes": "Заметки",
+        "status": "Статус",
+        "actions": {
+            "edit": "Редактировать запись"
+        },
+        "empty": "Записей не найдено",
+        "add": "Добавить запись"
+    },
+    "cancel-appointment": {
+        "title": "Отмена записи",
+        "reasonLabel": "Причина",
+        "reasonPlaceholder": "Введите причину",
+        "submit": "Отменить",
+        "back": "Назад",
+        "cancel": "Отменить",
+        "cancel_forever": "Отменить навсегда",
+        "forever_warning": "Внимание! Запись будет отменена навсегда без возможности восстановления. Продолжить?"
+    }
+}

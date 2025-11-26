@@ -1,0 +1,8 @@
+<button
+  *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+  [matTooltip]="'appointment-cancel-button.tooltip' | transloco"
+  (click)="cancelAppointment()"
+  class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+>
+  <lucide-icon [img]="CircleX" [size]="16"></lucide-icon>
+</button>

@@ -1,0 +1,8 @@
+<button
+  *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+  [matTooltip]="'appointment-duplicate-button.tooltip' | transloco"
+  (click)="duplicate()"
+  class="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+>
+  <lucide-icon [img]="Copy" [size]="16"></lucide-icon>
+</button>

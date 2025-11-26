@@ -1,0 +1,8 @@
+<button
+  *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+  [matTooltip]="'appointment-complete-button.tooltip' | transloco"
+  (click)="completeAppointment()"
+  class="p-2 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+>
+  <lucide-icon [img]="CheckCircle" [size]="16"></lucide-icon>
+</button>

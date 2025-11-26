@@ -1,0 +1,168 @@
+{
+   "patient": {
+    "confirm_delete": "Вы уверены, что хотите удалить этого пациента?",
+    "deleted": "Пациент успешно удален",
+    "delete_success": "Успешно удалено",
+    "delete_error": "Не удалось удалить пациента",
+    "copied": "Скопировано в буфер обмена"
+  },
+  "patients": {
+    "title": "Управление пациентами",
+    "add": "Добавить пациента",
+    "search_placeholder": "Поиск пациентов...",
+    "list_title": "Список пациентов",
+    "total_label": "Всего пациентов: {{count}}",
+    "not_found": "Пациенты не найдены",
+    "clear_filter": "Очистить фильтр",
+    "allergies": "Противопоказания",
+    "address": "Адрес",
+    "birth_date": "Дата рождения",
+    "emergency_contact": "Экстренный контакт"
+  },
+  "patientForm": {
+    "view_title": "Просмотр информации о пациенте",
+    "edit_title": "Редактирование пациента",
+    "add_title": "Добавление пациента",
+    "fullName": "ФИО",
+    "birthDate": "Дата рождения",
+    "phone": "Телефон",
+    "address": "Адрес",
+    "emergencyContact": "Экстренный контакт",
+    "allergies": "Противопоказания",
+    "medicalHistory": "Медицинская история",
+    "save": "Сохранить",
+    "add_patient": "Добавить пациента",
+    "cancel": "Отмена",
+    "close": "Закрыть"
+  },
+  "medical-card": {
+    "title": "Медицинская карта",
+    "subtitle": "Система управления записями пациентов",
+    "slogan": "Здоровье - наш приоритет",
+    "total-visits": "Всего посещений",
+    "completed": "Завершенные",
+    "documents": "Документов",
+    "balance": "Баланс",
+    "patient-info": "Информация о пациенте",
+    "patient": "Пациент",
+    "phone": "Телефон",
+    "email": "Email",
+    "insurance": "Страховка",
+    "allergies": "Аллергия",
+    "last-visit": "Последнее посещение",
+    "next-visit": "Следующее посещение",
+    "date": "Дата",
+    "doctor": "Врач",
+    "diagnosis": "Диагноз",
+    "reason": "Причина",
+    "recent-documents": "Последние документы",
+    "status": {
+      "pending": "На рассмотрении",
+      "approved": "Одобрен"
+    },
+    "nav": {
+      "overview": "Обзор",
+      "patient": "Пациент",
+      "visits": "Посещения",
+      "documents": "Документы",
+      "settings": "Настройки"
+    }
+  },
+  "patient-documents": {
+    "title": "Документы пациента",
+    "upload": "Загрузить",
+    "status": {
+      "pending": "На рассмотрении",
+      "approved": "Одобрен"
+    },
+    "no-data": "Нет данных"
+  },
+  "patient-info": {
+    "active": "Активный пациент",
+    "emergency-contact": "Экстренный контакт"
+  },
+  "settings": {
+    "title": "Настройки",
+    "description": "Раздел настроек будет реализован в следующих версиях"
+  },
+  "visits": {
+    "title": "История посещений",
+    "doctor": "Врач",
+    "type": "Тип",
+    "noData": "Нет данных"
+  },
+  "documentForm": {
+    "title": "Добавить документ",
+    "fields": {
+      "name": "Название документа",
+      "type": "Тип документа",
+      "description": "Описание документа",
+      "status": "Статус документа",
+      "file": "Файл документа",
+      "selectFile": "Выбрать файл",
+      "selectType": "Выберите тип документа",
+      "selectStatus": "Выберите статус документа",
+      "required": "Поле обязательно для заполнения"
+    },
+    "buttons": {
+      "save": "Сохранить",
+      "saving": "Сохранить...",
+      "cancel": "Отмена"
+    },
+    "loading": "Загрузка..."
+  },
+  "login": {
+    "title": "Вход в систему",
+    "username": "Логин",
+    "username_placeholder": "Введите логин",
+    "password": "Пароль",
+    "password_placeholder": "Введите пароль",
+    "submit": "Войти"
+  },
+  "confirm-dialog": {
+    "title": "Подтверждение",
+    "default_message": "Вы уверены, что хотите выполнить это действие?",
+    "cancel": "Отмена",
+    "delete": "Удалить"
+  },
+  "form-field": {
+    "errors": {
+      "passwordsDoNotMatch": "Пароли не совпадают",
+      "passwordCompositionPattern": "Пароль должен содержать как минимум одну заглавную букву, одну строчную букву и одну цифру",
+      "isSameCurrency": "Валюты не могут быть одинаковыми",
+      "min": "Минимум {{value}}",
+      "email": "Неправильный email",
+      "max": "Максимум {{value}}",
+      "required": "Поле обязательно для заполнения",
+      "minlength": "Не менее {{value}} символов",
+      "maxlength": "Не более {{value}} символов",
+      "mask": "Введите номер в формате Таджикистана",
+      "duplicateFullName": "Пациент с таким именем уже существует",
+      "duplicatePhonePatient": "Пациент с таким номером уже существует",
+      "duplicateDoctorFirstName": "Доктор с таким именем уже существует",
+      "duplicateDoctorLastName": "Доктор с такой фамилией уже существует",
+      "duplicatePhoneDoctor": "Доктор с таким телефоном уже существует",
+      "duplicateComma": "Недопустимо несколько запятых подряд"
+    }
+  },
+  "sidebar": {
+    "title": "МедКлиника",
+    "subtitle": "Система управления",
+    "dashboard": "Панель управления",
+    "patients": "Пациенты",
+    "doctors": "Врачи",
+    "appointments": "Записи",
+    "finances": "Финансы",
+    "analytics": "Аналитика",
+    "logout": "Выход",
+    "loading": "Загрузка..."
+  },
+  "smartScheduler": {
+    "title": "Умный подбор расписания",
+    "patientName": "ФИО пациента",
+    "doctorSequence": "Последовательность врачей",
+    "findSlot": "Найти подходящее время",
+    "result": "Результат",
+    "noSlot": "Подходящее окно не найдено"
+  }
+}

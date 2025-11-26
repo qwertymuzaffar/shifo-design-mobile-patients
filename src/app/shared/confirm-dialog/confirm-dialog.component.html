@@ -1,0 +1,28 @@
+<h2 mat-dialog-title class="dialog-title">{{ 'confirm-dialog.title' | transloco }}</h2>
+
+<mat-dialog-content class="dialog-content">
+  <p>
+    {{ data.message || ('confirm-dialog.default_message' | transloco) }}
+  </p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button
+    mat-button
+    (click)="cancel()"
+    [disabled]="isLoading()"
+    class="cancel-button"
+  >
+    {{ 'confirm-dialog.cancel' | transloco }}
+  </button>
+  <button
+    mat-button
+    color="warn"
+    (click)="confirm()"
+    [disabled]="isLoading()"
+    class="confirm-button"
+  >
+    {{ data.btnText ? data.btnText : ('confirm-dialog.delete' | transloco) }}
+    {{ isLoading() ? '...' : '' }}
+  </button>
+</mat-dialog-actions>

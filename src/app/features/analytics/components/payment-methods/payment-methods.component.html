@@ -1,0 +1,53 @@
+<div class="bg-white p-3 lg:p-6 rounded-xl shadow-sm border border-gray-100">
+  <div class="method-payment">
+    <h3
+      class="text-base lg:text-lg font-semibold text-gray-900 mb-2 lg:mb-4 flex items-center gap-2"
+    >
+      {{ 'analytics.paymentMethods.title' | transloco }}
+      <img src="assets/icons/card.svg" alt="" class="w-6 h-6" />
+    </h3>
+  </div>
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4">
+    @for (method of paymentMethods(); track method) {
+      <div class="text-center border rounded-lg">
+        <div
+          class="flex items-center justify-center gap-1 lg:gap-2 text-sm lg:text-lg font-bold text-gray-900 border-b p-1 lg:p-2"
+        >
+          @if (method.type.toUpperCase() === 'DC') {
+            <img
+              src="./assets/icons/dushanbe-city.svg"
+              alt="{{ 'analytics.paymentMethods.dushanbeCity' | transloco }}"
+            />
+          }
+          @if (method.type.toUpperCase() === 'ALIF') {
+            <img
+              src="./assets/icons/alif.svg"
+              alt="{{ 'analytics.paymentMethods.alif' | transloco }}"
+            />
+          }
+          @if (method.type.toUpperCase() === 'ESKHATA') {
+            <img
+              src="./assets/icons/eskhata-bank.svg"
+              alt="{{ 'analytics.paymentMethods.eskhata' | transloco }}"
+            />
+          }
+          @if (method.type.toUpperCase() === 'CASH') {
+            <img
+              src="./assets/icons/cash.svg"
+              alt="{{ 'analytics.paymentMethods.cash' | transloco }}"
+            />
+          }
+          {{ method.type.toUpperCase() }}
+        </div>
+        <div
+          class="text-gray-700 capitalize border-b p-1 lg:p-2 text-sm lg:text-base"
+        >
+          {{ method.amount }}
+        </div>
+        <div class="text-gray-600 capitalize p-1 lg:p-2 text-sm lg:text-base">
+          {{ method.count }}
+        </div>
+      </div>
+    }
+  </div>
+</div>

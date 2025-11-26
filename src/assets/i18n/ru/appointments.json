@@ -1,0 +1,94 @@
+{
+  "app-dialog": {
+    "duplicate_success": "Запись успешно дублирована",
+    "duplicate_error": "Ошибка при дублировании записи",
+    "complete_success": "Запись успешно завершена",
+    "complete_error": "Не удалось завершить запись",
+    "cancel_success": "Запись отменена",
+    "cancel_error": "Ошибка при отмене записи",
+    "update_success": "Запись успешно обновлена",
+    "create_success": "Запись успешно создана",
+    "update_error": "Ошибка при обновлении записи",
+    "create_error": "Ошибка при создании записи",
+    "import_success": "Запись успешно импортирована",
+    "import_error": "Не удалось импортировать запись",
+    "payment_completed": "Платеж успешно создан",
+    "payment_error": "Не удалось создать платеж",
+    "duplicate_time": "Запись с таким временем и пациентом уже существует",
+    "success": "Успех",
+    "error": "Ошибка",
+    "dushanbe": "Душанбе сити",
+    "cash": "Наличные",
+    "eskhata": "Эсхата",
+    "alif": "Алиф"
+  },
+  "appointments": {
+    "title": "Планировщик записей",
+    "create": "Создать запись",
+    "calendar": "Календарь",
+    "list": "Список",
+    "ruEn": "ru-RU"
+  },
+  "appointment-list": {
+    "title": "Все записи",
+    "search_placeholder": "Поиск записей...",
+    "search": "Поиск",
+    "status_all": "Все статусы",
+    "status_scheduled": "Запланировано",
+    "status_completed": "Завершено",
+    "status_cancelled": "Отменено",
+    "patient": "Пациент",
+    "doctor": "Врач",
+    "datetime": "Дата и время",
+    "type": "Тип",
+    "status": "Статус",
+    "actions": "Действия",
+    "edit": "Редактировать",
+    "edit_tooltip": "Редактировать запись",
+    "no_records": "Нет записей"
+  },
+  "timetable": {
+    "doctor_list": "Список докторов",
+    "minutes": "м",
+    "time": "Время",
+    "today": "Сегодня",
+    "import": "Импортировать записи",
+    "lang": "ru-RU"
+  },
+  "calendar-header": {
+    "today": "Сегодня",
+    "day": "День",
+    "week": "Неделя",
+    "patient": "Пациент",
+    "doctor": "Доктор",
+    "clear_filter": "Очистить фильтр",
+    "appointment": "Запись",
+    "balance": "Баланс"
+  },
+  "calendar-legend": {
+    "scheduled": "Запланировано",
+    "completed": "Завершено",
+    "cancelled": "Отменено",
+    "temporary": "Временный",
+    "cancelled_forever": "Отменено навсегда",
+    "up_to_four": "До 4 записей в ячейке",
+    "current_time": "Текущее время"
+  },
+  "appointment-cancel-button": {
+    "tooltip": "Отменить запись"
+  },
+  "appointment-complete-button": {
+    "tooltip": "Отметить как завершено"
+  },
+  "appointment-duplicate-button": {
+    "tooltip": "Дублировать запись"
+  },
+  "language": "Язык",
+  "doctors": {
+    "selectPlaceholder": "Выберите врача",
+    "searchPlaceholder": "Поиск врача",
+    "selectedOne": "{{firstName}} {{lastName}} ✕",
+    "selectedMany": "Выбрано {{count}} врачей",
+    "empty": "Ничего не найдено"
+  }
+}

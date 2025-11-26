@@ -1,0 +1,192 @@
+<div class="my-3">
+  <form [formGroup]="filterForm" class="flex items-center gap-4 mb-6">
+    <div class="relative w-full">
+      <input
+        formControlName="search"
+        class="w-full pl-10 pr-20 py-3 border border-gray-200 rounded-lg focus:outline-none"
+        type="text"
+        placeholder="{{ 'appointment-list.search_placeholder' | transloco }}"
+      />
+      <button
+        class="absolute right-1 top-1 text-white rounded-lg px-4 py-2 hover:bg-blue-600 focus:outline-none"
+        style="background-color: #0ea5e9"
+        type="button"
+      >
+        <img
+          src="assets/icons/search.svg"
+          alt="{{ 'appointment-list.search' | transloco }}"
+          class="w-5 h-5"
+        />
+      </button>
+    </div>
+
+    <select
+      class="w-52 text-sm px-3 py-2 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-sky-500"
+      formControlName="status"
+    >
+      <option value="ALL">
+        {{ 'appointment-list.status_all' | transloco }}
+      </option>
+      <option value="SCHEDULED">
+        {{ 'appointment-list.status_scheduled' | transloco }}
+      </option>
+      <option value="COMPLETED">
+        {{ 'appointment-list.status_completed' | transloco }}
+      </option>
+      <option value="CANCELLED">
+        {{ 'appointment-list.status_cancelled' | transloco }}
+      </option>
+    </select>
+  </form>
+
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm">
+    <div class="px-6 py-4 border-b border-gray-100">
+      <h2 class="text-lg font-semibold text-gray-900">
+        {{ 'appointment-list.title' | transloco }}
+        <span class="text-gray-400 text-sm">({{ appointments().length }})</span>
+      </h2>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm">
+        <thead>
+          <tr class="text-left text-gray-500">
+            <th class="px-6 py-3 font-medium">
+              {{ 'appointment-list.patient' | transloco }}
+            </th>
+            <th class="px-6 py-3 font-medium">
+              {{ 'appointment-list.doctor' | transloco }}
+            </th>
+            <th class="px-6 py-3 font-medium">
+              {{ 'appointment-list.datetime' | transloco }}
+            </th>
+            <th class="px-6 py-3 font-medium">
+              {{ 'appointment-list.type' | transloco }}
+            </th>
+            <th class="px-6 py-3 font-medium">
+              {{ 'appointment-list.status' | transloco }}
+            </th>
+            <th
+              *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+              class="px-6 py-3 font-medium"
+            >
+              {{ 'appointment-list.actions' | transloco }}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (appointment of appointments(); track appointment) {
+            <tr
+              class="border-t border-gray-100 cursor-pointer hover:bg-gray-50"
+              (click)="openAppointmentDetails(appointment)"
+            >
+              <td class="px-6 py-4">
+                <div class="font-medium text-gray-900">
+                  {{ appointment.patient.fullName }}
+                </div>
+                <div class="text-gray-500 text-xs">
+                  {{ appointment.patient.phone }}
+                </div>
+              </td>
+
+              <td class="px-6 py-4">
+                <div class="font-medium text-gray-900">
+                  {{ appointment.doctor.firstName }}
+                  {{ appointment.doctor.lastName }}
+                </div>
+                <div class="text-gray-500 text-xs">
+                  {{ appointment.doctor?.specialization?.name }}
+                </div>
+              </td>
+
+              <td class="px-6 py-4">
+                <div class="font-medium text-gray-900">
+                  {{ appointment.date | date: 'dd.MM.yyyy' }}
+                </div>
+                <div class="text-gray-500 text-xs">
+                  {{ appointment.time | slice: 0 : 5 }}
+                </div>
+              </td>
+
+              <td class="px-6 py-4">
+                <div class="text-gray-900">
+                  {{ appointment.type | typeTranslate }}
+                </div>
+              </td>
+
+              <td class="px-6 py-4">
+                <span
+                  class="inline-flex items-center gap-2 text-xs px-3 py-1 rounded-full"
+                  [ngClass]="{
+                    'bg-green-50 text-green-700 ring-1 ring-green-200':
+                      appointment.status === 'COMPLETED',
+                    'bg-red-50 text-red-700 ring-1 ring-red-200':
+                      appointment.status === 'CANCELLED',
+                    'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200':
+                      appointment.status === 'SCHEDULED',
+                    'bg-yellow-50 text-yellow-700 ring-1 ring-yellow-200':
+                      appointment.status === 'TEMPORARY',
+                    'bg-pink-100 text-pink-800 ring-1 ring-pink-200':
+                      appointment.status === 'CANCELLED_FOREVER',
+                  }"
+                >
+                  <lucide-icon
+                    [img]="getStatusIcon(appointment.status)"
+                    [size]="14"
+                    class="shrink-0"
+                  ></lucide-icon>
+                  {{ appointment.status | statusTranslate }}
+                </span>
+              </td>
+
+              <td
+                *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+                class="px-6 py-4"
+              >
+                <div
+                  (click)="$event.stopPropagation()"
+                  class="flex items-center gap-2 text-gray-500"
+                >
+                  <app-duplicate-button
+                    (appointmentDuplicated)="reload.emit()"
+                    [appointmentId]="appointment.id"
+                  />
+                  @if (appointment.status === 'SCHEDULED') {
+                    <button
+                      matTooltip="{{
+                        'appointment-list.edit_tooltip' | transloco
+                      }}"
+                      type="button"
+                      class="p-2 hover:text-sky-600 hover:bg-sky-50 rounded-lg"
+                      (click)="edit.emit(appointment)"
+                    >
+                      <lucide-icon [img]="Edit" [size]="16"></lucide-icon>
+                    </button>
+
+                    <app-complete-button
+                      [appointmentId]="appointment.id"
+                      (appointmentCompleted)="reload.emit()"
+                    />
+                    <app-cancel-button
+                      [appointmentId]="appointment.id"
+                      (appointmentCancelled)="reload.emit()"
+                    />
+                  }
+                </div>
+              </td>
+            </tr>
+          }
+
+          @if (appointments().length === 0) {
+            <tr>
+              <td colspan="6" class="px-6 py-8 text-center text-gray-500">
+                {{ 'appointment-list.no_records' | transloco }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

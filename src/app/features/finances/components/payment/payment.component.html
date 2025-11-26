@@ -1,0 +1,296 @@
+<div class="p-6">
+  <form [formGroup]="form">
+    <div class="space-y-6">
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <div class="flex flex-col md:flex-row items-center gap-4">
+          <div class="w-full relative">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </svg>
+            <input formControlName="search"
+              class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+              type="text" (keydown.enter)="$event.preventDefault()" placeholder="{{ 'search_placeholder' | transloco }}" />
+          </div>
+
+          <app-form-field [control]="form.controls['filterByAppointmentDate']">
+            <select
+              formControlName="filterByAppointmentDate"
+              (change)="handleToggleOption()">
+              @for (option of toggleOptions; track option.value) {
+                <option
+                  [value]="option.value"
+                  [selected]="form.value.filterByAppointmentDate === option.value"
+                >
+                  {{ option.label | transloco }}
+                </option>
+              }
+            </select>
+          </app-form-field>
+
+          <app-form-field [control]="patientControl" class="relative">
+            <input
+              class="!w-[200px] border border-gray-200 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+              placeholder="{{ 'patient_placeholder' | transloco }}" type="text" [formControl]="patientControl"
+              [matAutocomplete]="auto" />
+
+            @if(patientControl.value) {
+            <button matSuffix class="absolute right-3 inset-y-0 text-gray-400" mat-icon-button aria-label="Clear"
+              (click)="patientControl.reset()">
+              <lucide-icon [img]="X" [size]="20"></lucide-icon>
+            </button>
+            }
+
+            <mat-autocomplete #auto="matAutocomplete" (optionsScroll)="patientsLoad()" optionsScroll>
+              @for (patient of filteredPatients(); track patient) {
+                <mat-option [value]="patient.fullName">
+                  {{ patient.fullName }}
+                </mat-option>
+              }
+            </mat-autocomplete>
+          </app-form-field>
+
+          <div class="relative" #dateField>
+            <button
+              type="button"
+              (click)="openCalendar()"
+              *ngxPermissionsExcept="userRole.RECEPTIONIST"
+              class="px-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-left min-w-[250px]"
+            >
+              {{ dateRangeText }}
+            </button>
+
+            @if (isCalendarOpen()) {
+              <div class="fixed inset-0 z-40" (click)="closeCalendar()"></div>
+              <div
+                class="absolute z-50 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg p-4"
+                [style.right]="calculateCalendarPosition()"
+                style="left: auto; top: 100%"
+              >
+                <app-date-range-picker
+                  [selectedDates]="tempDates()"
+                  (datesChange)="onDatesChange($event)"
+                >
+                </app-date-range-picker>
+
+                <div class="flex justify-end gap-2 mt-3">
+                  <button
+                    type="button"
+                    class="px-3 py-1 rounded-lg border border-gray-300 hover:bg-gray-100"
+                    (click)="closeCalendar()"
+                  >
+                    {{ 'cancel' | transloco }}
+                  </button>
+                  <button
+                    type="button"
+                    class="px-3 py-1 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                    (click)="applyDates()"
+                  >
+                    {{ 'apply' | transloco }}
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+
+          <app-form-field [control]="form.controls['paymentType']">
+            <select
+              formControlName="paymentType"
+              class="px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+            >
+              <option value="">{{ 'all_methods' | transloco }}</option>
+              <option value="cash">{{ 'cash' | transloco }}</option>
+              <option value="dc">{{ 'dc' | transloco }}</option>
+              <option value="alif">{{ 'alif' | transloco }}</option>
+              <option value="eskhata">{{ 'eskhata' | transloco }}</option>
+            </select>
+          </app-form-field>
+
+          <button (click)="clearFilter()"
+            class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            title="{{ 'clear_filter' | transloco }}">
+            <lucide-icon [img]="X" [size]="20"></lucide-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+        <div class="p-6">
+          <h2 class="text-xl font-semibold mb-4">
+            {{ 'payment_list' | transloco }}
+          </h2>
+
+          @if (isLoading()) {
+            <app-skeleton-payment></app-skeleton-payment>
+          } @else {
+            <div class="overflow-x-auto">
+              @if (!data().items.length) {
+                <div class="flex justify-center items-center flex-col gap-2">
+                  <p class="text-gray-500 text-center">
+                    {{ 'no_payments' | transloco }}
+                  </p>
+                  <button
+                    class="p-2 hover:text-gray-400 text-gray-600 bg-gray-100 rounded-lg transition-colors"
+                    (click)="clearFilter()"
+                  >
+                    {{ 'clear_filter' | transloco }}
+                  </button>
+                </div>
+              } @else {
+                <table class="w-full">
+                  <thead>
+                    <tr class="border-b border-gray-200">
+                      <th class="text-left py-3 px-4 font-medium text-gray-600">
+                        {{ 'patient' | transloco }}
+                      </th>
+                      <th class="text-left py-3 px-4 font-medium text-gray-600">
+                        {{ 'amount' | transloco }}
+                      </th>
+                      <th class="text-left py-3 px-4 font-medium text-gray-600">
+                        {{ 'payment_type' | transloco }}
+                      </th>
+                      <th class="text-left py-3 px-4 font-medium text-gray-600">
+                        {{ 'method' | transloco }}
+                      </th>
+                      <th class="text-left py-3 px-4 font-medium text-gray-600">
+                        {{ 'date' | transloco }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="w-full">
+                    @for (payment of data().items; track payment) {
+                      <tr
+                        class="border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer"
+                        (click)="openAppointmentModal(payment)"
+                      >
+                        <td class="py-4 px-4 w-[500px]">
+                          <div>
+                            <p class="font-medium text-gray-900">
+                              {{ payment.appointment?.patient?.fullName ?? payment.patient?.fullName }}
+                            </p>
+                            @if (payment.appointment?.patient?.phone ?? payment.patient?.phone; as phoneNumber) {
+                              <p class="text-sm text-gray-500">
+                                {{ phoneNumber | phoneFormat }}
+                              </p>
+                            }
+                          </div>
+                        </td>
+                        <td class="py-4 px-4">
+                          @if (payment.paymentKind == PaymentType.Debt) {
+                            <span class="font-semibold text-red-500">
+                              -{{ payment.amount }} с
+                            </span>
+                          }
+                          @if (payment.paymentKind == PaymentType.Prepayment) {
+                            <span class="font-semibold text-green-500">
+                              +{{ payment.amount }} с
+                            </span>
+                          }
+                          @if (payment.paymentKind == PaymentType.BalanceDeduction
+                          || payment.paymentKind == PaymentType.Payment
+                          || payment.paymentKind == PaymentType.DebtPayment) {
+                            <span class="font-semibold text-gray-900">
+                              {{ payment.amount }} с
+                            </span>
+                          }
+                        </td>
+                        <td class="py-4 px-4">
+                          <div class="flex items-center space-x-2">
+                            <span
+                              class="px-2 py-1 rounded-full text-xs font-medium border"
+                            >
+                              {{
+                                {
+                                  payment: ('payment_type_regular' | transloco),
+                                  debt: ('payment_type_debt' | transloco),
+                                  prepayment:
+                                    ('payment_type_prepayment' | transloco),
+                                  debt_payment:
+                                    ('payment_type_debt_payment' | transloco),
+                                  balance_deduction:
+                                    ('payment_type_balance_deduction'
+                                    | transloco),
+                                }[payment.paymentKind] ||
+                                  ('payment_type' | transloco)
+                              }}
+                            </span>
+                          </div>
+                        </td>
+                        <td class="py-4 px-4">
+                          <div class="flex items-center space-x-2">
+                            @switch (payment.paymentType) {
+                              @case ('dc') {
+                                <img
+                                  src="assets/icons/dushanbe-city.svg"
+                                  alt="Душанбе City"
+                                  width="40px"
+                                  title="{{ 'dc' | transloco }}"
+                                />
+                              }
+                              @case ('alif') {
+                                <img
+                                  src="assets/icons/alif.svg"
+                                  alt="Alif Bank"
+                                  width="40px"
+                                  title="{{ 'alif' | transloco }}"
+                                />
+                              }
+                              @case ('eskhata') {
+                                <img
+                                  src="assets/icons/eskhata.svg"
+                                  alt="Эсхата Банк"
+                                  width="40px"
+                                  title="{{ 'eskhata' | transloco }}"
+                                />
+                              }
+                              @case ('cash') {
+                                <img
+                                  src="assets/icons/cash.svg"
+                                  alt="Cash"
+                                  width="40px"
+                                  title="{{ 'cash' | transloco }}"
+                                />
+                              }
+                            }
+                            <span class="capitalize">
+                              {{ payment.method }} - {{ payment.paymentType }}
+                            </span>
+                          </div>
+                        </td>
+                        <td class="py-4 px-4">
+                          <p class="text-sm text-gray-600">
+                            {{ payment.createdAt | date: 'dd.MM.yyyy HH:mm' }}
+                          </p>
+                          @if (payment.status === 'paid') {
+                            <p class="text-xs text-green-600">
+                              {{ 'paid_at' | transloco }}
+                              {{ payment.paidAt | date: 'dd.MM.yyyy' }}
+                            </p>
+                          }
+                          @if (payment.status === 'pending') {
+                            <p class="text-xs text-yellow-600">
+                              {{ 'awaiting_payment' | transloco }}
+                            </p>
+                          }
+                          @if (payment.status === 'failed') {
+                            <p class="text-xs text-red-600">
+                              {{ 'not_paid' | transloco }}
+                            </p>
+                          }
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              }
+            </div>
+          }
+          <app-pagination [totalCount]="data().total" [limit]="data().limit" [page]="data().page"
+            (pageChange)="pageChange($event)" (limitChange)="limitChange($event)" />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

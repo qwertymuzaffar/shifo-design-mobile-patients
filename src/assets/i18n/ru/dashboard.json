@@ -1,0 +1,42 @@
+{
+    "dashboard": {
+        "monthly": "за месяц",
+        "title": "Панель управления",
+        "welcome_message": "Добро пожаловать в систему управления клиникой",
+        "total_patients": "Всего пациентов",
+        "today_appointments": "Записи сегодня",
+        "next_at": "Ближайшая в {{time}}",
+        "monthly_income": "Доход за месяц",
+        "pending_payments": "Ожидают оплаты",
+        "upcoming_appointments": "Ближайшие записи",
+        "today": "Сегодня",
+        "appointment_with": "Приём у",
+        "detail": "Подробнее",
+        "info": "Инфо",
+        "no_appointments": "Нет запланированных записей",
+        "details": {
+            "title": "Детали записи",
+            "patient": "Пациент",
+            "address": "Адрес",
+            "phone": "Телефон",
+            "birthDate": "Дата рождения",
+            "time": "Время приёма",
+            "date": "Дата",
+            "type": "Тип приёма",
+            "duration": "Продолжительность",
+            "doctor": "Врач",
+            "experience": "Стаж",
+            "years": "лет",
+            "workingHours": "Время работы",
+            "workDays": "Рабочие дни",
+            "activeNow": "Активен сейчас",
+            "yes": "Да",
+            "no": "Нет",
+            "symptoms": "Симптомы",
+            "durations": "мин"
+        }
+    },
+    "auth": {
+        "invalid_credentials": "Неверный логин или пароль"
+    }
+}

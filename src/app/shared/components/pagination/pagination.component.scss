@@ -1,0 +1,44 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 14px;
+
+  .icon-arrow {
+    cursor: pointer;
+    background: var(--black-900);
+  }
+
+  button {
+    @apply bg-gray-100;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: var(--primary);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+
+    &.active {
+      @apply bg-sky-500;
+      color: white;
+    }
+
+    &:hover:not(.active) {
+      @apply bg-sky-300 text-white;
+    }
+  }
+
+  .dots {
+    padding: 8px 10px;
+    color: #6f2cff;
+    @apply text-sky-500;
+    font-weight: bold;
+  }
+}

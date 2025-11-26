@@ -1,0 +1,48 @@
+{
+    "finance": {
+        "expens": {
+            "edit_title": "Edit Expense",
+            "add_title": "Add Expense",
+            "date": "Date",
+            "amount": "Amount",
+            "category": "Category",
+            "recipient": "Recipient",
+            "payment_method": "Payment Method",
+            "comment": "Comment",
+            "description": "Description",
+            "notes": "Note",
+            "save_changes": "Save Changes",
+            "add_expense": "Add Expense",
+            "searchPlaceholder": "Search by description or recipient...",
+            "allCategories": "All categories",
+            "loading": "Loading...",
+            "paymentMethod": "Payment method",
+            "actions": "Actions",
+            "notFound": "No expenses found"
+        },
+        "common": {
+            "cancel": "Cancel",
+            "loading": "Loading..."
+        },
+        "payment_methods": {
+            "cash": "Cash",
+            "eskhata": "Eskhata",
+            "dc": "DC",
+            "alif": "Alif"
+        },
+        "title": "Finance Management",
+        "add_payment": "Add Payment",
+        "add_expense": "Add Expense",
+        "income": "Income",
+        "expenses": "Expenses",
+        "net_profit": "Net Profit",
+        "outstandingDebt": "Outstanding debt"
+    },
+    "expense": {
+        "update_success": "Expense successfully updated",
+        "create_success": "Expense successfully created",
+        "update_error": "Failed to update expense",
+        "create_error": "Failed to create expense",
+        "error": "Error"
+    }
+}

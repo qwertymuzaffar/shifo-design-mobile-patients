@@ -1,0 +1,89 @@
+<div class="date-range-picker">
+  <div class="calendar-container desktop-view">
+    @for (month of [leftMonth(), rightMonth()]; let i = $index; track month.getTime()) {
+      <div class="calendar">
+        <div class="month-header">
+          @if (i === 0) {
+            <button (click)="prevMonth()" class="nav-btn" type="button" aria-label="Previous month">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+            </button>
+          }
+          <h3>{{ months[month.getMonth()] }} {{ month.getFullYear() }}</h3>
+          @if (i === 1) {
+            <button (click)="nextMonth()" class="nav-btn" type="button" aria-label="Next month">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
+          }
+        </div>
+
+        <div class="days-header">
+          @for (day of daysOfWeek; track day) {
+            <div class="day">{{ day }}</div>
+          }
+        </div>
+
+        <div class="days-grid">
+          @for (item of generateMonthDays(month); track $index) {
+            <div
+              class="day-cell"
+              [class.in-range]="item.isCurrentMonth && isInRange(item.day)"
+              [class.range-start]="item.isCurrentMonth && isRangeStart(item.day, i)"
+              [class.range-end]="item.isCurrentMonth && isRangeEnd(item.day, i)"
+              [class.selected]="item.isCurrentMonth && (isStart(item.day) || isEnd(item.day))"
+              [class.today]="item.isCurrentMonth && isToday(item.day)"
+              [class.other-month]="!item.isCurrentMonth"
+              (click)="item.isCurrentMonth ? selectDate(item.day, i) : null"
+            >
+              {{ item.day.getDate() }}
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="calendar-container mobile-view">
+    <div class="calendar">
+      <div class="month-header">
+        <button (click)="prevMobileMonth()" class="nav-btn" type="button" aria-label="Previous month">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+        <h3>{{ months[currentMobileMonth().getMonth()] }} {{ currentMobileMonth().getFullYear() }}</h3>
+        <button (click)="nextMobileMonth()" class="nav-btn" type="button" aria-label="Next month">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="days-header">
+        @for (day of daysOfWeek; track day) {
+          <div class="day">{{ day }}</div>
+        }
+      </div>
+
+      <div class="days-grid">
+        @for (item of generateMonthDays(currentMobileMonth()); track $index) {
+          <div
+            class="day-cell"
+            [class.in-range]="item.isCurrentMonth && isInRange(item.day)"
+            [class.range-start]="item.isCurrentMonth && isRangeStart(item.day, 0)"
+            [class.range-end]="item.isCurrentMonth && isRangeEnd(item.day, 0)"
+            [class.selected]="item.isCurrentMonth && (isStart(item.day) || isEnd(item.day))"
+            [class.today]="item.isCurrentMonth && isToday(item.day)"
+            [class.other-month]="!item.isCurrentMonth"
+            (click)="item.isCurrentMonth ? selectDate(item.day, 0) : null"
+          >
+            {{ item.day.getDate() }}
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

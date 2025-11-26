@@ -1,0 +1,31 @@
+<div class="hidden lg:block overflow-x-auto">
+  <table class="w-full">
+    <thead>
+    <tr class="border-b border-gray-200">
+      <th class="text-left py-3 px-4 font-medium text-gray-600">{{ 'analytics.doctorRating.doctor' | transloco }}</th>
+      <th class="text-left py-3 px-4 font-medium text-gray-600">{{ 'analytics.doctorRating.specialization' | transloco }}</th>
+      <th class="text-center py-3 px-4 font-medium text-gray-600">{{ 'analytics.doctorRating.appointments' | transloco }}</th>
+      <th class="text-center py-3 px-4 font-medium text-gray-600">{{ 'analytics.doctorRating.completed' | transloco }}</th>
+      <th class="text-center py-3 px-4 font-medium text-gray-600">{{ 'analytics.doctorRating.cancelled' | transloco }}</th>
+      <th class="text-center py-3 px-4 font-medium text-gray-600">{{ 'analytics.doctorRating.efficiency' | transloco }}</th>
+      <th class="text-right py-3 px-4 font-medium text-gray-600">{{ 'analytics.doctorRating.revenue' | transloco }}</th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (doctor of doctorRatings(); track doctor) {
+        <tr class="border-b border-gray-100">
+          <td class="py-3 px-4 font-medium text-gray-900">{{ doctor.name }}</td>
+          <td class="py-3 px-4 text-gray-600">{{ doctor?.specialization?.name }}</td>
+          <td class="py-3 px-4 text-center font-medium">{{ doctor.appointments }}</td>
+          <td class="py-3 px-4 text-center text-green-600 font-medium">{{ doctor.completed }}</td>
+          <td class="py-3 px-4 text-center text-red-600 font-medium">{{ doctor.cancellations }}</td>
+          <td class="py-3 px-4 text-center">
+            <app-efficiency-badge [efficiency]="doctor.efficiency" />
+          </td>
+          <td class="py-3 px-4 text-right font-semibold text-gray-900">{{ doctor.revenue }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+

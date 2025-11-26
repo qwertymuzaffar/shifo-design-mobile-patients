@@ -1,0 +1,101 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="max-w-[500px] w-full">
+  <div class="flex items-center justify-between mb-4">
+    <h3 class="text-xl font-semibold text-gray-900">
+      {{ 'cancel-appointment.title' | transloco }}
+    </h3>
+    <button
+      matDialogClose
+      class="p-2 w-10 h-10 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+    >
+      ✕
+    </button>
+  </div>
+
+  <div class="flex bg-gray-100 rounded-lg p-1 mb-4">
+    <button
+      type="button"
+      (click)="onTabChange(0)"
+      class="flex-1 px-4 py-2 text-sm rounded-md transition-colors"
+      [ngClass]="{
+        'bg-white text-gray-900 shadow-sm': selectedTabIndex() === 0,
+        'text-gray-600 hover:text-gray-900': selectedTabIndex() !== 0
+      }"
+    >
+      {{ 'cancel-appointment.cancel' | transloco }}
+    </button>
+    <button
+      type="button"
+      (click)="onTabChange(1)"
+      class="flex-1 px-4 py-2 text-sm rounded-md transition-colors"
+      [ngClass]="{
+        'bg-white text-gray-900 shadow-sm': selectedTabIndex() === 1,
+        'text-gray-600 hover:text-gray-900': selectedTabIndex() !== 1
+      }"
+    >
+      {{ 'cancel-appointment.cancel_forever' | transloco }}
+    </button>
+  </div>
+
+  @if (selectedTabIndex() === 0) {
+    <div class="space-y-4">
+      <app-form-field
+        [label]="'cancel-appointment.reasonLabel' | transloco"
+        [control]="form.controls['reason']"
+      >
+        <textarea
+          formControlName="reason"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
+          placeholder="{{ 'cancel-appointment.reasonPlaceholder' | transloco }}"
+        ></textarea>
+      </app-form-field>
+
+      <div class="flex flex-wrap gap-2">
+        @if (lang == "ru"){
+          @for (reason of cancelReasons.ru; track reason) {
+            <button
+              type="button"
+              (click)="handleCancelReason(reason)"
+              class="px-2 py-1 text-red-800 rounded-lg text-sm transition-colors border bg-red-100 border-red-300 hover:bg-red-200"
+            >
+              {{ reason }}
+            </button>
+          }
+        }@else {
+          @for (reason of cancelReasons.en; track reason) {
+            <button
+              type="button"
+              (click)="handleCancelReason(reason)"
+              class="px-2 py-1 text-red-800 rounded-lg text-sm transition-colors border bg-red-100 border-red-300 hover:bg-red-200"
+            >
+              {{ reason }}
+            </button>
+          }
+        }
+      </div>
+    </div>
+  }
+
+  @if (selectedTabIndex() === 1) {
+    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+      <p class="text-sm text-red-800">
+        {{ 'cancel-appointment.forever_warning' | transloco }}
+      </p>
+    </div>
+  }
+
+  <div class="flex justify-end space-x-3 mt-6">
+    <button
+      [disabled]="isLoading()"
+      type="submit"
+      class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50"
+    >
+      {{ 'cancel-appointment.submit' | transloco }} {{ isLoading() ? '...' : '' }}
+    </button>
+    <button
+      matDialogClose
+      class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors"
+    >
+      {{ 'cancel-appointment.back' | transloco }}
+    </button>
+  </div>
+</form>

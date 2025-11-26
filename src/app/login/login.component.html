@@ -1,0 +1,50 @@
+<div
+  class="login-container flex items-center justify-center min-h-screen bg-gray-100"
+>
+  <form
+    (ngSubmit)="onSubmit()"
+    [formGroup]="form"
+    class="login-form bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
+    novalidate
+  >
+    <h2 class="title text-2xl font-bold text-center text-gray-800 mb-6">
+      {{ 'login.title' | transloco }}
+    </h2>
+
+    <div class="form-group mb-4">
+      <app-form-field [control]="form.controls['username']" [label]="'login.username' | transloco">
+        <input formControlName="username" [placeholder]="'login.username_placeholder' | transloco" />
+      </app-form-field>
+    </div>
+
+    <div class="form-group mb-6">
+      <app-form-field
+        [control]="form.controls['password']"
+        [isPassword]="true"
+        [label]="'login.password' | transloco"
+      >
+        <div class="input-wrapper relative">
+          <input class="pl-6"
+                 formControlName="password"
+                 type="{{ show ? 'text' : 'password' }}"
+                 [placeholder]="'login.password_placeholder' | transloco"
+          />
+          <lucide-icon
+            [size]="18"
+            (click)="show = !show"
+            class="eye-icon absolute right-3 top-1/2 -translate-y-1/2 text-gray-800 cursor-pointer z-10"
+            [img]="show ? Eye : EyeOff"
+          ></lucide-icon>
+        </div>
+      </app-form-field>
+    </div>
+
+    <button
+      type="submit"
+      class="w-full flex items-center justify-center px-4 py-3 rounded-lg transition-colors bg-sky-500 text-white shadow-md disabled:cursor-not-allowed"
+      [disabled]="isLoading()"
+    >
+      {{ 'login.submit' | transloco }} {{ isLoading() ? '...' : '' }}
+    </button>
+  </form>
+</div>

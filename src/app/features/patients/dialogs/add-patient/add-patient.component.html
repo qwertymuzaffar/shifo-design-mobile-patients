@@ -1,0 +1,65 @@
+<div class="flex items-center justify-between mb-2">
+  <h3 class="text-xl font-semibold text-gray-900 mb-3">
+    {{ isViewMode ? ('patientForm.view_title' | transloco) : (patient ? ('patientForm.edit_title' | transloco) : ('patientForm.add_title' | transloco)) }}
+  </h3>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-4 main">
+
+  @if (!isViewMode || form.controls['fullName'].value) {
+    <app-form-field label="{{ 'patientForm.fullName' | transloco }}" [control]="form.controls['fullName']">
+      <input type="text" formControlName="fullName" />
+    </app-form-field>
+  }
+
+  @if (!isViewMode || form.controls['birthDate'].value) {
+    <app-form-field label="{{ 'patientForm.birthDate' | transloco }}" [control]="form.controls['birthDate']">
+     <input type="date" formControlName="birthDate" lang="en"/>
+    </app-form-field>
+  }
+
+  @if (!isViewMode || form.controls['phone'].value) {
+    <app-form-field label="{{ 'patientForm.phone' | transloco }}" [control]="form.controls['phone']">
+      <input [showMaskTyped]="true" prefix="+992" mask=" 00 000 00 00" type="text" formControlName="phone" />
+    </app-form-field>
+  }
+
+  @if (!isViewMode || form.controls['address'].value) {
+    <app-form-field label="{{ 'patientForm.address' | transloco }}" [control]="form.controls['address']">
+      <input type="text" maxlength="60" formControlName="address" />
+    </app-form-field>
+  }
+
+  @if (!isViewMode || form.controls['emergencyContact'].value) {
+    <app-form-field label="{{ 'patientForm.emergencyContact' | transloco }}" [control]="form.controls['emergencyContact']">
+      <input [showMaskTyped]="true" prefix="+992" mask=" 00 000 00 00" type="text" formControlName="emergencyContact" />
+    </app-form-field>
+  }
+
+  @if (!isViewMode || (form.controls['allergies'].value && form.controls['allergies'].value.length > 0)) {
+    <app-form-field label="{{ 'patientForm.allergies' | transloco }}" [control]="form.controls['allergies']">
+      <input type="text" maxlength="60" formControlName="allergies" />
+    </app-form-field>
+  }
+
+  @if (!isViewMode || form.controls['medicalHistory'].value) {
+    <app-form-field label="{{ 'patientForm.medicalHistory' | transloco }}" [control]="form.controls['medicalHistory']">
+      <textarea formControlName="medicalHistory"></textarea>
+    </app-form-field>
+  }
+
+  <div class="md:col-span-2 flex justify-end space-x-3">
+    @if (!isViewMode) {
+      <button [disabled]="isLoading()" type="submit"
+              class="bg-sky-500 text-white px-6 py-2 rounded-lg hover:bg-sky-600 transition-colors">
+        {{ patient ? ('patientForm.save' | transloco) : ('patientForm.add_patient' | transloco) }}
+        {{ isLoading() ? '...' : '' }}
+      </button>
+    }
+    <button mat-dialog-close type="button"
+            class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors">
+      {{ isViewMode ? ('patientForm.close' | transloco) : ('patientForm.cancel' | transloco) }}
+    </button>
+  </div>
+
+</form>

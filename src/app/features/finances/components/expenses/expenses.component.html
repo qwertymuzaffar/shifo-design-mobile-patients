@@ -1,0 +1,125 @@
+<div class="p-6">
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+      <div class="relative w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <input
+          type="text"
+          [placeholder]="'finance.expens.searchPlaceholder' | transloco"
+          [formControl]="form.controls['search']"
+          class="w-full !pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+        />
+      </div>
+
+      <select
+        [formControl]="form.controls['categoryId']"
+        class="px-4 max-w-[300px] py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+      >
+        <option value="0">{{ 'finance.expens.allCategories' | transloco }}</option>
+        @if (categories.isLoading()) {
+          <option disabled>{{ 'finance.expens.loading' | transloco }}</option>
+        }
+        @for (category of categories.value()?.items; track category.id) {
+          <option [value]="category.id">{{ category.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-gray-200">
+            <th class="text-left py-3 px-4 text-sm font-semibold text-gray-600">{{ 'finance.expens.date' | transloco }}</th>
+            <th class="text-left py-3 px-4 text-sm font-semibold text-gray-600">{{ 'finance.expens.category' | transloco }}</th>
+            <th class="text-left py-3 px-4 text-sm font-semibold text-gray-600">{{ 'finance.expens.description' | transloco }}</th>
+            <th class="text-left py-3 px-4 text-sm font-semibold text-gray-600">{{ 'finance.expens.recipient' | transloco }}</th>
+            <th class="text-left py-3 px-4 text-sm font-semibold text-gray-600">{{ 'finance.expens.paymentMethod' | transloco }}</th>
+            <th class="text-left py-3 px-4 text-sm font-semibold text-gray-600">{{ 'finance.expens.amount' | transloco }}</th>
+            <th class="text-right py-3 px-4 text-sm font-semibold text-gray-600">{{ 'finance.expense.actions' | transloco }}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @if (loadingTransactions()) {
+            <ng-container *ngTemplateOutlet="loadingSkeleton"></ng-container>
+          } @else {
+            @for (transaction of data().items; track transaction.id) {
+              <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer">
+                <td class="py-4 px-4 w-36">{{ transaction.date }}</td>
+                <td class="py-4 px-4">{{ transaction.categoryEntity.name }}</td>
+                <td class="py-4 px-4">{{ transaction.comment }}</td>
+                <td class="py-4 px-4">{{ transaction.recipient }}</td>
+                <td class="py-4 px-4">
+                  <div class="flex items-center space-x-2">
+                    @switch (transaction.paymentMethod) {
+                      @case ('dc') {
+                        <img src="assets/icons/dushanbe-city.svg" alt="DC" width="40px" title="Dushanbe City">
+                      }
+                      @case ('alif') {
+                        <img src="assets/icons/alif.svg" alt="Alif" width="40px" title="Alif">
+                      }
+                      @case ('eskhata') {
+                        <img src="assets/icons/eskhata.svg" alt="Eskhata" width="40px" title="Eskhata">
+                      }
+                      @case ('cash') {
+                        <img src="assets/icons/cash.svg" alt="Cash" width="40px" title="Cash">
+                      }
+                    }
+                    <span class="capitalize">{{ transaction.paymentMethod }}</span>
+                  </div>
+                </td>
+                <td class="py-4 px-4">{{ transaction.amount }} с</td>
+                <td class="py-4 px-4 text-right">
+                  <button
+                    (click)="openUpsertExpenseDialog(transaction); $event.stopPropagation()"
+                    class="p-2 text-gray-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition-colors"
+                  >
+                    <lucide-icon [name]="SquarePen" [size]="16" class="align-middle"></lucide-icon>
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="7" class="text-center py-8 text-gray-500">
+                  {{ 'finance.expens.notFound' | transloco }}
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+
+      <app-pagination
+        [totalCount]="data().total"
+        [limit]="data().limit"
+        [page]="data().page"
+        (pageChange)="pageChange($event)"
+        (limitChange)="limitChange($event)"
+      />
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingSkeleton>
+  @for (item of [1,2,3,4,5,6,7]; track $index) {
+    <tr class="border-b border-gray-100 animate-pulse">
+      <td class="py-4 px-4 w-36"><div class="h-4 bg-gray-200 rounded w-24"></div></td>
+      <td class="py-4 px-4"><div class="h-4 bg-gray-200 rounded w-32"></div></td>
+      <td class="py-4 px-4"><div class="h-4 bg-gray-200 rounded w-40"></div></td>
+      <td class="py-4 px-4"><div class="h-4 bg-gray-200 rounded w-28"></div></td>
+      <td class="py-4 px-4">
+        <div class="flex items-center space-x-2">
+          <div class="h-8 w-8 bg-gray-200 rounded-full"></div>
+          <div class="h-4 bg-gray-200 rounded w-16"></div>
+        </div>
+      </td>
+      <td class="py-4 px-4"><div class="h-4 bg-gray-200 rounded w-20"></div></td>
+      <td class="py-4 px-4"><div class="h-4 bg-gray-200 rounded w-8 float-right"></div></td>
+    </tr>
+  }
+</ng-template>

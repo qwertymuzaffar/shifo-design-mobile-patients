@@ -1,0 +1,294 @@
+<div class="p-6">
+  <div class="space-y-6">
+    <div class="flex justify-between items-center">
+      <h1 class="text-3xl font-bold text-gray-900">
+        {{ 'manage-doctors.title' | transloco }}
+      </h1>
+      <div class="flex space-x-2">
+        <button
+          (click)="
+            isSpecializationManagementVisible.set(
+              !isSpecializationManagementVisible()
+            )
+          "
+          class="bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-gray-700 transition-colors justify-center"
+        >
+          <lucide-icon [name]="Settings" [size]="18"></lucide-icon>
+          <span>{{ 'manage-doctors.specializations' | transloco }}</span>
+        </button>
+        <button
+          *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+          (click)="openDialog()"
+          class="bg-sky-500 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-sky-600 transition-colors"
+        >
+          <img src="assets/svg/plus.svg" alt="" />
+          <span>{{ 'manage-doctors.add_doctor' | transloco }}</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <div class="relative inline-block !w-[400px]">
+        <select
+          [formControl]="form.controls['specializationId']"
+          #limitSelect
+          (change)="onLimitChange(limitSelect)"
+          class="w-full peer appearance-none border border-gray-300 bg-white px-3 py-2 pr-8 text-gray-700 rounded-md"
+        >
+          <option value="0" selected>
+            {{ 'manage-doctors.all_specializations' | transloco }}
+          </option>
+          @if (specializations.isLoading()) {
+            <option disabled>{{ 'manage-doctors.loading' | transloco }}</option>
+          }
+          @for (
+            specialization of specializations.value();
+            track specialization.id
+          ) {
+            <option [value]="specialization.id">
+              {{ specialization.name }}
+            </option>
+          }
+        </select>
+      </div>
+      <div class="relative w-full">
+        <input
+          [formControl]="form.controls.search"
+          class="w-full pl-10 pr-20 py-3 border border-gray-200 rounded-lg focus:outline-none"
+          type="text"
+          [placeholder]="'manage-doctors.search_placeholder' | transloco"
+        />
+      </div>
+    </div>
+
+    @if (isSpecializationManagementVisible()) {
+      <div
+        class="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-100 mt-4"
+      >
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg md:text-xl font-semibold text-gray-900">
+            {{ 'manage-doctors.specialization_management_title' | transloco }}
+          </h2>
+          <button
+            (click)="isSpecializationManagementVisible.set(false)"
+            class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            type="button"
+            [title]="'manage-doctors.close' | transloco"
+          >
+            <lucide-icon
+              [name]="X"
+              [size]="20"
+              class="text-gray-600"
+            ></lucide-icon>
+          </button>
+        </div>
+        <div class="space-y-4">
+          <div *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]" class="flex gap-2">
+            <input
+              type="text"
+              [(ngModel)]="newSpecializationName"
+              class="flex-1 px-3 py-2 text-sm md:text-base border border-gray-200 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+              [placeholder]="
+                'manage-doctors.new_specialization_placeholder' | transloco
+              "
+            />
+            <button
+              (click)="createSpecialization()"
+              class="bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition-colors flex items-center space-x-2"
+            >
+              <img src="assets/svg/plus.svg" alt="" />
+              <span>{{ 'manage-doctors.add' | transloco }}</span>
+            </button>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            @if (specializations.isLoading()) {
+              <p>{{ 'manage-doctors.loading' | transloco }}</p>
+            } @else {
+              @for (spec of visibleSpecializations(); track spec.id) {
+                <div
+                  class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-sm transition-shadow"
+                >
+                  <div class="flex-1 min-w-0">
+                    <p
+                      class="font-medium text-gray-900 text-sm md:text-base truncate"
+                    >
+                      {{ spec.name }}
+                    </p>
+                    <p class="text-xs text-gray-500">
+                      {{
+                        'manage-doctors.doctors_count'
+                          | transloco: { count: spec.doctorCount || 0 }
+                      }}
+                    </p>
+                  </div>
+                  <button
+                    *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+                    (click)="deleteSpecialization(spec.id)"
+                    class="ml-2 p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0"
+                    type="button"
+                    [title]="
+                      'manage-doctors.delete_specialization_title' | transloco
+                    "
+                  >
+                    <lucide-icon [name]="Trash2" [size]="16"></lucide-icon>
+                  </button>
+                </div>
+              }
+            }
+          </div>
+          @if (specializations.value().length > 12) {
+            <div class="flex justify-center mt-4">
+              <button
+                (click)="showAllSpecializations.set(!showAllSpecializations())"
+                class="text-sky-600 hover:text-sky-700 font-medium"
+              >
+                {{
+                  (showAllSpecializations()
+                    ? 'manage-doctors.show_less'
+                    : 'manage-doctors.show_more'
+                  ) | transloco
+                }}
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    }
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+      <div class="p-6">
+        <div class="flex justify-between items-center relative mb-4">
+          <h2 class="text-xl font-semibold">
+            {{ 'manage-doctors.doctor_list_title' | transloco }}
+          </h2>
+          <h3 class="text-s font-medium text-gray-500">
+            {{
+              'manage-doctors.total_doctors'
+                | transloco: { count: data().total }
+            }}
+          </h3>
+        </div>
+        <div class="space-y-4">
+          @if (isLoading()) {
+            <app-skeleton-doctor></app-skeleton-doctor>
+          } @else {
+            @for (doctor of data().items; track doctor.id) {
+              <div
+                class="w-full space-x-6 flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:shadow-md transition-shadow cursor-pointer"
+              >
+                <div class="flex items-start space-x-4 flex-1">
+                  <div
+                    class="h-12 w-12 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full flex items-center justify-center shrink-0 self-center"
+                  >
+                    <img src="assets/svg/user.svg" alt="" />
+                  </div>
+                  <div>
+                    <h3 class="font-medium text-gray-900">
+                      {{ doctor.firstName }} {{ doctor.lastName }}
+                    </h3>
+                    <p class="text-sm text-gray-600">
+                      {{ doctor?.specialization?.name }}
+                    </p>
+                    <div class="flex items-center space-x-2 mt-1">
+                      <div class="flex items-center text-sm text-gray-500">
+                        <lucide-icon
+                          [name]="Phone"
+                          [size]="16"
+                          class="mr-1"
+                        ></lucide-icon>
+                        {{ doctor.user.phone | phoneFormat }}
+                        <button
+                          [cdkCopyToClipboard]="doctor.phone"
+                          (cdkCopyToClipboardCopied)="toast()"
+                          (click)="$event.stopPropagation()"
+                          class="ml-2 hover:text-gray-700 transition"
+                          type="button"
+                          [title]="'manage-doctors.copy' | transloco"
+                        >
+                          <lucide-icon [name]="Copy" [size]="16"></lucide-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-1">
+                  <div class="flex flex-col items-end">
+                    <p class="text-sm font-medium text-gray-900">
+                      {{
+                        'manage-doctors.consultation_fee'
+                          | transloco: { fee: doctor.consultationFee }
+                      }}
+                    </p>
+                    <div class="flex items-center text-sm text-gray-500 mt-1">
+                      <lucide-icon
+                        [name]="Clock"
+                        [size]="16"
+                        class="mr-1"
+                      ></lucide-icon>
+                      {{
+                        'manage-doctors.working_hours'
+                          | transloco
+                            : {
+                                start: doctor.workingHours.start,
+                                end: doctor.workingHours.end,
+                              }
+                      }}
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">
+                      {{
+                        'manage-doctors.experience'
+                          | transloco: { years: doctor.experience }
+                      }}
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-2">
+                  <button
+                    *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+                    (click)="openDialog(doctor); $event.stopPropagation()"
+                    class="p-2 text-gray-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition-colors"
+                  >
+                    <lucide-icon
+                      [name]="SquarePen"
+                      [size]="16"
+                      class="align-middle"
+                    ></lucide-icon>
+                  </button>
+                  <button
+                    *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+                    class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    (click)="deleteDoctor(doctor.id); $event.stopPropagation()"
+                  >
+                    <lucide-icon
+                      [name]="Trash2"
+                      [size]="16"
+                      class="align-middle"
+                    ></lucide-icon>
+                  </button>
+                </div>
+              </div>
+            } @empty {
+              <div class="flex justify-center items-center flex-col gap-2">
+                <p class="text-gray-500 text-center">
+                  {{ 'manage-doctors.no_doctors' | transloco }}
+                </p>
+                <button
+                  class="p-2 hover:text-gray-400 text-gray-600 bg-gray-100 rounded-lg transition-colors"
+                  (click)="clearFilter()"
+                >
+                  {{ 'patients.clear_filter' | transloco }}
+                </button>
+              </div>
+            }
+          }
+        </div>
+      </div>
+      <app-pagination
+        [totalCount]="data().total"
+        [limit]="data().limit"
+        [page]="data().page"
+        (pageChange)="pageChange($event)"
+        (limitChange)="limitChange($event)"
+      />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="max-w-[500px] w-full">
+  <div class="flex items-center justify-between mb-6">
+    <h3 class="text-xl font-semibold text-gray-900">{{ 'payment.title' | transloco }}</h3>
+    <button
+      matDialogClose
+      class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+    >
+      ✕
+    </button>
+  </div>
+
+  <div class="space-y-4">
+    <app-form-field label="{{ 'payment.amount' | transloco }}" [control]="form.controls['amount']">
+      <input
+        formControlName="amount"
+        type="number"
+        min="0"
+        step="0.01"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
+        placeholder="{{ 'payment.amountPlaceholder' | transloco }}"
+      />
+    </app-form-field>
+
+    <app-form-field label="{{ 'payment.paymentType' | transloco }}" [control]="form.controls['paymentKind']">
+      <select
+        formControlName="paymentKind"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-sky-500"
+      >
+        @for (option of paymentKindOptions(); track option) {
+          @if (option.value === "balance_deduction"){
+            @if (balanceNumber() <= 0) {
+              <option [value]="option.value">{{ option.label }} ({{ balance() }}c)</option>
+            }
+            @else {
+              <option [value]="option.value">{{ option.label }} (+{{ balance() }}c)</option>
+            }
+          }
+          @else {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
+        }
+      </select>
+    </app-form-field>
+    @if (form.controls.paymentKind.value === 'debt_payment') {
+      <app-form-field label="{{ 'addPayment.payment_method' | transloco }}" [control]="form.controls['paymentType']">
+        <select
+          formControlName="paymentType"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-sky-500"
+        >
+          @for (option of paymentTypeOptions(); track option) {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
+        </select>
+      </app-form-field>
+    }
+  </div>
+
+  <div class="flex justify-end space-x-3 mt-6">
+    <button
+      [disabled]="isLoading()"
+      type="submit"
+      class="bg-sky-500 text-white px-6 py-2 rounded-lg hover:bg-sky-600 transition-colors disabled:opacity-50"
+    >
+      {{ 'payment.confirm' | transloco }} {{ isLoading() ? ('payment.loading' | transloco) : '' }}
+    </button>
+    <button
+      matDialogClose
+      class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors"
+    >
+      {{ 'payment.cancel' | transloco }}
+    </button>
+  </div>
+</form>

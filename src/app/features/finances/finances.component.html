@@ -1,0 +1,113 @@
+<div class="p-6">
+  <div class="space-y-6">
+    <div class="flex justify-between items-center">
+      <h1 class="text-3xl font-bold text-gray-900">
+        {{ 'finance.title' | transloco }}
+      </h1>
+      <div class="flex space-x-4">
+        <button
+          *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+          (click)="handleAddPayment()"
+          class="bg-green-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-green-700 transition-colors"
+        >
+          <img src="assets/icons/add.svg" alt="Добавить" class="w-5 h-5" />
+          <span>{{ 'finance.add_payment' | transloco }}</span>
+        </button>
+        <button
+          *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+          (click)="handleAddExpense()"
+          class="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-red-700 transition-colors"
+        >
+          <img src="assets/icons/add.svg" alt="Добавить" class="w-5 h-5" />
+          <span>{{ 'finance.add_expense' | transloco }}</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+      <app-stat-card
+        [loading]="balancesSummary.isLoading()"
+        [label]="'finance.income' | transloco"
+        [icon]="TrendingUp"
+        [iconItemColor]="'green'"
+        [iconBgColor]="'green'"
+        [valueColor]="'green'"
+        [value]="balancesSummary.value()?.income"
+        [tendIconColor]="'rose'"
+        [tendTextColor]="'green'"
+      >
+      </app-stat-card>
+
+      <app-stat-card
+        [loading]="balancesSummary.isLoading()"
+        [label]="'finance.expenses' | transloco"
+        [icon]="TrendingDown"
+        [iconItemColor]="'rose'"
+        [iconBgColor]="'rose'"
+        [valueColor]="'rose'"
+        [value]="balancesSummary.value()?.expenses"
+        [tendIconColor]="'rose'"
+        [tendTextColor]="'rose'"
+      >
+      </app-stat-card>
+
+      <app-stat-card
+        [loading]="balancesSummary.isLoading()"
+        [label]="'finance.outstandingDebt' | transloco"
+        [icon]="DollarSign"
+        [iconItemColor]="'rose'"
+        [iconBgColor]="'rose'"
+        [valueColor]="'rose'"
+        [value]="balancesSummary.value()?.outstandingDebt"
+      >
+      </app-stat-card>
+
+      <app-stat-card
+        [loading]="balancesSummary.isLoading()"
+        [label]="'finance.net_profit' | transloco"
+        [icon]="DollarSign"
+        [iconItemColor]="'sky'"
+        [iconBgColor]="'sky'"
+        [valueColor]="'sky'"
+        [value]="balancesSummary.value()?.netProfit"
+      >
+      </app-stat-card>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+      <div>
+        <div class="border-b border-gray-200">
+          <nav class="flex">
+            <button
+              (click)="activeTab.set(tabType.Payments)"
+              [ngClass]="{
+                'text-green-600 border-green-600 hover:text-green-600':
+                  activeTab() === tabType.Payments,
+              }"
+              class="flex-1 py-4 px-6 text-center font-medium transition-colors border-b-2 hover:text-gray-700"
+            >
+              {{ 'finance.income' | transloco }}
+            </button>
+
+            <button
+              (click)="activeTab.set(tabType.Expenses)"
+              class="flex-1 py-4 px-6 text-center font-medium transition-colors border-b-2 hover:text-gray-700"
+              [ngClass]="{
+                'border-red-600 text-red-600 hover:text-red-600':
+                  activeTab() === tabType.Expenses,
+              }"
+            >
+              {{ 'finance.expenses' | transloco }}
+            </button>
+          </nav>
+
+          @if (activeTab() === tabType.Payments) {
+            <app-payment (filterChanged)="filterData.set($event)" />
+          } @else {
+            <app-expenses></app-expenses>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

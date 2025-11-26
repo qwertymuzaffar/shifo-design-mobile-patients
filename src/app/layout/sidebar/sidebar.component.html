@@ -1,0 +1,35 @@
+<div
+  class="bg-white h-screen shadow-lg flex flex-col transition-all duration-300 ease-in-out"
+  [ngClass]="{
+    'w-64': !collapsed(),
+    'w-20': collapsed(),
+  }"
+>
+  <div
+    class="p-4 border-b border-gray-200 flex items-center justify-between h-[72px]"
+  >
+    <div
+      class="flex flex-col justify-center transition-all duration-300"
+      [ngClass]="{
+        'opacity-100 w-auto': !collapsed(),
+        'opacity-0 w-0 overflow-hidden': collapsed(),
+      }"
+    >
+      <h1 class="text-xl font-bold text-gray-800 m-0 leading-none mb-1">
+        {{ 'sidebar.title' | transloco }}
+      </h1>
+      <p class="text-sm text-gray-500 m-0 leading-none">
+        {{ 'sidebar.subtitle' | transloco }}
+      </p>
+    </div>
+
+    <button
+      class="text-gray-600 hover:text-black p-3 transition-all duration-200"
+      (click)="toggleSidebar()"
+    >
+      <lucide-icon [img]="Menu" [size]="25" class="block" />
+    </button>
+  </div>
+
+  <app-navigation-menu [isMobile]="false" [collapsed]="collapsed()" />
+</div>

@@ -1,0 +1,42 @@
+{
+    "dashboard": {
+        "monthly": "for the month",
+        "title": "Dashboard",
+        "welcome_message": "Welcome to the clinic management system",
+        "total_patients": "Total Patients",
+        "today_appointments": "Today's Appointments",
+        "next_at": "Next at {{time}}",
+        "monthly_income": "Monthly Income",
+        "pending_payments": "Pending Payments",
+        "upcoming_appointments": "Upcoming Appointments",
+        "today": "Today",
+        "appointment_with": "Appointment with",
+        "detail": "Details",
+        "info": "Info",
+        "no_appointments": "No scheduled appointments",
+        "details": {
+            "title": "Appointment Details",
+            "patient": "Patient",
+            "address": "Address",
+            "phone": "Phone",
+            "birthDate": "Date of Birth",
+            "time": "Appointment Time",
+            "date": "Date",
+            "type": "Appointment Type",
+            "duration": "Duration",
+            "doctor": "Doctor",
+            "experience": "Experience",
+            "years": "years",
+            "workingHours": "Working Hours",
+            "workDays": "Work Days",
+            "activeNow": "Currently Active",
+            "yes": "Yes",
+            "no": "No",
+            "symptoms": "Symptoms",
+            "durations": "min"
+        }
+    },
+    "auth": {
+        "invalid_credentials": "Invalid login or password"
+    }
+}

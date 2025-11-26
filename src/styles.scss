@@ -1,0 +1,71 @@
+@import 'tailwind-import.css';
+
+.mat-mdc-dialog-surface {
+  padding: 20px;
+  background-color: #fff !important;
+  height: auto!important;
+  max-height: 100vh!important;
+  overflow-y: auto!important;
+}
+
+.mat-mdc-dialog-surface .dialog {
+  width: 50%;
+  height: auto;
+  max-width: 700px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+@media (max-width: 1440px) {
+  .mat-mdc-dialog-surface .dialog {
+    width: 40%;
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .mat-mdc-dialog-surface .dialog {
+    width: 50%;
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 720px) {
+  .mat-mdc-dialog-surface .dialog {
+    width: 60%;
+    max-width: 400px;
+    padding: 10px;
+  }
+}
+
+*:focus {
+  outline: none;
+}
+
+input,
+select,
+textarea {
+  @apply w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-black text-sm !important;
+
+  &.ng-invalid.ng-touched {
+    @apply border-red-500 !important;
+  }
+}
+
+.mat-mdc-snackbar-surface,
+.mat-mdc-autocomplete-panel {
+  background-color: white !important;
+  border-radius: 5px !important;
+  @apply shadow-xl !important;
+  //font-size: 18px !important;
+
+}
+space-y-6 {
+  margin: 0!important;
+}
+.transition-all {
+  transition: all 0.5s ease;
+}

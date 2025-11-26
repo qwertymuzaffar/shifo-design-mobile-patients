@@ -1,0 +1,46 @@
+<div class="p-6">
+  <div class="overflow-x-auto">
+    <table class="w-full">
+      <thead>
+      <tr class="border-b border-gray-200">
+        <th class="pl-4 text-left"><div class="skeleton skeleton-header w-24 w-[200px] inline-block"></div></th>
+        <th class="pl-4 text-left"><div class="skeleton skeleton-header w-16 inline-block"></div></th>
+        <th class="pl-5 text-left"><div class="skeleton skeleton-header w-32 inline-block"></div></th>
+        <th class="pl-5 text-left"><div class="skeleton skeleton-header w-20 inline-block"></div></th>
+        <th class="pl-4 text-left"><div class="skeleton skeleton-header w-24 inline-block"></div></th>
+      </tr>
+      </thead>
+      <tbody>
+  @for (item of [1, 2, 3, 4, 5]; track item) {
+      <tr class="border-b border-gray-100 animate-pulse cursor-default">
+        <td class="py-4 px-4 w-[500px]">
+          <div>
+            <div class="skeleton skeleton-line w-3/4 mb-2"></div>
+            <div class="skeleton skeleton-line w-1/2"></div>
+          </div>
+        </td>
+        <td class="py-4 px-4">
+          <div class="skeleton skeleton-line w-16 h-5"></div>
+        </td>
+        <td class="py-4 px-4">
+          <div class="flex items-center space-x-2">
+            <div class="skeleton skeleton-circle"></div>
+            <div class="skeleton skeleton-line w-24"></div>
+          </div>
+        </td>
+        <td class="py-4 px-4">
+          <div class="flex items-center space-x-2">
+            <div class="skeleton skeleton-circle small"></div>
+            <div class="skeleton skeleton-pill w-20"></div>
+          </div>
+        </td>
+        <td class="py-4 px-4 flex flex-col">
+          <div class="skeleton skeleton-line w-24 mb-1 mr-2"></div>
+          <div class="skeleton skeleton-line w-20 h-3"></div>
+        </td>
+      </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -253,19 +253,19 @@
                 </div>
               } @else {
                 <div
-                  class="w-full flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:shadow-md transition-shadow cursor-pointer gap-4"
+                  class="w-full space-x-6 flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:shadow-md transition-shadow cursor-pointer"
                 >
-                  <div class="flex items-start space-x-4 flex-1 min-w-0">
+                  <div class="flex items-start space-x-4 flex-1">
                     <div
                       class="h-12 w-12 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full flex items-center justify-center shrink-0 self-center"
                     >
                       <img src="assets/svg/user.svg" alt="" />
                     </div>
-                    <div class="min-w-0 flex-1">
-                      <h3 class="font-medium text-gray-900 truncate">
+                    <div>
+                      <h3 class="font-medium text-gray-900">
                         {{ doctor.firstName }} {{ doctor.lastName }}
                       </h3>
-                      <p class="text-sm text-gray-600 truncate">
+                      <p class="text-sm text-gray-600">
                         {{ doctor?.specialization?.name }}
                       </p>
                       <div class="flex items-center space-x-2 mt-1">
@@ -290,9 +290,9 @@
                       </div>
                     </div>
                   </div>
-                  <div class="flex flex-1 min-w-0">
-                    <div class="flex flex-col items-end w-full">
-                      <p class="text-sm font-medium text-gray-900 truncate w-full text-right">
+                  <div class="flex flex-1">
+                    <div class="flex flex-col items-end">
+                      <p class="text-sm font-medium text-gray-900">
                         {{
                           'manage-doctors.consultation_fee'
                             | transloco: { fee: doctor.consultationFee }
@@ -321,7 +321,7 @@
                       </p>
                     </div>
                   </div>
-                  <div class="flex items-start space-x-2 shrink-0">
+                  <div class="flex items-start space-x-2">
                     <button
                       *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
                       (click)="openDialog(doctor); $event.stopPropagation()"

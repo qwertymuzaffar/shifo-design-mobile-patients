@@ -1,7 +1,6 @@
 .space-y-4 {
   margin-bottom: 16px;
 }
-
 .about-user {
   display: flex;
   flex-direction: row;
@@ -21,35 +20,9 @@
   text-overflow: ellipsis;
 }
 
-.truncate-address {
-  display: inline-block;
-  max-width: 300px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  vertical-align: bottom;
-}
-
 @media (max-width: 768px) {
   .about-user {
     flex-direction: column;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) {
-  .about-user > div {
-    max-height: none !important;
-    white-space: normal;
-  }
-
-  .truncate-address {
-    max-width: 200px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .truncate-address {
-    max-width: 400px;
   }
 }
 

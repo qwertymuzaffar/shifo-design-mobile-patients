@@ -224,40 +224,40 @@
                         <div class="about-user flex flex-col gap-2">
                           @if (patient.allergies?.length) {
                             <div
-                              class="rounded-md px-2.5 py-1.5 bg-red-100 text-red-800 text-xs font-medium min-w-[150px] max-w-[400px] min-h-[20px] overflow-hidden text-ellipsis"
+                              class="rounded-md px-2.5 py-1.5 bg-red-100 text-red-800 text-xs font-medium min-w-[150px] max-w-[400px] min-h-[20px] max-h-[30px] overflow-hidden text-ellipsis whitespace-nowrap"
                             >
-                              <strong>{{ 'patients.allergies' | transloco }}:</strong>
-                              <span class="ml-1">
-                                {{
-                                  patient.allergies?.join?.(', ') ||
-                                    patient.allergies ||
-                                    '—'
-                                }}
-                              </span>
+                              <strong
+                                >{{ 'patients.allergies' | transloco }}:
+                              </strong>
+                              {{
+                                patient.allergies?.join?.(', ') ||
+                                  patient.allergies ||
+                                  '—'
+                              }}
                             </div>
                           }
                           <div
-                            class="rounded-md px-2.5 py-1.5 bg-blue-100 text-blue-900 text-xs font-medium min-w-[150px] max-w-[700px]"
+                            class="rounded-md px-2.5 py-1.5 bg-blue-100 text-blue-900 text-xs font-medium flex flex-wrap gap-2 min-w-[150px] max-w-[700px] min-h-[20px] max-h-[30px] overflow-hidden text-ellipsis whitespace-nowrap"
                           >
-                            <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                              <span class="inline-flex items-baseline">
-                                <strong class="mr-1">{{ 'patients.address' | transloco }}:</strong>
-                                <span class="truncate-address">{{ patient.address?.trim() ? patient.address : '—' }}</span>
-                              </span>
-                              <span class="text-gray-400">|</span>
-                              <span class="whitespace-nowrap">
-                                <strong class="mr-1">{{ 'patients.birth_date' | transloco }}:</strong>
-                                {{ patient.birthDate || '—' }}
-                              </span>
-                            </div>
+                            <span>
+                              <strong>{{ 'patients.address' | transloco }}: </strong
+                              >{{ patient.address?.trim() ? patient.address : '—' }}
+                            </span>
+                            |
+                            <span>
+                              <strong
+                                >{{ 'patients.birth_date' | transloco }}: </strong
+                              >{{ patient.birthDate || '—' }}
+                            </span>
                           </div>
                           @if (patient.emergencyContact) {
                             <div
                               class="rounded-md px-3 py-1.5 bg-blue-100 text-blue-900 text-xs font-medium"
                             >
-                              <strong>{{
-                                'patients.emergency_contact' | transloco
-                              }}: </strong
+                              <strong
+                                >{{
+                                  'patients.emergency_contact' | transloco
+                                }}: </strong
                               >{{ patient.emergencyContact | phoneFormat }}
                             </div>
                           }

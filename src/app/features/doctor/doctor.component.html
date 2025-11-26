@@ -94,10 +94,11 @@
             />
             <button
               (click)="createSpecialization()"
-              class="bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition-colors flex items-center space-x-2"
+              class="bg-sky-500 text-white px-4 py-2 rounded-lg hover:bg-sky-600 transition-colors flex items-center space-x-2 whitespace-nowrap"
             >
               <img src="assets/svg/plus.svg" alt="" />
-              <span>{{ 'manage-doctors.add' | transloco }}</span>
+              <span class="md:hidden">{{ 'manage-doctors.add' | transloco }}</span>
+              <span class="hidden md:inline">{{ 'manage-doctors.add_specialization' | transloco }}</span>
             </button>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">

@@ -1,39 +1,39 @@
-<div class="p-6">
-  <div class="space-y-6">
-    <div class="flex justify-between items-center">
-      <h1 class="text-3xl font-bold text-gray-900">
+<div class="p-3 md:p-6">
+  <div class="space-y-4 md:space-y-6">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 md:gap-0">
+      <h1 class="text-xl md:text-3xl font-bold text-gray-900">
         {{ 'manage-doctors.title' | transloco }}
       </h1>
-      <div class="flex space-x-2">
+      <div class="flex flex-wrap gap-2 w-full md:w-auto">
         <button
           (click)="
             isSpecializationManagementVisible.set(
               !isSpecializationManagementVisible()
             )
           "
-          class="bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-gray-700 transition-colors justify-center"
+          class="flex-1 md:flex-initial bg-gray-600 text-white px-3 md:px-4 py-2 rounded-lg flex items-center justify-center space-x-2 hover:bg-gray-700 transition-colors text-sm md:text-base"
         >
           <lucide-icon [name]="Settings" [size]="18"></lucide-icon>
-          <span>{{ 'manage-doctors.specializations' | transloco }}</span>
+          <span class="hidden sm:inline">{{ 'manage-doctors.specializations' | transloco }}</span>
         </button>
         <button
           *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
           (click)="openDialog()"
-          class="bg-sky-500 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-sky-600 transition-colors"
+          class="flex-1 md:flex-initial bg-sky-500 text-white px-3 md:px-4 py-2 rounded-lg flex items-center justify-center space-x-2 hover:bg-sky-600 transition-colors text-sm md:text-base"
         >
-          <img src="assets/svg/plus.svg" alt="" />
-          <span>{{ 'manage-doctors.add_doctor' | transloco }}</span>
+          <img src="assets/svg/plus.svg" alt="" class="w-4 h-4 md:w-5 md:h-5" />
+          <span class="hidden sm:inline">{{ 'manage-doctors.add_doctor' | transloco }}</span>
         </button>
       </div>
     </div>
 
-    <div class="flex items-center gap-2">
-      <div class="relative inline-block !w-[400px]">
+    <div class="flex flex-col md:flex-row items-stretch md:items-center gap-2 md:gap-2">
+      <div class="relative w-full md:w-auto md:min-w-[250px] lg:min-w-[400px]">
         <select
           [formControl]="form.controls['specializationId']"
           #limitSelect
           (change)="onLimitChange(limitSelect)"
-          class="w-full peer appearance-none border border-gray-300 bg-white px-3 py-2 pr-8 text-gray-700 rounded-md"
+          class="w-full peer appearance-none border border-gray-300 bg-white px-3 py-2 pr-8 text-gray-700 rounded-md text-sm md:text-base"
         >
           <option value="0" selected>
             {{ 'manage-doctors.all_specializations' | transloco }}
@@ -54,10 +54,13 @@
       <div class="relative w-full">
         <input
           [formControl]="form.controls.search"
-          class="w-full pl-10 pr-20 py-3 border border-gray-200 rounded-lg focus:outline-none"
+          class="w-full pl-10 pr-4 py-2 md:py-3 border border-gray-200 rounded-lg focus:outline-none text-sm md:text-base"
           type="text"
           [placeholder]="'manage-doctors.search_placeholder' | transloco"
         />
+        <div class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+          <img src="assets/icons/search.svg" alt="Search" class="w-4 h-4" />
+        </div>
       </div>
     </div>
 
@@ -155,124 +158,202 @@
       </div>
     }
     <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-      <div class="p-6">
-        <div class="flex justify-between items-center relative mb-4">
-          <h2 class="text-xl font-semibold">
+      <div class="p-3 md:p-6">
+        <div class="flex justify-between items-center relative mb-3 md:mb-4">
+          <h2 class="text-lg md:text-xl font-semibold">
             {{ 'manage-doctors.doctor_list_title' | transloco }}
           </h2>
-          <h3 class="text-s font-medium text-gray-500">
+          <h3 class="text-xs md:text-sm font-medium text-gray-500">
             {{
               'manage-doctors.total_doctors'
                 | transloco: { count: data().total }
             }}
           </h3>
         </div>
-        <div class="space-y-4">
+        <div class="space-y-3 md:space-y-4">
           @if (isLoading()) {
             <app-skeleton-doctor></app-skeleton-doctor>
           } @else {
             @for (doctor of data().items; track doctor.id) {
-              <div
-                class="w-full space-x-6 flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:shadow-md transition-shadow cursor-pointer"
-              >
-                <div class="flex items-start space-x-4 flex-1">
-                  <div
-                    class="h-12 w-12 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full flex items-center justify-center shrink-0 self-center"
-                  >
-                    <img src="assets/svg/user.svg" alt="" />
-                  </div>
-                  <div>
-                    <h3 class="font-medium text-gray-900">
-                      {{ doctor.firstName }} {{ doctor.lastName }}
-                    </h3>
-                    <p class="text-sm text-gray-600">
-                      {{ doctor?.specialization?.name }}
-                    </p>
-                    <div class="flex items-center space-x-2 mt-1">
-                      <div class="flex items-center text-sm text-gray-500">
+              @if (breakpointService.isMobile()) {
+                <div
+                  class="bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-xl p-3 hover:shadow-lg active:shadow-xl transition-all"
+                >
+                  <div class="flex items-start gap-3 mb-3">
+                    <div
+                      class="h-12 w-12 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full flex items-center justify-center shrink-0"
+                    >
+                      <img src="assets/svg/user.svg" alt="User" class="w-6 h-6" />
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <h3 class="text-base font-bold text-gray-900 mb-1 truncate">
+                        {{ doctor.firstName }} {{ doctor.lastName }}
+                      </h3>
+                      <p class="text-sm text-gray-600 mb-2 truncate">
+                        {{ doctor?.specialization?.name }}
+                      </p>
+                      <div class="flex items-center text-sm text-gray-600">
                         <lucide-icon
                           [name]="Phone"
-                          [size]="16"
-                          class="mr-1"
+                          [size]="14"
+                          class="mr-1 shrink-0"
                         ></lucide-icon>
-                        {{ doctor.user.phone | phoneFormat }}
+                        <span class="truncate">{{ doctor.user.phone | phoneFormat }}</span>
                         <button
-                          [cdkCopyToClipboard]="doctor.phone"
+                          [cdkCopyToClipboard]="doctor.user.phone"
                           (cdkCopyToClipboardCopied)="toast()"
                           (click)="$event.stopPropagation()"
-                          class="ml-2 hover:text-gray-700 transition"
+                          class="ml-2 p-1 hover:text-gray-700 transition shrink-0"
                           type="button"
-                          [title]="'manage-doctors.copy' | transloco"
+                          title="Копировать"
                         >
-                          <lucide-icon [name]="Copy" [size]="16"></lucide-icon>
+                          <lucide-icon [name]="Copy" [size]="14"></lucide-icon>
                         </button>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="flex flex-1">
-                  <div class="flex flex-col items-end">
-                    <p class="text-sm font-medium text-gray-900">
-                      {{
-                        'manage-doctors.consultation_fee'
-                          | transloco: { fee: doctor.consultationFee }
-                      }}
-                    </p>
-                    <div class="flex items-center text-sm text-gray-500 mt-1">
-                      <lucide-icon
-                        [name]="Clock"
-                        [size]="16"
-                        class="mr-1"
-                      ></lucide-icon>
-                      {{
-                        'manage-doctors.working_hours'
-                          | transloco
-                            : {
-                                start: doctor.workingHours.start,
-                                end: doctor.workingHours.end,
-                              }
-                      }}
+
+                  <div class="space-y-2">
+                    <div class="rounded-lg px-3 py-2 bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-medium">
+                      <div class="flex flex-col gap-1">
+                        <span>
+                          <strong>{{ 'manage-doctors.consultation_fee' | transloco: { fee: '' } }}:</strong>
+                          {{ doctor.consultationFee }} сом
+                        </span>
+                        <span class="flex items-center">
+                          <lucide-icon [name]="Clock" [size]="14" class="mr-1"></lucide-icon>
+                          <strong>{{ 'manage-doctors.working_hours' | transloco: { start: '', end: '' } }}:</strong>
+                          {{ doctor.workingHours.start }} - {{ doctor.workingHours.end }}
+                        </span>
+                        <span>
+                          <strong>{{ 'manage-doctors.experience' | transloco: { years: '' } }}:</strong>
+                          {{ doctor.experience }} лет
+                        </span>
+                      </div>
                     </div>
-                    <p class="text-xs text-gray-500 mt-1">
-                      {{
-                        'manage-doctors.experience'
-                          | transloco: { years: doctor.experience }
-                      }}
-                    </p>
+                  </div>
+
+                  <div class="flex items-stretch gap-2 mt-3 pt-3 border-t border-gray-200">
+                    <button
+                      *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+                      (click)="openDialog(doctor); $event.stopPropagation()"
+                      class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 rounded-lg transition-colors border border-sky-200 min-h-[36px]"
+                    >
+                      <lucide-icon [name]="SquarePen" [size]="16"></lucide-icon>
+                      <span>{{ 'manage-doctors.edit' | transloco }}</span>
+                    </button>
+                    <button
+                      *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+                      (click)="deleteDoctor(doctor.id); $event.stopPropagation()"
+                      class="flex items-center justify-center px-3 py-2 text-red-700 bg-red-50 hover:bg-red-100 rounded-lg transition-colors border border-red-200 min-h-[36px]"
+                    >
+                      <lucide-icon [name]="Trash2" [size]="16"></lucide-icon>
+                    </button>
                   </div>
                 </div>
-                <div class="flex items-start space-x-2">
-                  <button
-                    *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
-                    (click)="openDialog(doctor); $event.stopPropagation()"
-                    class="p-2 text-gray-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition-colors"
-                  >
-                    <lucide-icon
-                      [name]="SquarePen"
-                      [size]="16"
-                      class="align-middle"
-                    ></lucide-icon>
-                  </button>
-                  <button
-                    *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
-                    class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                    (click)="deleteDoctor(doctor.id); $event.stopPropagation()"
-                  >
-                    <lucide-icon
-                      [name]="Trash2"
-                      [size]="16"
-                      class="align-middle"
-                    ></lucide-icon>
-                  </button>
+              } @else {
+                <div
+                  class="w-full flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:shadow-md transition-shadow cursor-pointer gap-4"
+                >
+                  <div class="flex items-start space-x-4 flex-1 min-w-0">
+                    <div
+                      class="h-12 w-12 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full flex items-center justify-center shrink-0 self-center"
+                    >
+                      <img src="assets/svg/user.svg" alt="" />
+                    </div>
+                    <div class="min-w-0 flex-1">
+                      <h3 class="font-medium text-gray-900 truncate">
+                        {{ doctor.firstName }} {{ doctor.lastName }}
+                      </h3>
+                      <p class="text-sm text-gray-600 truncate">
+                        {{ doctor?.specialization?.name }}
+                      </p>
+                      <div class="flex items-center space-x-2 mt-1">
+                        <div class="flex items-center text-sm text-gray-500">
+                          <lucide-icon
+                            [name]="Phone"
+                            [size]="16"
+                            class="mr-1"
+                          ></lucide-icon>
+                          {{ doctor.user.phone | phoneFormat }}
+                          <button
+                            [cdkCopyToClipboard]="doctor.user.phone"
+                            (cdkCopyToClipboardCopied)="toast()"
+                            (click)="$event.stopPropagation()"
+                            class="ml-2 hover:text-gray-700 transition"
+                            type="button"
+                            [title]="'manage-doctors.copy' | transloco"
+                          >
+                            <lucide-icon [name]="Copy" [size]="16"></lucide-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex flex-1 min-w-0">
+                    <div class="flex flex-col items-end w-full">
+                      <p class="text-sm font-medium text-gray-900 truncate w-full text-right">
+                        {{
+                          'manage-doctors.consultation_fee'
+                            | transloco: { fee: doctor.consultationFee }
+                        }}
+                      </p>
+                      <div class="flex items-center text-sm text-gray-500 mt-1">
+                        <lucide-icon
+                          [name]="Clock"
+                          [size]="16"
+                          class="mr-1"
+                        ></lucide-icon>
+                        {{
+                          'manage-doctors.working_hours'
+                            | transloco
+                              : {
+                                  start: doctor.workingHours.start,
+                                  end: doctor.workingHours.end,
+                                }
+                        }}
+                      </div>
+                      <p class="text-xs text-gray-500 mt-1">
+                        {{
+                          'manage-doctors.experience'
+                            | transloco: { years: doctor.experience }
+                        }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-2 shrink-0">
+                    <button
+                      *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+                      (click)="openDialog(doctor); $event.stopPropagation()"
+                      class="p-2 text-gray-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition-colors"
+                    >
+                      <lucide-icon
+                        [name]="SquarePen"
+                        [size]="16"
+                        class="align-middle"
+                      ></lucide-icon>
+                    </button>
+                    <button
+                      *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+                      class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      (click)="deleteDoctor(doctor.id); $event.stopPropagation()"
+                    >
+                      <lucide-icon
+                        [name]="Trash2"
+                        [size]="16"
+                        class="align-middle"
+                      ></lucide-icon>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              }
             } @empty {
-              <div class="flex justify-center items-center flex-col gap-2">
-                <p class="text-gray-500 text-center">
+              <div class="flex justify-center items-center flex-col gap-2 py-8">
+                <p class="text-gray-500 text-center text-sm md:text-base">
                   {{ 'manage-doctors.no_doctors' | transloco }}
                 </p>
                 <button
-                  class="p-2 hover:text-gray-400 text-gray-600 bg-gray-100 rounded-lg transition-colors"
+                  class="px-4 py-2 hover:text-gray-400 text-gray-600 bg-gray-100 rounded-lg transition-colors text-sm"
                   (click)="clearFilter()"
                 >
                   {{ 'patients.clear_filter' | transloco }}

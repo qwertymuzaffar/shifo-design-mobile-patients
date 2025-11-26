@@ -41,6 +41,7 @@ import { DoctorSkeletonComponent } from '@features/doctor/skeleton/doctor-skelet
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import {NgxPermissionsModule } from 'ngx-permissions';
 import {UserRole} from "@core/models/user.model";
+import { BreakpointService } from '@core/services/breakpoint.service';
 
 @Component({
   selector: 'app-doctor',
@@ -81,6 +82,7 @@ export class DoctorComponent extends WithQueryParams implements OnInit {
   readonly isLoading = signal<boolean>(true);
   private specializationService = inject(SpecializationService);
   readonly appointmentService = inject(AppointmentService);
+  readonly breakpointService = inject(BreakpointService);
 
   isSpecializationManagementVisible = signal<boolean>(false);
   showAllSpecializations = signal(false);

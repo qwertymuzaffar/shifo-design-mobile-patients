@@ -13,6 +13,14 @@
   box-shadow: none !important;
 }
 
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -24,6 +32,13 @@
 @media (max-width: 768px) {
   .about-user {
     flex-direction: column;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .about-user {
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 }
 

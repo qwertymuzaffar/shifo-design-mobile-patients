@@ -20,6 +20,8 @@ import { WithQueryParams } from '@core/router/with-query-params';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { UserRole } from '@core/models/user.model';
+import { BreakpointService } from '@core/services/breakpoint.service';
+import { MobileHeaderComponent } from '@shared/components/mobile-header/mobile-header.component';
 
 @Component({
   selector: 'app-patients',
@@ -34,6 +36,7 @@ import { UserRole } from '@core/models/user.model';
     SkeletonPatientComponent,
     RouterLink,
     NgxPermissionsModule,
+    MobileHeaderComponent,
   ],
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.scss'],
@@ -48,6 +51,7 @@ export class PatientsComponent extends WithQueryParams implements OnInit {
   private dialog = inject(MatDialog);
   private activatedRoute = inject(ActivatedRoute);
   private toastService = inject(ToastService);
+  protected readonly breakpointService = inject(BreakpointService);
   protected readonly Copy = Copy;
   protected readonly Phone = Phone;
   protected readonly SquarePen = SquarePen;

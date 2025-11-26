@@ -10,6 +10,7 @@ export class BreakpointService {
   private destroyRef = inject(DestroyRef);
 
   readonly isMobile = signal(false);
+  readonly isTablet = signal(false);
 
   constructor() {
     this.breakpointObserver
@@ -17,6 +18,13 @@ export class BreakpointService {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((result) => {
         this.isMobile.set(result.matches);
+      });
+
+    this.breakpointObserver
+      .observe('(min-width: 769px) and (max-width: 1024px)')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((result) => {
+        this.isTablet.set(result.matches);
       });
   }
 }

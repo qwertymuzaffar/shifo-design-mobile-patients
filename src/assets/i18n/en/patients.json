@@ -9,6 +9,7 @@
   "patients": {
     "title": "Patient Management",
     "add": "Add Patient",
+    "edit": "Edit",
     "search_placeholder": "Search patients...",
     "list_title": "Patient List",
     "total_label": "Total patients: {{count}}",

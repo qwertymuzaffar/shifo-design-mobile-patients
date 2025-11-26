@@ -1,48 +1,53 @@
-<div class="p-6">
-  <div class="space-y-6">
+<div class="p-3 md:p-6">
+  <div class="space-y-4 md:space-y-6">
+    @if (breakpointService.isMobile()) {
+      <app-mobile-header />
+    }
+
     <div class="flex justify-between items-center">
-      <h1 class="text-3xl font-bold text-gray-900">
+      <h1 class="text-xl md:text-3xl font-bold text-gray-900">
         {{ 'patients.title' | transloco }}
       </h1>
       <button
         *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
         (click)="openDialog()"
-        class="bg-sky-500 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-sky-600 transition-colors"
+        class="bg-sky-500 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg flex items-center space-x-2 hover:bg-sky-600 transition-colors text-sm md:text-base"
       >
         <img
           src="assets/icons/add.svg"
           alt="{{ 'patients.add' | transloco }}"
-          class="w-5 h-5"
+          class="w-4 h-4 md:w-5 md:h-5"
         />
-        <span>{{ 'patients.add' | transloco }}</span>
+        <span class="hidden sm:inline">{{ 'patients.add' | transloco }}</span>
       </button>
     </div>
 
     <div class="relative">
       <input
         [formControl]="form.controls['search']"
-        class="w-full pl-10 pr-20 py-3 border border-gray-200 rounded-lg focus:outline-none"
+        class="w-full pl-10 pr-16 md:pr-20 py-2 md:py-3 border border-gray-200 rounded-lg focus:outline-none text-sm md:text-base"
         type="text"
         [placeholder]="'patients.search_placeholder' | transloco"
       />
       <button
-        class="absolute right-1 top-1 text-white rounded-lg px-4 py-2 hover:bg-blue-600 focus:outline-none bg-sky-500"
+        class="absolute right-1 top-1 text-white rounded-lg px-3 py-1.5 md:px-4 md:py-2 hover:bg-blue-600 focus:outline-none bg-sky-500"
         type="button"
       >
         <img
           src="assets/icons/search.svg"
           alt="{{ 'patients.add' | transloco }}"
+          class="w-5 h-5"
         />
       </button>
     </div>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-      <div class="p-6">
-        <div class="flex justify-between items-center relative mb-4">
-          <h2 class="text-xl font-semibold">
+      <div class="p-3 md:p-6">
+        <div class="flex justify-between items-center relative mb-3 md:mb-4">
+          <h2 class="text-lg md:text-xl font-semibold">
             {{ 'patients.list_title' | transloco }}
           </h2>
-          <h3 class="text-s font-medium text-gray-500">
+          <h3 class="text-xs md:text-sm font-medium text-gray-500">
             {{ 'patients.total_label' | transloco: { count: data().total } }}
           </h3>
         </div>
@@ -50,140 +55,245 @@
         @if (isLoading()) {
           <app-skeleton-patient></app-skeleton-patient>
         } @else {
-          @for (patient of data().items; track patient) {
-            <div
-              class="space-y-4 cursor-pointer"
-              [routerLink]="'/patients/' + patient.id"
-            >
-              <div
-                class="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:shadow-md transition-shadow"
-              >
-                <div class="flex items-center space-x-4">
-                  <div
-                    class="h-12 w-12 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full flex items-center justify-center"
-                  >
-                    <img
-                      src="assets/icons/user.svg"
-                      alt="User"
-                      class="w-6 h-6 text-white"
-                    />
-                  </div>
-                  <div>
-                    <h3 class="font- text-gray-900 m-0 font-medium">
-                      {{ patient.fullName }}
-                    </h3>
-                    <div class="flex items-center space-x-4 mt-1 mb-1">
-                      <div
-                        class="flex items-center text-sm text-gray-500 font-medium"
-                      >
-                        <lucide-icon
-                          [name]="Phone"
-                          [size]="16"
-                          class="mr-1"
-                        ></lucide-icon>
-                        {{ patient.phone | phoneFormat }}
-                        <button
-                          class="ml-2 hover:text-gray-700 transition"
-                          [cdkCopyToClipboard]="patient.phone"
-                          (cdkCopyToClipboardCopied)="toast()"
-                          (click)="$event.stopPropagation()"
-                          type="button"
-                          title="Скопировать"
-                        >
-                          <lucide-icon [name]="Copy" [size]="16"></lucide-icon>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div class="about-user flex flex-col gap-2">
-                      @if (patient.allergies?.length) {
-                        <div
-                          class="rounded-md px-2.5 py-1.5 bg-red-100 text-red-800 text-xs font-medium min-w-[150px] max-w-[400px] min-h-[20px] max-h-[30px] overflow-hidden text-ellipsis whitespace-nowrap"
-                        >
-                          <strong
-                            >{{ 'patients.allergies' | transloco }}:
-                          </strong>
-                          {{
-                            patient.allergies?.join?.(', ') ||
-                              patient.allergies ||
-                              '—'
-                          }}
-                        </div>
-                      }
-                      <div
-                        class="rounded-md px-2.5 py-1.5 bg-blue-100 text-blue-900 text-xs font-medium flex flex-wrap gap-2 min-w-[150px] max-w-[700px] min-h-[20px] max-h-[30px] overflow-hidden text-ellipsis whitespace-nowrap"
-                      >
-                        <span>
-                          <strong>{{ 'patients.address' | transloco }}: </strong
-                          >{{ patient.address?.trim() ? patient.address : '—' }}
-                        </span>
-                        |
-                        <span>
-                          <strong
-                            >{{ 'patients.birth_date' | transloco }}: </strong
-                          >{{ patient.birthDate || '—' }}
-                        </span>
-                      </div>
-                      @if (patient.emergencyContact) {
-                        <div
-                          class="rounded-md px-3 py-1.5 bg-blue-100 text-blue-900 text-xs font-medium"
-                        >
-                          <strong
-                            >{{
-                              'patients.emergency_contact' | transloco
-                            }}: </strong
-                          >{{ patient.emergencyContact | phoneFormat }}
-                        </div>
-                      }
-                    </div>
-                  </div>
-                </div>
-
-                <div class="flex space-x-2">
-                  <button
-                    *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
-                    (click)="openDialog(patient); $event.stopPropagation()"
-                    class="p-2 text-gray-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg"
-                  >
-                    <lucide-icon
-                      [name]="SquarePen"
-                      [size]="16"
-                      class="align-middle"
-                    ></lucide-icon>
-                  </button>
-                  <button
-                    *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
-                    (click)="
-                      deletePatient(patient.id); $event.stopPropagation()
-                    "
-                    class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg"
-                  >
-                    <lucide-icon
-                      [name]="Trash2"
-                      [size]="16"
-                      class="align-middle"
-                    ></lucide-icon>
-                  </button>
-                </div>
-              </div>
-            </div>
-          } @empty {
+          @if (data().items.length === 0) {
             @if (form.value.search) {
-              <div class="flex justify-center items-center flex-col gap-2">
-                <p class="text-gray-500 text-center">
+              <div class="flex justify-center items-center flex-col gap-2 py-8">
+                <p class="text-gray-500 text-center text-sm md:text-base">
                   {{ 'patients.not_found' | transloco }}
                 </p>
                 <button
-                  class="p-2 hover:text-gray-400 text-gray-600 bg-gray-100 rounded-lg transition-colors"
+                  class="px-4 py-2 hover:text-gray-400 text-gray-600 bg-gray-100 rounded-lg transition-colors text-sm"
                   (click)="clearFilter()"
                 >
                   {{ 'patients.clear_filter' | transloco }}
                 </button>
               </div>
             } @else {
-              <p class="text-gray-500 text-center">
+              <p class="text-gray-500 text-center py-8 text-sm md:text-base">
                 {{ 'patients.not_found' | transloco }}
               </p>
+            }
+          } @else {
+            @if (breakpointService.isMobile()) {
+              <div class="space-y-3">
+                @for (patient of data().items; track patient) {
+                  <div
+                    class="bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-xl p-3 cursor-pointer hover:shadow-lg active:shadow-xl transition-all"
+                    [routerLink]="'/patients/' + patient.id"
+                  >
+                    <div class="flex items-start gap-3 mb-3">
+                      <div
+                        class="h-12 w-12 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full flex items-center justify-center shrink-0"
+                      >
+                        <img
+                          src="assets/icons/user.svg"
+                          alt="User"
+                          class="w-6 h-6 text-white"
+                        />
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <h3 class="text-base font-bold text-gray-900 mb-1 truncate">
+                          {{ patient.fullName }}
+                        </h3>
+                        <div class="flex items-center text-sm text-gray-600 mb-2">
+                          <lucide-icon
+                            [name]="Phone"
+                            [size]="14"
+                            class="mr-1 shrink-0"
+                          ></lucide-icon>
+                          <span class="truncate">{{ patient.phone | phoneFormat }}</span>
+                          <button
+                            class="ml-2 p-1 hover:text-gray-700 transition shrink-0"
+                            [cdkCopyToClipboard]="patient.phone"
+                            (cdkCopyToClipboardCopied)="toast()"
+                            (click)="$event.stopPropagation()"
+                            type="button"
+                            title="Скопировать"
+                          >
+                            <lucide-icon [name]="Copy" [size]="14"></lucide-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="space-y-2">
+                      @if (patient.allergies?.length) {
+                        <div
+                          class="rounded-lg px-3 py-2 bg-red-50 border border-red-200 text-red-800 text-xs font-medium"
+                        >
+                          <strong class="block mb-1">{{ 'patients.allergies' | transloco }}</strong>
+                          <span class="line-clamp-2">
+                            {{
+                              patient.allergies?.join?.(', ') ||
+                                patient.allergies ||
+                                '—'
+                            }}
+                          </span>
+                        </div>
+                      }
+                      <div
+                        class="rounded-lg px-3 py-2 bg-blue-50 border border-blue-200 text-blue-900 text-xs font-medium"
+                      >
+                        <div class="flex flex-col gap-1">
+                          <span>
+                            <strong>{{ 'patients.address' | transloco }}:</strong>
+                            {{ patient.address?.trim() ? patient.address : '—' }}
+                          </span>
+                          <span>
+                            <strong>{{ 'patients.birth_date' | transloco }}:</strong>
+                            {{ patient.birthDate || '—' }}
+                          </span>
+                        </div>
+                      </div>
+                      @if (patient.emergencyContact) {
+                        <div
+                          class="rounded-lg px-3 py-2 bg-amber-50 border border-amber-200 text-amber-900 text-xs font-medium"
+                        >
+                          <strong>{{ 'patients.emergency_contact' | transloco }}:</strong>
+                          {{ patient.emergencyContact | phoneFormat }}
+                        </div>
+                      }
+                    </div>
+
+                    <div class="flex items-center gap-2 mt-3 pt-3 border-t border-gray-200">
+                      <button
+                        *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+                        (click)="openDialog(patient); $event.stopPropagation()"
+                        class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 rounded-lg transition-colors border border-sky-200"
+                      >
+                        <lucide-icon [name]="SquarePen" [size]="16"></lucide-icon>
+                        <span>{{ 'patients.edit' | transloco }}</span>
+                      </button>
+                      <button
+                        *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+                        (click)="deletePatient(patient.id); $event.stopPropagation()"
+                        class="flex items-center justify-center px-3 py-2 text-red-700 bg-red-50 hover:bg-red-100 rounded-lg transition-colors border border-red-200"
+                      >
+                        <lucide-icon [name]="Trash2" [size]="18"></lucide-icon>
+                      </button>
+                    </div>
+                  </div>
+                }
+              </div>
+            } @else {
+              @for (patient of data().items; track patient) {
+                <div
+                  class="space-y-4 cursor-pointer"
+                  [routerLink]="'/patients/' + patient.id"
+                >
+                  <div
+                    class="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:shadow-md transition-shadow"
+                  >
+                    <div class="flex items-center space-x-4">
+                      <div
+                        class="h-12 w-12 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full flex items-center justify-center"
+                      >
+                        <img
+                          src="assets/icons/user.svg"
+                          alt="User"
+                          class="w-6 h-6 text-white"
+                        />
+                      </div>
+                      <div>
+                        <h3 class="font- text-gray-900 m-0 font-medium">
+                          {{ patient.fullName }}
+                        </h3>
+                        <div class="flex items-center space-x-4 mt-1 mb-1">
+                          <div
+                            class="flex items-center text-sm text-gray-500 font-medium"
+                          >
+                            <lucide-icon
+                              [name]="Phone"
+                              [size]="16"
+                              class="mr-1"
+                            ></lucide-icon>
+                            {{ patient.phone | phoneFormat }}
+                            <button
+                              class="ml-2 hover:text-gray-700 transition"
+                              [cdkCopyToClipboard]="patient.phone"
+                              (cdkCopyToClipboardCopied)="toast()"
+                              (click)="$event.stopPropagation()"
+                              type="button"
+                              title="Скопировать"
+                            >
+                              <lucide-icon [name]="Copy" [size]="16"></lucide-icon>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div class="about-user flex flex-col gap-2">
+                          @if (patient.allergies?.length) {
+                            <div
+                              class="rounded-md px-2.5 py-1.5 bg-red-100 text-red-800 text-xs font-medium min-w-[150px] max-w-[400px] min-h-[20px] max-h-[30px] overflow-hidden text-ellipsis whitespace-nowrap"
+                            >
+                              <strong
+                                >{{ 'patients.allergies' | transloco }}:
+                              </strong>
+                              {{
+                                patient.allergies?.join?.(', ') ||
+                                  patient.allergies ||
+                                  '—'
+                              }}
+                            </div>
+                          }
+                          <div
+                            class="rounded-md px-2.5 py-1.5 bg-blue-100 text-blue-900 text-xs font-medium flex flex-wrap gap-2 min-w-[150px] max-w-[700px] min-h-[20px] max-h-[30px] overflow-hidden text-ellipsis whitespace-nowrap"
+                          >
+                            <span>
+                              <strong>{{ 'patients.address' | transloco }}: </strong
+                              >{{ patient.address?.trim() ? patient.address : '—' }}
+                            </span>
+                            |
+                            <span>
+                              <strong
+                                >{{ 'patients.birth_date' | transloco }}: </strong
+                              >{{ patient.birthDate || '—' }}
+                            </span>
+                          </div>
+                          @if (patient.emergencyContact) {
+                            <div
+                              class="rounded-md px-3 py-1.5 bg-blue-100 text-blue-900 text-xs font-medium"
+                            >
+                              <strong
+                                >{{
+                                  'patients.emergency_contact' | transloco
+                                }}: </strong
+                              >{{ patient.emergencyContact | phoneFormat }}
+                            </div>
+                          }
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="flex space-x-2">
+                      <button
+                        *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+                        (click)="openDialog(patient); $event.stopPropagation()"
+                        class="p-2 text-gray-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg"
+                      >
+                        <lucide-icon
+                          [name]="SquarePen"
+                          [size]="16"
+                          class="align-middle"
+                        ></lucide-icon>
+                      </button>
+                      <button
+                        *ngxPermissionsOnly="[userRole.ADMIN, userRole.ACCOUNTANT]"
+                        (click)="
+                          deletePatient(patient.id); $event.stopPropagation()
+                        "
+                        class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg"
+                      >
+                        <lucide-icon
+                          [name]="Trash2"
+                          [size]="16"
+                          class="align-middle"
+                        ></lucide-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              }
             }
           }
         }

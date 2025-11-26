@@ -213,16 +213,18 @@
                   <div class="space-y-2">
                     <div class="rounded-lg px-3 py-2 bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-medium">
                       <div class="flex flex-col gap-1">
-                        <span>
+                        <span class="flex items-center">
+                          <lucide-icon [name]="Wallet" [size]="14" class="mr-1 shrink-0"></lucide-icon>
                           <strong>{{ 'manage-doctors.consultation_fee' | transloco: { fee: '' } }}:</strong>
                           {{ doctor.consultationFee }} сом
                         </span>
                         <span class="flex items-center">
-                          <lucide-icon [name]="Clock" [size]="14" class="mr-1"></lucide-icon>
+                          <lucide-icon [name]="Clock" [size]="14" class="mr-1 shrink-0"></lucide-icon>
                           <strong>{{ 'manage-doctors.working_hours' | transloco: { start: '', end: '' } }}:</strong>
                           {{ doctor.workingHours.start }} - {{ doctor.workingHours.end }}
                         </span>
-                        <span>
+                        <span class="flex items-center">
+                          <lucide-icon [name]="Award" [size]="14" class="mr-1 shrink-0"></lucide-icon>
                           <strong>{{ 'manage-doctors.experience' | transloco: { years: '' } }}:</strong>
                           {{ doctor.experience }} лет
                         </span>

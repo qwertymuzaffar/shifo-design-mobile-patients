@@ -18,6 +18,8 @@ import {
   Settings,
   Plus,
   X,
+  Wallet,
+  Award,
 } from 'lucide-angular';
 import { DoctorService } from '@core/services/doctor.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -79,6 +81,8 @@ export class DoctorComponent extends WithQueryParams implements OnInit {
   protected readonly X = X;
   protected readonly Plus = Plus;
   protected readonly Settings = Settings;
+  protected readonly Wallet = Wallet;
+  protected readonly Award = Award;
   readonly isLoading = signal<boolean>(true);
   private specializationService = inject(SpecializationService);
   readonly appointmentService = inject(AppointmentService);

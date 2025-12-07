@@ -65,6 +65,7 @@
       "overview": "Обзор",
       "patient": "Пациент",
       "visits": "Посещения",
+      "payments": "Платежи",
       "documents": "Документы",
       "settings": "Настройки"
     }
@@ -91,6 +92,11 @@
     "doctor": "Врач",
     "type": "Тип",
     "noData": "Нет данных"
+  },
+  "payments": {
+    "title": "История платежей",
+    "no_payments": "Нет платежей",
+    "paid_at": "Оплачено"
   },
   "documentForm": {
     "title": "Добавить документ",

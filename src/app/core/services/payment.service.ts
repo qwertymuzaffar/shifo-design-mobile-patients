@@ -29,4 +29,8 @@ export class PaymentService {
   deletePayment(id: number): Observable<PaymentInterface> {
     return this.httpClient.delete<PaymentInterface>(`/payments/${id}`);
   }
+
+  getPaymentsByPatient(patientId: number): Observable<PaymentInterface[]> {
+    return this.httpClient.get<PaymentInterface[]>(`/payments/patient/${patientId}`);
+  }
 }

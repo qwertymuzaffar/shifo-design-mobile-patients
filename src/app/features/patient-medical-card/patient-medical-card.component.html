@@ -116,6 +116,29 @@
             <path d="M3 10h18"></path></svg
           ><span>{{ 'medical-card.nav.visits' | transloco }}</span></button
         >
+        <button
+          class="flex items-center space-x-1.5 md:space-x-2 px-3 md:px-4 py-2 md:py-3 rounded-lg text-sm md:text-base font-medium transition-all text-gray-600 hover:bg-gray-100 hover:text-gray-800 whitespace-nowrap"
+          [disabled]="loading()"
+          routerLinkActive="bg-sky-500 text-white shadow-md"
+          routerLink="payments"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-dollar-sign w-4 h-4 md:w-5 md:h-5"
+          >
+            <line x1="12" x2="12" y1="2" y2="22"></line>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+          <span>{{ 'medical-card.nav.payments' | transloco }}</span>
+        </button>
           <button
           [disabled]="loading()"
           class="flex items-center space-x-1.5 md:space-x-2 px-3 md:px-4 py-2 md:py-3 rounded-lg text-sm md:text-base font-medium transition-all text-gray-600 hover:bg-gray-100 hover:text-gray-800 whitespace-nowrap"

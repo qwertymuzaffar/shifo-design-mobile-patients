@@ -65,6 +65,7 @@
       "overview": "Overview",
       "patient": "Patient",
       "visits": "Visits",
+      "payments": "Payments",
       "documents": "Documents",
       "settings": "Settings"
     }
@@ -91,6 +92,11 @@
     "doctor": "Doctor",
     "type": "Type",
     "noData": "No data"
+  },
+  "payments": {
+    "title": "Payment History",
+    "no_payments": "No payments",
+    "paid_at": "Paid at"
   },
   "documentForm": {
     "title": "Add Document",
